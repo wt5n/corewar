@@ -6,7 +6,7 @@
 /*   By: hlikely <hlikely@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 16:08:24 by hlikely           #+#    #+#             */
-/*   Updated: 2020/11/18 01:38:10 by wtsn             ###   ########.fr       */
+/*   Updated: 2020/12/05 21:16:36 by wtsn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,5 @@ int					mod_n(int a);
 int					max_n(int a, int b);
 int					min_n(int a, int b);
 void				ft_free_two_demention(char **str, int i);
-char				*ft_strrev(char *str);
 
 #endif
