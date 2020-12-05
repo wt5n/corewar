@@ -12,17 +12,17 @@
 
 typedef struct s_champ
 {
-	int				number;
-    char     *name;
-     int	 code_size;
-     char     *comm;
-    char     *code;
-}					 t_champ;
-
+	int number;
+	char *name;
+	int code_size;
+	char *comm;
+	char *code;
+} t_champ;
 
 typedef struct s_cw
 {
 	t_champ **champs;
+	char	*map;
 }				t_cw;
 
 void 	ft_swap_two_let(char *str);
