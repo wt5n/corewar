@@ -6,7 +6,7 @@ set(CMAKE_C_STANDARD 99)
 include_directories(inc)
 
 set(SRC
-        main.c)
+        main.c ft_print_memory.c functions.c)
 
 add_executable(corewar
         ${SRC} )
