@@ -16,16 +16,19 @@ typedef struct s_champ
 	char *name;
 	int code_size;
 	char *comm;
-	char *code;
+	unsigned char *code;
 } t_champ;
 
 typedef struct s_cw
 {
 	t_champ **champs;
-	char	*map;
+	unsigned char	*map;
+	int		num_of_champ;
 }				t_cw;
 
 void 	ft_swap_two_let(char *str);
+void	ft_print_memory(const void *addr, size_t size);
+
 
 #endif
 

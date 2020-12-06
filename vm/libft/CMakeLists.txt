@@ -102,6 +102,6 @@ set(SRC libft/ft_atoi.c
         libft/ft_tolower.c
         libft/ft_toupper.c
         libft/get_next_line.c
-        ${PrintfSRC} libft/ft_strrev.c)
+        ${PrintfSRC} libft/ft_strrev.c libft/ft_atoi_base.c)
 
 add_library(libft STATIC ${SRC})
