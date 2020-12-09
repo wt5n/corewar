@@ -1,10 +1,12 @@
 #include "asm.h"
 #include <stdio.h>
 
-void        zap_struct_ascii(t_chempion *ch, char *str, int flag)
+void        zap_struct_ascii(t_chempion *ch, char *str)
 {
-    if (flag == 1)
+    if (ch->flag == 1 && ft_strlen(str) <= PROG_NAME_LENGTH)
         ch->name = ft_strdup(str);
+    else if (ch->flag == 2 && ft_strlen(str) <= COMMENT_LENGTH)
+                ch->comment = ft_strdup(str);
 }
 
 char        *cut_one(char *str, char c, int n)
@@ -25,23 +27,31 @@ int         pars_one(char *line, t_chempion *ch)
     int     n_line;
     int     tecyhee;
 
-    ch->name = NULL; //?????????
     if (line[0] == '.')
     {
         tecyhee = kol_sim(line, ' ') + 1;
         srez = cut_one(line, ' ', 0);
-        if (ft_strcmp(srez, NAME_CMD_STRING) == 0)
+        if (ft_strcmp(srez, NAME_CMD_STRING) == 0 || ft_strcmp(srez, COMMENT_CMD_STRING) == 0)
         {
+            if (ft_strcmp(srez, NAME_CMD_STRING) == 0)
+                ch->flag = 1;
+            else
+                ch->flag = 2;
             free(srez);
             n_line = kol_sim_not(&(line[tecyhee]), ' ');
             tecyhee = tecyhee + n_line;
+            if (line[tecyhee] != '"')
+                return(-1);
             n_line = kol_sim(&line[tecyhee + 1], '"');
             line[tecyhee + n_line + 1] = '\0';
             srez = ft_strdup(&line[tecyhee + 1]);
-            zap_struct_ascii(ch, srez, 1);
+            zap_struct_ascii(ch, srez);
+            free(srez);
         }
+        else
+            return (-1);
     }
-
+    
     return (1);
 }
 
@@ -91,6 +101,8 @@ int				main(int argc, char *argv[])
     {
         return (-1);
     }
+    printf("%s\n", ch.name);
+    printf("%s\n", ch.comment);
     close(fd);
     return (0);
 }

@@ -11,6 +11,7 @@ typedef struct	s_chempion
 	char		*name;
 	char		*comment;
 	char		*code;
+	int			flag;
 }				t_chempion;
 
 int         kol_sim(char *str, char c);
