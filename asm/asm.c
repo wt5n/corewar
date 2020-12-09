@@ -1,12 +1,34 @@
 #include "asm.h"
 #include <stdio.h>
 
-void        zap_struct_ascii(t_chempion *ch, char *str)
+int         proverca(char *str)
+{
+    int     i;
+    int     k;
+    char    *label_char;
+
+    i = 0;
+    label_char = LABEL_CHARS;
+    while (str[i] != '\0')
+    {
+        k = 0;
+        while (label_char[k] != '\0' && label_char[k] != str[i])
+            k++;
+        if (label_char[k] == '\0')
+            return (-1);
+        i++;
+    }
+    return (1);
+}
+
+void        zap_struct_ascii(t_chempion *ch, char *str, t_label **label)
 {
     if (ch->flag == 1 && ft_strlen(str) <= PROG_NAME_LENGTH)
         ch->name = ft_strdup(str);
     else if (ch->flag == 2 && ft_strlen(str) <= COMMENT_LENGTH)
-                ch->comment = ft_strdup(str);
+        ch->comment = ft_strdup(str);
+    else if (ch->flag == 3 && proverca(str) > 0)
+        add_label(str, label);
 }
 
 char        *cut_one(char *str, char c, int n)
@@ -21,48 +43,33 @@ char        *cut_one(char *str, char c, int n)
     return (srez);
 }
 
-int         pars_one(char *line, t_chempion *ch)
+int         pars_one(char *line, t_chempion *ch, t_label **label)
 {
-    char    *srez;
-    int     n_line;
-    int     tecyhee;
-
-    if (line[0] == '.')
+    if (line && line[0] != ' ' && line[0] != '\0' && line[0] != '\t' && line[0] != '\n')
     {
-        tecyhee = kol_sim(line, ' ') + 1;
-        srez = cut_one(line, ' ', 0);
-        if (ft_strcmp(srez, NAME_CMD_STRING) == 0 || ft_strcmp(srez, COMMENT_CMD_STRING) == 0)
+        if (line[0] == '.')
         {
-            if (ft_strcmp(srez, NAME_CMD_STRING) == 0)
-                ch->flag = 1;
-            else
-                ch->flag = 2;
-            free(srez);
-            n_line = kol_sim_not(&(line[tecyhee]), ' ');
-            tecyhee = tecyhee + n_line;
-            if (line[tecyhee] != '"')
-                return(-1);
-            n_line = kol_sim(&line[tecyhee + 1], '"');
-            line[tecyhee + n_line + 1] = '\0';
-            srez = ft_strdup(&line[tecyhee + 1]);
-            zap_struct_ascii(ch, srez);
-            free(srez);
+            if ((pars_name(line, ch, label)) < 0)
+                return (-1);
         }
-        else
-            return (-1);
+        else 
+            if ((pars_label(line, ch, label)) < 0)
+                return (-1);
     }
-    
     return (1);
 }
 
-int       read_line(int fd, t_chempion *ch)
+int       read_line(int fd, t_chempion *ch, t_label **label)
 {
     char    *line;
 
     while (get_next_line(fd, &line) > 0)
 	{
-        if (pars_one(line, ch) < 0)
-            return (-1);
+        if (pars_one(line, ch, label) < 0)
+            {
+                free(line);
+                return (-1);
+            }
         free(line);
     }
     return (1);
@@ -75,17 +82,20 @@ int         file_argv(char *str)
     return (-1);
 }
 
-void			init_asm(t_chempion *ch)
+void			init_asm(t_chempion *ch, t_label **label)
 {
 	ch->name = NULL;
 	ch->comment = NULL;
 	ch->code = NULL;
+    *label = NULL;
+    //(*label)->name = NULL;
 }
 
 int				main(int argc, char *argv[])
 {
     int			fd;
 	t_chempion	ch;
+    t_label     *label;
 
     if (argc == 2)
     {
@@ -93,8 +103,8 @@ int				main(int argc, char *argv[])
             {
                 return (-1);
             }
-		init_asm(&ch);
-        if (read_line(fd, &ch) < -1)
+		init_asm(&ch, &label);
+        if (read_line(fd, &ch, &label) < -1)
             return (-1);
 	}
     else
@@ -103,6 +113,7 @@ int				main(int argc, char *argv[])
     }
     printf("%s\n", ch.name);
     printf("%s\n", ch.comment);
+    print_struct(label);
     close(fd);
     return (0);
 }

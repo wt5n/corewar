@@ -1,7 +1,7 @@
 NAME = asm
 INCLUDES = -I./libft/
 CC = gcc
-SRC =  asm.c dop_function.c
+SRC =  asm.c dop_function.c str_label.c print_struct.c pars.c
 LIB_FT = ./libft/libft.a 
 OBJ = $(patsubst %.c, %.o, $(SRC))
 CFLAGS = -Wall -Werror -Wextra $(INCLUDES)
