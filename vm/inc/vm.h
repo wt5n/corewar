@@ -4,27 +4,37 @@
 #include "../libft/inc/printf.h"
 #include "op.h"
 
-// #define CHAMP_NAME_LENGTH 4
 #define MAGIC_NUMBER_LENGTH 4
-
-// #define MAGIC_NUMBER 0xea83f3
 
 
 typedef struct s_champ
 {
-	int number;
-	char *name;
-	int code_size;
-	char *comm;
+	int 		number;
+	char		*name;
+	int 		code_size;
+	char		*comm;
 	unsigned char *code;
-} t_champ;
+}				t_champ;
 
-typedef struct s_cw
+typedef struct	s_koretko
 {
-	t_champ **champs;
+	int 		id;
+	int 		carry;
+	int 		position;
+}				t_koretko;
+
+typedef struct		s_cw
+{
+	t_champ			**champs;
 	unsigned char	*map;
-	int		num_of_champ;
-}				t_cw;
+	int				num_of_champ;
+	int				cycles;
+	int 			last_alive;
+	int 			num_of_lives;
+	int 			cycles_to_die;
+	t_koretko 		**kors;
+	int				*rgtrs;
+}					t_cw;
 
 void 	ft_swap_two_let(char *str);
 void	ft_print_memory(const void *addr, size_t size);

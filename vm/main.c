@@ -72,47 +72,10 @@ void 	read_champion(char *argv, t_champ *champ, t_cw *cw)
 	fd = open(argv, O_RDONLY);
 	read_magic_number(argv, fd);
 	read_champ_name(fd, champ);
-
 	read_champ_code_size(fd, champ);
 	read_champ_comm(fd, champ);
 	read_champ_code(fd, champ);
 	cw->num_of_champ++;
-}
-
-void	ultimate()
-{
-	int fd;
-	int i = 0, j = 0, k = 0, l = 0, c = 0;
-	char buf[2];
-	int *size1 = (unsigned int *)malloc(sizeof(unsigned int) * 4);
-	char *p_name = (char *)ft_memalloc(sizeof(char) * 129);
-	char *p_comment = (char *)ft_memalloc(sizeof(char) * 2049);
-	p_name[128] = '\0';
-	p_comment[2048] = '\0';
-	int p_code[22];
-
-	fd = open("batman.cor", O_RDONLY);
-	while (read(fd, buf, 1) > 0)
-	{
-		if (i >= 4 && i <= 132)
-			p_name[j++] = buf[0];
-		if (i >= 136 && i <= 139)
-			size1[l++] = (unsigned int)buf[0];
-		if (i >= 140 && i <= 2186)
-			p_comment[k++] = (unsigned char)buf[0];
-		if (i >= 2192 && i <= (2874))
-			p_code[c++] = (char)(buf[0]);
-		i++;
-	}
-	printf("%s\n", p_name);
-	printf("%s\n", p_comment);
-	for (int o = 0; o < 4; o++) {
-		printf("%d ",size1[o]);
-	}
-	printf("\n");
-	for (int o = 0; o < 22; o++) {
-		printf("%x", p_code[o]);
-	}
 }
 
 void	fill_map(t_cw *cw)
@@ -135,34 +98,44 @@ void	fill_map(t_cw *cw)
 	}
 }
 
+
+void	nums_of_champs(t_cw *cw, int ac, char **av)
+{
+	int num;
+	int i;
+
+	i = 0;
+	num = 1;
+	while (++i < ac)
+	{
+//		if (ft_strcmp(av[i], "-n"))
+//		{
+//
+//		}
+		cw->champs[i]->number = num;
+		num++;
+	}
+}
+
 int	main(int argc, char **argv)
 {
 	t_cw *cw;
 	int	i = -1;
-//	t_champ champ_one;
-
-//	printf("%c %c %c %c %c %c\n", 0x90, 0x65, 0xe2, 0x42, 0xfc, 0x7f);
-//	ultimate();
-//	printf("%d\n", adv_ft_itoa(, 16, 'a');
-//	exit(1);
-
-//	int	tab[10] = {0, 23, 150, 255,
-//					  12, 16,  21, 42};
-//
-//	ft_print_memory(tab, sizeof(tab));
-//	exit(1);
-
 	cw = (t_cw*)ft_memalloc(sizeof(t_cw));
 	cw->champs = (t_champ**)ft_memalloc(sizeof(t_champ*) * MAX_PLAYERS);
 	cw->champs[0] = (t_champ*)ft_memalloc(sizeof(t_champ));
 	cw->map = (unsigned char*)ft_memalloc(sizeof(char) * 4097);
+	cw->kors = (t_koretko**)ft_memalloc(sizeof(t_koretko*) * MAX_PLAYERS);
+	cw->rgtrs = (int*)ft_memalloc(sizeof(int) * REG_NUMBER);
 	while (++i < 4096)
 		cw->map[i] = 0;
 	cw->map[4096] = '\0';
 
 	argv[1] = "batman.cor";
-
-	read_champion(argv[1], cw->champs[0], cw);
+	i = 0;
+	while (++i < argc)
+		read_champion(argv[i], cw->champs[0], cw);
+	nums_of_champs(cw, argc, argv);
 	fill_map(cw);
 	ft_print_memory(cw->map, 4096);
 	return (0);
