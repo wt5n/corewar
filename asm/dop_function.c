@@ -7,6 +7,8 @@ int         kol_sim_not(char *str, char c)
     i = 0;
     while (str && str[i] == c)
         i++;
+    if (str[i] == '\0')
+        return (-1);
     return (i);
 }
 
