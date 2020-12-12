@@ -8,20 +8,31 @@
 # include "libft/libft.h"
 # include "op.h"
 
+
+
+
+
+typedef struct		s_operation
+{
+	
+	
+	
+}					t_operation;
+
 typedef struct			s_chempion
 {
 	char				*name;
 	char				*comment;
 	char				*code;
-	int					op_name;
 	int					flag;
 	int					flag_label;
+	t_operation			op[16];
 }						t_chempion;
 
 typedef struct		s_label
 {
 	char			*name;
-	int				size;
+	t_operation		*op;
 	struct s_label	*next;
 }					t_label;
 

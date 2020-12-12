@@ -164,9 +164,7 @@ int				main(int argc, char *argv[])
     if (argc == 2)
     {
 		if (file_argv(argv[1]) < 0 || (fd = open(argv[1], O_RDONLY)) < 0)
-            {
-                return (-1);
-            }
+            return (-1);
 		init_asm(&ch, &label);
         if (read_line(fd, &ch, &label) < -1)
             return (-1);
