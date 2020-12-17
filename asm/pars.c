@@ -13,7 +13,7 @@ char        *cut_one(char *str, char c, int n)
 }
 
 
-int         pars_name(char *line, t_chempion *ch, t_label **label)
+int         pars_name(char *line, t_chempion *ch, t_new_st_label **label)
 {
     char    *srez;
     int     n_line;
@@ -65,7 +65,7 @@ int         proverca_label(char *str)
     return (1);
 }
 
-int         pars_label(char *line, t_chempion *ch, t_label **label)
+int         pars_label(char *line, t_chempion *ch, t_new_st_label **label)
 {
     char    *srez;
     int     tecyhee;
@@ -76,7 +76,6 @@ int         pars_label(char *line, t_chempion *ch, t_label **label)
         {
             srez = cut_one(line, ':', 0);
             ch->flag = 3;
-            ch->flag_label += 1;
             zap_struct_ascii(ch, srez, label);
             free(srez);
         }
