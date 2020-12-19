@@ -1,5 +1,7 @@
 #include "asm.h"
 
+
+
 void        zap_struct_ascii(t_chempion *ch, char *str, t_new_st_label **label)
 {
     if (ch->flag == 1 && ft_strlen(str) <= PROG_NAME_LENGTH)
@@ -20,17 +22,45 @@ void        zap_struct_ascii(t_chempion *ch, char *str, t_new_st_label **label)
 
 int         operation_name(char *srez, t_op_strukt **op)
 {
+    add_op_struct(op);
     if (ft_strcmp("sti", srez) == 0)
-        {
-            add_op_struct(op);
-            (*op)->name = 11;
-        }
+        (*op)->name = 10;
+    else if (ft_strcmp("live", srez) == 0)
+        (*op)->name = 0;
+    else if (ft_strcmp("ld", srez) == 0)
+        (*op)->name = 1;
+    else if (ft_strcmp("st", srez) == 0)
+        (*op)->name = 2;
+    else if (ft_strcmp("add", srez) == 0)
+        (*op)->name = 3;
+    else if (ft_strcmp("sub", srez) == 0)
+        (*op)->name = 4;
+    else if (ft_strcmp("and", srez) == 0)
+        (*op)->name = 5;
+    else if (ft_strcmp("or", srez) == 0)
+        (*op)->name = 6;
+    else if (ft_strcmp("xor", srez) == 0)
+        (*op)->name = 7;
+    else if (ft_strcmp("zjmp", srez) == 0)
+        (*op)->name = 8;
+    else if (ft_strcmp("ldi", srez) == 0)
+        (*op)->name = 9;
+    else if (ft_strcmp("fork", srez) == 0)
+        (*op)->name = 11;
+    else if (ft_strcmp("lld", srez) == 0)
+        (*op)->name = 12;
+    else if (ft_strcmp("lldi", srez) == 0)
+        (*op)->name = 13;
+    else if (ft_strcmp("lfork", srez) == 0)
+        (*op)->name = 14;
+    else if (ft_strcmp("aff", srez) == 0)
+        (*op)->name = 15;
     else
         return (-1);
     return (1);
 }
 
-void        label_size(t_new_st_label **label, int kol, t_chempion *ch)
+/*void        label_size(t_new_st_label **label, int kol, t_chempion *ch)
 {
     t_new_st_label *n_label;
     int     i;
@@ -43,26 +73,31 @@ void        label_size(t_new_st_label **label, int kol, t_chempion *ch)
         n_label = n_label->next;
         i++;
     }
-}
+}*/
 
 
-/*int         analiz_register(char *srez, t_new_st_label **label, t_chempion *ch)
+int         analiz_registr(char *srez, t_op_strukt **op)
 {
     int     k;
 
     if (srez[0] == 'r')
     {
         if ((k = ft_atoi(&srez[1])) > 0 && k < REG_NUMBER)
-            label_size(label, 1, ch);
+            (*op)->size += 1;
         else
             return (-1);
     }
-    if (srez[0] == DIRECT_CHAR && srez[1] == ':' || ft_atoi(&srez[1]) > 0)
-         label_size(label, 1, ch);
+    else if (srez[0] == '%')
+    {
+        if ((k = ft_atoi(&srez[1])) > 0)
+            (*op)->size += k;
+    }
+    //if (srez[0] == DIRECT_CHAR && srez[1] == ':' || ft_atoi(&srez[1]) > 0)
+    //     label_size(label, 1, ch);
     return (1);
 }
 
-int         pars_register(char *str, t_chempion *ch, t_new_st_label **label)
+int         pars_register(char *str, t_chempion *ch, t_op_strukt **op)//t_new_st_label **label, 
 {
     int     tecyhee;
     char    *srez;
@@ -71,7 +106,11 @@ int         pars_register(char *str, t_chempion *ch, t_new_st_label **label)
     n = 0;
     while (n >= 0)
     {if ((tecyhee = kol_sim_not(str, ' ')) < 0)
-        return (-1);
+        {
+            (*op)->name = 33;
+            ch->flag = 90;
+            return (-1);
+        }
     n = kol_sim(&str[tecyhee], SEPARATOR_CHAR);
     if (n >= 0)
     {
@@ -80,17 +119,26 @@ int         pars_register(char *str, t_chempion *ch, t_new_st_label **label)
         str = str + tecyhee;
     }else
         srez = cut_one(&str[tecyhee], '\0', 0);
-    if (analiz_register(srez, label, ch) < 0)
-        {
-            free(srez);
+        if (analiz_registr(srez, op) < 0)
             return (-1);
-        }
-        free(srez);
+        printf("%s\n", srez);
     } 
     return (1);
-}*/
+}
 
-int         pars_operation(char *line, t_chempion *ch, t_op_strukt **op)
+void            zap_label(t_new_st_label  **label, t_op_strukt **op)
+{
+    t_label     *lab;
+
+    lab = (*label)->lab;
+    while (lab)
+    {
+        lab->op = &(**op);
+        lab = lab->next;
+    }
+}
+
+int         pars_operation(char *line, t_chempion *ch, t_op_strukt **op, t_new_st_label  **label)
 {
     int     tecyhee;
     char    *srez;
@@ -106,8 +154,10 @@ int         pars_operation(char *line, t_chempion *ch, t_op_strukt **op)
             return (-1);
             ch->flag = 1; //del
         }
+    if (ch->flag_label == 1)
+        zap_label(label, op);
     free(srez);
-    //pars_register(&line[tecyhee], ch, label);
+    pars_register(&line[tecyhee], ch, op); //, label);
     return (1);
 }
 
@@ -126,7 +176,7 @@ int         pars_one(char *line, t_chempion *ch, t_new_st_label **label, t_op_st
     }
    else
         {
-            if (pars_operation(line, ch, op) < 0)
+            if (pars_operation(line, ch, op, label) < 0)
                 return (-1);
             ch->flag_label = 0;
             //label????
@@ -166,6 +216,7 @@ void			init_asm(t_chempion *ch, t_new_st_label **label)
     (*label)->lab = NULL;
     (*label)->next = NULL;
     zap_operation(ch);
+    zap_registr(ch);
 }
 
 int				    main(int argc, char *argv[])
@@ -191,6 +242,7 @@ int				    main(int argc, char *argv[])
     //printf("%s\n", ch.name);
     //printf("%s\n", ch.comment);
     //print_struct(label);
+    print_op(op);
     close(fd);
     return (0);
 }

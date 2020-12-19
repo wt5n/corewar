@@ -8,6 +8,16 @@
 // 6 - vse
 // 7 - T_REG + T_DIR
 
+void    zap_registr(t_chempion *ch)
+{
+    ch->reg[0].code = 2;
+    ch->reg[1].code = 1;
+    ch->reg[2].code = 3;
+    ch->reg[0].size = 1;
+    ch->reg[1].size = 0;
+    ch->reg[2].size = 2;
+}
+
 void    zap_operation4(t_chempion *ch)
 {
     ch->op[12].name = "lld";
@@ -105,7 +115,6 @@ void    zap_operation1(t_chempion *ch)
     ch->op[5].size = 4;
     zap_operation2(ch);
 }
-
 
 void    zap_operation(t_chempion *ch)
 {

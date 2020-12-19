@@ -39,6 +39,7 @@ t_new_st_label		*new_st_add_label(char *str)
 		return (NULL);
 	label->lab = new_add_label(str);
 	label->next = NULL;
+	label->lab->op = NULL;
 	return (label);
 }
 
