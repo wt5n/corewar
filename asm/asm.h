@@ -69,5 +69,7 @@ char        	*cut_one(char *str, char c, int n);
 void    		zap_operation(t_chempion *ch);
 t_op_strukt		*add_op_struct(t_op_strukt **label);
 void			zap_registr(t_chempion *ch);
+int         	operation_name(char *srez, t_op_strukt **op, t_chempion *ch);
+int         	pars_operation(char *line, t_chempion *ch, t_op_strukt **op, t_new_st_label  **label);
 
 #endif

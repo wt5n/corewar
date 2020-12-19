@@ -8,7 +8,7 @@ void            print_op(t_op_strukt *op)
     new_op = op;
     while (new_op)
     {
-        printf("%d\n", new_op->name);
+        printf("%d   size = %d\n", new_op->name, new_op->size);
         new_op = new_op->next;
     }
 }
