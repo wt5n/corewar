@@ -1,20 +1,25 @@
 #include "asm.h"
 
-int         analiz_registr(char *srez, t_op_strukt **op, t_chempion *ch)
+int         analiz_registr(char *srez, t_op_strukt **op)
 {
     int     k;
 
     if (srez[0] == 'r')
     {
         if ((k = ft_atoi(&srez[1])) > 0 && k < REG_NUMBER)
-            (*op)->size += 1;
+            {
+                (*op)->size += T_REG;
+                //printf("str - %s   size - %d\n", (*op)->stroca, (*op)->size);
+            }
         else
             return (-1);
     }
     else if (srez[0] == '%')
     {
-        //if ((k = ft_atoi(&srez[1])) > 0)
-            (*op)->size += ch->op[(*op)->name].size;
+        if (op_tab[(*op)->name].size == 0)
+            (*op)->size += T_DIR * 2;
+        else
+             (*op)->size += T_DIR;
     }
     else 
         (*op)->size += 2;
@@ -23,13 +28,15 @@ int         analiz_registr(char *srez, t_op_strukt **op, t_chempion *ch)
     return (1);
 }
 
-int         pars_register(char *str, t_chempion *ch, t_op_strukt **op)//t_new_st_label **label, 
+int         pars_register(char *str, t_op_strukt **op)//t_new_st_label **label, 
 {
     int     tecyhee;
     char    *srez;
     int     n;
 
     n = 0;
+    (*op)->stroca = ft_strdup(str);
+    //printf("%s\n", (*op)->stroca);
     while (n >= 0)
     {if ((tecyhee = kol_sim_not(str, ' ')) < 0)
         {
@@ -43,8 +50,8 @@ int         pars_register(char *str, t_chempion *ch, t_op_strukt **op)//t_new_st
         str = str + tecyhee;
     }else
         srez = cut_one(&str[tecyhee], '\0', 0);
-        if (analiz_registr(srez, op, ch) < 0)
-            return (-1);
+    if (analiz_registr(srez, op) < 0)
+        return (-1);
         //printf("%s - %d\n", srez, (*op)->size);
     } 
     return (1);
@@ -72,7 +79,7 @@ int         pars_operation(char *line, t_chempion *ch, t_op_strukt **op, t_new_s
         return (2);
     srez = cut_one(&line[tecyhee], ' ', 0);
     tecyhee += (ft_strlen(srez) + 1);
-    if (operation_name(srez, op, ch) < 0)
+    if (operation_name(srez, op) < 0)
         {
             free(srez);
             return (-1);
@@ -80,6 +87,8 @@ int         pars_operation(char *line, t_chempion *ch, t_op_strukt **op, t_new_s
     if (ch->flag_label == 1)
         zap_label(label, op);
     free(srez);
-    pars_register(&line[tecyhee], ch, op); //, label);
+    pars_register(&line[tecyhee], op); //, label);
+    ch->smehenee += (*op)->size;
+    (*label)->smehenee = ch->smehenee;
     return (1);
 }

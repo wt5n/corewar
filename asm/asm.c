@@ -72,9 +72,9 @@ void			init_asm(t_chempion *ch, t_new_st_label **label)
 	ch->comment = NULL;
 	ch->code = NULL;
     ch->flag_label = 0;
+    ch->smehenee = 0;
     (*label)->lab = NULL;
     (*label)->next = NULL;
-    zap_operation(ch);
     zap_registr(ch);
 }
 
@@ -98,6 +98,7 @@ int				    main(int argc, char *argv[])
     {
         return (-1);
     }
+    trace_byte_code(&ch, label, op);
     //printf("%s\n", ch.name);
     //printf("%s\n", ch.comment);
     //print_struct(label);

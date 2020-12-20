@@ -8,6 +8,20 @@
 # include "libft/libft.h"
 # include "op.h"
 
+typedef struct	s_op
+{
+	char		*name; // 0
+	int			arg; // 1
+	int			reg[3]; // 2
+	int			code_op; // 3
+	int			neponatca; //4
+	char		*poasny; //5
+	int			code_type; // 6
+	int			size; // 7
+}				t_op;
+
+extern t_op op_tab[17];
+
 typedef struct				s_registr
 {
 	int						code;
@@ -18,18 +32,9 @@ typedef struct				s_op_strukt
 {
 	int						size;
 	int						name;
+	char					*stroca;
 	struct s_op_strukt		*next;
 }							t_op_strukt;
-
-typedef struct				s_operation
-{
-	char					*name;
-	int						code;
-	int						kol_argument;
-	int						registr;
-	int						type_arg;
-	int						size;
-}							t_operation;
 
 typedef struct				s_chempion
 {
@@ -38,7 +43,7 @@ typedef struct				s_chempion
 	char					*code;
 	int						flag;
 	int						flag_label;
-	t_operation				op[16];
+	int						smehenee;
 	t_registr				reg[3];
 }							t_chempion;
 
@@ -52,6 +57,7 @@ typedef struct				s_label
 typedef struct				s_new_st_label
 {
 	t_label					*lab;
+	int						smehenee;
 	struct s_new_st_label	*next;
 }							t_new_st_label;
 
@@ -69,7 +75,8 @@ char        	*cut_one(char *str, char c, int n);
 void    		zap_operation(t_chempion *ch);
 t_op_strukt		*add_op_struct(t_op_strukt **label);
 void			zap_registr(t_chempion *ch);
-int         	operation_name(char *srez, t_op_strukt **op, t_chempion *ch);
+int         	operation_name(char *srez, t_op_strukt **op);
 int         	pars_operation(char *line, t_chempion *ch, t_op_strukt **op, t_new_st_label  **label);
+void			trace_byte_code(t_chempion *ch, t_new_st_label *label, t_op_strukt *op);
 
 #endif

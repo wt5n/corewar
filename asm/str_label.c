@@ -71,6 +71,7 @@ t_op_strukt		*new_op_struct()
 		return (NULL);
 	op->name = 0;
 	op->size = 0;
+	op->stroca = NULL;
 	op->next = NULL;
 	return (op);
 }
