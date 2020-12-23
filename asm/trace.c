@@ -11,14 +11,24 @@ int     proverca(char c)
     return (-1);
 }
 
-int     op_reg(char *str)
+void        proverca_registr(char *srez, t_chempion *ch, int i)
+{
+    if (srez[0] == 'r')
+    {
+        
+    }
+}
+
+int         op_reg(char *str1, t_chempion *ch, int i)
 { 
-    int n;
-    int type;
-    int tecyhee;
-    char *srez;
+    int     n;
+    char    type;
+    int     tecyhee;
+    char    *srez;
+    char    *str;
 
     n = 0;
+    str = str1;
     type = 0;
     while (n >= 0)
     {
@@ -36,6 +46,8 @@ int     op_reg(char *str)
     else
         srez = cut_one(&str[tecyhee], '\0', 0);
     type = ((type << 2) + (proverca(srez[0])));
+    proverca_registr(srez, ch, i);
+    //printf("!!! - %d\n", type);
     } 
     return (type);
 }
@@ -43,20 +55,28 @@ int     op_reg(char *str)
 void    pars_stroca(t_chempion *ch, t_new_st_label *label, t_op_strukt *op, char *str)
 {
     int i;
+    t_op_strukt *new_op;
 
     i = 0;
-    //printf("%s %d\n", str, ch->smehenee);
+    new_op = op;
+    printf("%s smehenee = %d\n", str, ch->smehenee);
     ch->code = (char*)malloc(sizeof(char) * ch->smehenee);
     while (i < ch->smehenee)
     {
-        ch->code[i] = op->name + 1;
-        if (op_tab[op->name].code_type == 1)
+        //printf("%s %d\n", str, ch->smehenee);
+        ch->code[i] = (char)new_op->name + 1;
+        i++;
+        //printf("code[0] = %d\n", ch->code[i]);
+        //printf("op - %d type - %d\n", new_op->name, op_tab[new_op->name].code_type);
+        if (op_tab[new_op->name].code_type == 1)
             {
-                printf("******");
-                ch->code[i + 1] = op_reg(str);
-                printf("code = %d\n", ch->code[i+1]);
+                //printf("******");
+                ch->code[i] = op_reg(str, ch, i);
+                printf("code[1] = %d\n", ch->code[i]);
+                //printf("code = %d\n", ch->code[i+1]);
             }
-        i += 2;
+        i++;
+        new_op = new_op->next;
        //??????????????????????????????
     }
     label->smehenee = 0; //del
