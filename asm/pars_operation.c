@@ -89,6 +89,7 @@ int         pars_operation(char *line, t_chempion *ch, t_op_strukt **op, t_new_s
     free(srez);
     pars_register(&line[tecyhee], op); //, label);
     ch->smehenee += (*op)->size;
+    (*op)->smechenee = ch->smehenee;
     (*label)->smehenee = ch->smehenee;
     return (1);
 }

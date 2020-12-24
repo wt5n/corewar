@@ -32,6 +32,7 @@ typedef struct				s_op_strukt
 {
 	int						size;
 	int						name;
+	int						smechenee;
 	char					*stroca;
 	struct s_op_strukt		*next;
 }							t_op_strukt;
@@ -44,6 +45,8 @@ typedef struct				s_chempion
 	int						flag;
 	int						flag_label;
 	int						smehenee;
+	int						mestnoe_smehenee;
+	int						mestnoe_size;
 	t_registr				reg[3];
 }							t_chempion;
 
