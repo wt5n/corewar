@@ -41,7 +41,12 @@ typedef struct	s_koretko
 	int 		id;
 	int 		carry;
 	int 		position;
+	int			num_live_circle;
+	int			delay;
+	int			step;
 	t_reg		*regs;
+	int			parent_id;
+	struct s_koretko	*next;
 }				t_koretko;
 
 typedef struct		s_cw
@@ -54,13 +59,13 @@ typedef struct		s_cw
 	int 			last_alive;
 	int 			num_of_lives;
 	int 			cycles_to_die;
-	t_koretko 		**kors;
-	int				*rgtrs;
+	int				num_of_check;
+	t_koretko 		*kors;
 }					t_cw;
 
 void 	ft_swap_two_let(char *str);
 void	ft_print_memory(const void *addr, size_t size);
-
+void 	circle(t_cw *cw);
 
 #endif
 
