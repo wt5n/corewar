@@ -1,43 +1,183 @@
 #ifndef _VM_OP_H_
 #define _VM_OP_H_
 
+#include "vm.h"
+
 typedef struct s_op
 {
 	char   *name;
 	int 	op_code;
 	int 	num_of_args;
 	int 	args[3];
-	int 	inf_carry;
 	int 	delay;
+	int 	inf_carry;
+	int		unknown;
+	int 	tdir_size;
 
 }				t_op;
 
 t_op    op_tab[16] =
 	{
-		{	.name = "live",
-			.op_code1,
-					 arg{T_DIR}, 1, 10, "alive", 0, 0},
-		{"ld", 2, {T_DIR | T_IND, T_REG}, 2, 5, "load", 1, 0},
-		{"st", 2, {T_REG, T_IND | T_REG}, 3, 5, "store", 1, 0},
-		{"add", 3, {T_REG, T_REG, T_REG}, 4, 10, "addition", 1, 0},
-		{"sub", 3, {T_REG, T_REG, T_REG}, 5, 10, "soustraction", 1, 0},
-		{"and", 3, {T_REG | T_DIR | T_IND, T_REG | T_IND | T_DIR, T_REG}, 6, 6,
-			"et (and  r1, r2, r3   r1&r2 -> r3", 1, 0},
-		{"or", 3, {T_REG | T_IND | T_DIR, T_REG | T_IND | T_DIR, T_REG}, 7, 6,
-			"ou  (or   r1, r2, r3   r1 | r2 -> r3", 1, 0},
-		{"xor", 3, {T_REG | T_IND | T_DIR, T_REG | T_IND | T_DIR, T_REG}, 8, 6,
-			"ou (xor  r1, r2, r3   r1^r2 -> r3", 1, 0},
-		{"zjmp", 1, {T_DIR}, 9, 20, "jump if zero", 0, 1},
-		{"ldi", 3, {T_REG | T_DIR | T_IND, T_DIR | T_REG, T_REG}, 10, 25,
-			"load index", 1, 1},
-		{"sti", 3, {T_REG, T_REG | T_DIR | T_IND, T_DIR | T_REG}, 11, 25,
-			"store index", 1, 1},
-		{"fork", 1, {T_DIR}, 12, 800, "fork", 0, 1},
-		{"lld", 2, {T_DIR | T_IND, T_REG}, 13, 10, "long load", 1, 0},
-		{"lldi", 3, {T_REG | T_DIR | T_IND, T_DIR | T_REG, T_REG}, 14, 50,
-			"long load index", 1, 1},
-		{"lfork", 1, {T_DIR}, 15, 1000, "long fork", 0, 1},
-		{"aff", 1, {T_REG}, 16, 2, "aff", 1, 0},
+		{
+			.name = "live",
+			.num_of_args = 1,
+			.args = {T_DIR, 0, 0},
+			.op_code = 1,
+			.delay = 10,
+			.inf_carry = 0,
+			.unknown = 0,
+			.tdir_size = 4
+		},
+		{
+			.name = "ld",
+			.num_of_args = 2,
+			.args = {T_DIR | T_IND, T_REG, 0},
+			.op_code = 2,
+			.delay =  5,
+			.inf_carry =  1,
+			.unknown =  0,
+			.tdir_size = 4
+		},
+		{
+			.name =  "st",
+			.num_of_args = 2,
+			.args = {T_REG, T_IND | T_REG, 0},
+			.op_code = 3,
+			.delay =  5,
+			.inf_carry =  1,
+			.unknown =  0,
+			.tdir_size = 4
+		},
+		{
+			.name = "add",
+			.num_of_args =  3,
+			.args =  {T_REG, T_REG, T_REG},
+			.op_code =  4,
+			.delay =  10,
+			.inf_carry =  1,
+			.unknown =  0,
+			.tdir_size = 4
+		},
+		{
+			.name = "sub",
+			.num_of_args =  3,
+			.args =  {T_REG, T_REG, T_REG},
+			.op_code = 5,
+			.delay = 10,
+			.inf_carry =  1,
+			.unknown =  0,
+			.tdir_size = 4
+		},
+		{
+			.name = "and",
+			.num_of_args =  3,
+			.args =  {T_REG | T_DIR | T_IND, T_REG | T_IND | T_DIR, T_REG},
+			.op_code = 6,
+			.delay = 6,
+			.inf_carry = 1,
+			.unknown = 0,
+			.tdir_size = 4
+		},
+		{
+			.name = "or",
+			.num_of_args =  3,
+			.args = {T_REG | T_IND | T_DIR, T_REG | T_IND | T_DIR, T_REG},
+			.op_code = 7,
+			.delay =  6,
+			.inf_carry = 1,
+			.unknown = 0,
+			.tdir_size = 4
+		},
+		{
+			.name = "xor",
+			.num_of_args = 3,
+			.args = {T_REG | T_IND | T_DIR, T_REG | T_IND | T_DIR, T_REG},
+			.op_code = 8,
+			.delay = 6,
+			.inf_carry = 1,
+			.unknown = 0,
+			.tdir_size = 4
+		},
+		{
+			.name =  "zjmp",
+			.num_of_args =  1,
+			.args = {T_DIR, 0, 0},
+			.op_code = 9,
+			.delay = 20,
+			.inf_carry = 0,
+			.unknown = 1,
+			.tdir_size = 2
+		},
+		{
+			.name = "ldi",
+			.num_of_args = 3,
+			.args = {T_REG | T_DIR | T_IND, T_DIR | T_REG, T_REG},
+			.op_code =  10,
+			.delay = 25,
+			.inf_carry = 1,
+			.unknown = 1,
+			.tdir_size = 2
+		},
+		{
+			.name = "sti",
+			.num_of_args = 3,
+			.args = {T_REG, T_REG | T_DIR | T_IND, T_DIR | T_REG},
+			.op_code = 11,
+			.delay = 25,
+			.inf_carry = 1,
+			.unknown = 1,
+			.tdir_size = 2
+		},
+		{
+			.name = "fork",
+			.num_of_args = 1,
+			.args = {T_DIR, 0, 0},
+			.op_code = 12,
+			.delay = 800,
+			.inf_carry = 0,
+			.unknown = 1,
+			.tdir_size = 2
+		},
+		{
+			.name = "lld",
+			.num_of_args = 2,
+			.args = {T_DIR | T_IND, T_REG, 0},
+			.op_code = 13,
+			.delay = 10,
+			.inf_carry = 1,
+			.unknown = 0,
+			.tdir_size = 4
+		},
+		{
+			.name = "lldi",
+			.num_of_args = 3,
+			.args = {T_REG | T_DIR | T_IND, T_DIR | T_REG, T_REG},
+			.op_code = 14,
+			.delay = 50,
+			.inf_carry = 1,
+			.unknown = 1,
+			.tdir_size = 2
+		},
+		{
+			.name = "lfork",
+			.num_of_args =  1,
+			.args = {T_DIR, 0, 0},
+			.op_code =  15,
+			.delay = 1000,
+			.inf_carry = 0,
+			.unknown = 1,
+			.tdir_size = 2
+		},
+		{
+			.name = "aff",
+			.num_of_args = 1,
+			.args = {T_REG, 0, 0},
+			.op_code = 16,
+			.delay = 2,
+			.inf_carry = 1,
+			.unknown = 0,
+			.tdir_size = 4
+		},
 	};
 
 #endif //_VM_OP_H_

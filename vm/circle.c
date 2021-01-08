@@ -42,14 +42,20 @@ void	place_pl_and_kors(t_cw *cw)
 	}
 }
 
+
+
 void	read_byte(t_koretko *koretko, t_cw *cw)
 {
+	koretko->op_code = cw->map[koretko->position];
 	if (cw->map[koretko->position] >= 0x01 && cw->map[koretko->position] <= 0x10)
 	{
-		koretko->op_code = cw->map[koretko->position];
-		koretko->delay = get_delay_for_operation(koretko->op_code);
+		koretko->delay = op_tab[koretko->op_code - 1].delay;
+		
+		check_args();
 	}
 }
+
+
 
 void	make_op(t_cw *cw)
 {
@@ -130,7 +136,7 @@ void circle(t_cw *cw)
 	while (cw->num_of_koretko)
 	{
 		make_op(cw);
-		if (cw->cycles_to_die == cw->cycles_to_check 
+		if (cw->cycles_to_die == cw->cycles_to_check
 			|| cw->cycles_to_die <= 0)
 			check_cycles(cw);
 	}
