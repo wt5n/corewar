@@ -3,6 +3,7 @@
 
 #include "../libft/inc/printf.h"
 #include "op.h"
+#include "vm_op.h"
 
 #define MAGIC_NUMBER_LENGTH 4
 
@@ -27,7 +28,7 @@ typedef struct  s_reg
 	int		r16;
 }				t_reg;
 
-typedef struct s_champ
+typedef struct	s_champ
 {
 	int 		number;
 	char		*name;
@@ -42,9 +43,11 @@ typedef struct	s_koretko
 	int 		carry;
 	int 		position;
 	int			num_live_circle;
+	int			last_alive;
 	int			delay;
 	int			step;
 	t_reg		*regs;
+	int 		op_code;
 	int			parent_id;
 	struct s_koretko	*next;
 }				t_koretko;
@@ -56,10 +59,11 @@ typedef struct		s_cw
 	int				num_of_champ;
 	int				num_of_koretko;
 	int				cycles;
-	int 			last_alive;
+	int 			last_player;
 	int 			num_of_lives;
 	int 			cycles_to_die;
-	int				num_of_check;
+	int				cycles_to_check;
+	int				num_of_checks;
 	t_koretko 		*kors;
 }					t_cw;
 

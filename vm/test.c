@@ -11,6 +11,26 @@ void	chain_kor(t_koretko **kors, t_koretko *kor)
 	kor->next = *kors;
 	*kors = kor;
 }
+void	delete_koretko(int id, t_koretko **kors)
+{
+	t_koretko *current;
+	t_koretko *prev;
+
+	current = *kors;
+	if (current->id == id)
+		*kors = current->next;
+	else
+	{
+		while (id != current->id)
+		{
+			prev = current;
+			current = current->next;
+		}
+		prev->next = current->next;
+	}
+	free(current);
+}
+
 
 t_koretko	*create_koretko(int id)
 {
@@ -36,9 +56,23 @@ int main()
 	k3 = create_koretko(3);
 
 	chain_kor(&k1, k2);
-//	chain_kor(&k1, k3);
-	printf("%d\n", k1->id);
-	printf("%d\n", k1->next->id);
+	chain_kor(&k1, k3);
+
+	delete_koretko(3, &k1);
+	t_koretko *res = k1;
+	while (res)
+	{
+		printf("%d\n", res->id);
+		res = res->next;
+	}
+	delete_koretko(1, &k1);
+	while (k1)
+	{
+		printf("%d\n", k1->id);
+		k1 = k1->next;
+	}
+//	printf("%d\n", k1->id);
+//	printf("%d\n", k1->next->id);
 //	printf("%d\n", k2->id);
 //	printf("%d\n", k3->id);
 
