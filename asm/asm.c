@@ -4,6 +4,7 @@
 
 void        zap_struct_ascii(t_chempion *ch, char *str, t_new_st_label **label)
 {
+    
     if (ch->flag == 1 && ft_strlen(str) <= PROG_NAME_LENGTH)
         ch->name = ft_strdup(str);
     else if (ch->flag == 2 && ft_strlen(str) <= COMMENT_LENGTH)
@@ -28,12 +29,14 @@ int         pars_one(char *line, t_chempion *ch, t_new_st_label **label, t_op_st
         {
             if (ch->name == NULL && (pars_name(line, ch, label)) < 0)
                 return (-1);
+            else
+               pars_name(line, ch, label);
         }
         else 
-            if (!((*label)->lab) && (pars_label(line, ch, label)) < 0)
+            if ((pars_label(line, ch, label)) < 0)
                 return (-1);
     }
-   else
+    else
         {
             if (pars_operation(line, ch, op, label) < 0)
                 return (-1);
@@ -66,13 +69,14 @@ int         file_argv(char *str)
     return (-1);
 }
 
-void			init_asm(t_chempion *ch, t_new_st_label **label)
+void			init_asm(t_chempion *ch, t_new_st_label **label, t_op_strukt **op)
 {
 	ch->name = NULL;
 	ch->comment = NULL;
 	ch->code = NULL;
     ch->flag_label = 0;
     ch->smehenee = 0;
+    (*op) = NULL;
     (*label)->lab = NULL;
     (*label)->next = NULL;
     zap_registr(ch);
@@ -90,7 +94,7 @@ int				    main(int argc, char *argv[])
     {
 		if (file_argv(argv[1]) < 0 || (fd = open(argv[1], O_RDONLY)) < 0)
             return (-1);
-		init_asm(&ch, &label);
+		init_asm(&ch, &label, &op);
         if (read_line(fd, &ch, &label, &op) < -1)
             return (-1);
 	}
@@ -98,10 +102,10 @@ int				    main(int argc, char *argv[])
     {
         return (-1);
     }
-    trace_byte_code(&ch, label, op);
+    //trace_byte_code(&ch, label, op);
     //printf("%s\n", ch.name);
     //printf("%s\n", ch.comment);
-    //print_struct(label);
+    print_struct(label);
     print_op(op);
     close(fd);
     return (0);
