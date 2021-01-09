@@ -4,6 +4,7 @@ int         analiz_registr(char *srez, t_op_strukt **op)
 {
     int     k;
 
+    //printf("reg = %s\n", srez);
     if (srez[0] == 'r')
     {
         if ((k = ft_atoi(&srez[1])) > 0 && k < REG_NUMBER)
@@ -69,10 +70,21 @@ void            zap_label(t_new_st_label  **label, t_op_strukt **op)
     }
 }
 
+t_op_strukt *operation_last(t_op_strukt **op)
+{
+    t_op_strukt *new_op;
+
+    new_op = *op;
+    while(new_op->next)
+        new_op = new_op->next;
+    return (new_op);
+}
+
 int         pars_operation(char *line, t_chempion *ch, t_op_strukt **op, t_new_st_label  **label)
 {
     int     tecyhee;
     char    *srez;
+    t_op_strukt *new_op;
 
     tecyhee = kol_sim_not(line, ' ');
     if (tecyhee == -1)
@@ -87,7 +99,8 @@ int         pars_operation(char *line, t_chempion *ch, t_op_strukt **op, t_new_s
     if (ch->flag_label == 1)
         zap_label(label, op);
     free(srez);
-    pars_register(&line[tecyhee], op); //, label);
+    new_op = operation_last(op);
+    pars_register(&line[tecyhee], &new_op); //, label);
     ch->smehenee += (*op)->size;
     (*op)->smechenee = ch->smehenee;
     (*label)->smehenee = ch->smehenee;

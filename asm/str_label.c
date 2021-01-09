@@ -78,20 +78,23 @@ t_op_strukt		*new_op_struct()
 
 t_op_strukt     *ft_add_op_struct(t_op_strukt **op)
 {
-    t_op_strukt	*next;
 	t_op_strukt	*n_op;
+	t_op_strukt	*new_op;
+	t_op_strukt	*new2_op;
 
 	if (!(n_op = new_op_struct()))
 		return (NULL);
-	next = *op;
-	*op = n_op;
-	n_op->next = next;
-	return (n_op);
+	new_op  = *op;
+	new2_op = *op;
+	while (new_op->next)
+		new_op = new_op->next;
+	new_op->next = n_op;
+	return (new2_op);
 }
 
-t_op_strukt    *add_op_struct(t_op_strukt **label)
+t_op_strukt    *add_op_struct(t_op_strukt **op)
 {
-    if (!*label)
-		return (*label = new_op_struct());
-	return ft_add_op_struct(label);
+    if (!*op)
+		return (*op = new_op_struct());
+	return ft_add_op_struct(op);
 }

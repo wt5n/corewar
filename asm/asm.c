@@ -105,7 +105,7 @@ int				    main(int argc, char *argv[])
     //trace_byte_code(&ch, label, op);
     //printf("%s\n", ch.name);
     //printf("%s\n", ch.comment);
-    print_struct(label);
+    //print_struct(label);
     print_op(op);
     close(fd);
     return (0);
