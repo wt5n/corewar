@@ -102,11 +102,11 @@ int				    main(int argc, char *argv[])
     {
         return (-1);
     }
-    //trace_byte_code(&ch, label, op);
+    trace_byte_code(&ch, label, op);
     //printf("%s\n", ch.name);
     //printf("%s\n", ch.comment);
     //print_struct(label);
-    print_op(op);
+    //print_op(op);
     close(fd);
     return (0);
 }

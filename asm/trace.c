@@ -29,10 +29,10 @@ int                 proverca_instruction(char *str, t_chempion *ch, t_new_st_lab
         lab = label2->lab;
         while (lab)
         {
-            printf("&&&   %s    %s\n", lab->name, str);
+           // printf("&&&   %s    %s\n", lab->name, str);
             if (ft_strcmp(lab->name, str) == 0)
             {
-                printf("in = %d\n", (lab->op->smechenee - ch->mestnoe_smehenee - lab->op->size + ch->mestnoe_size));
+              //  printf("in = %d\n", (lab->op->smechenee - ch->mestnoe_smehenee - lab->op->size + ch->mestnoe_size));
                 //flag = 1;
                 return ((lab->op->smechenee - ch->mestnoe_smehenee - lab->op->size + ch->mestnoe_size));
             }
@@ -53,12 +53,12 @@ int         proverca_registr(char *srez, t_chempion *ch, int i, t_new_st_label *
     if (srez[0] == 'r')
         {
             ch->code[i] = ft_atoi(&srez[1]);
-            printf("***");
+           // printf("***");
             return (i + 1);
         }
-    else if (srez[0] == '%')
+    else if (srez[0] == DIRECT_CHAR)
             {
-                if (srez[1] == ':')
+                if (srez[1] == LABEL_CHAR)
                 {
                     srez2 = ft_strdup(&srez[2]);
                     //printf("mmm - %s\n", srez2);
@@ -68,22 +68,22 @@ int         proverca_registr(char *srez, t_chempion *ch, int i, t_new_st_label *
                             if (op_tab[new_op->name].size == 0) 
                            {
                                 k = 65535 + k + 1;
-                                printf("k = %d\n", k);
+                               // printf("k = %d\n", k);
                                 ch->code[i] = (char)k >> 8;
-                                printf("code1 = %d\n", ch->code[i]);
+                               // printf("code1 = %d\n", ch->code[i]);
                                 i++;
                                 ch->code[i] = (char)k & 255;
-                                printf("code2 = %d\n", ch->code[i]);
+                               // printf("code2 = %d\n", ch->code[i]);
                            }
                            else if (op_tab[new_op->name].size == 1) //??????
                            {
                                k = 65535 + k + 1; //???????
-                                printf("k = %d\n", k);
+                               // printf("k = %d\n", k);
                                 ch->code[i] = (char)k >> 8; //????????
-                                printf("code1 = %d\n", ch->code[i]);
+                               // printf("code1 = %d\n", ch->code[i]);
                                 i++;
                                 ch->code[i] = (char)k & 255;  //?????????
-                                printf("code2 = %d\n", ch->code[i]);
+                               // printf("code2 = %d\n", ch->code[i]);
                            } 
                         }
                     if (ch->flag == -1)
@@ -142,7 +142,7 @@ int         op_reg(char *str1, t_chempion *ch, int i, t_new_st_label *label, t_o
     return (type);
 }
 
-void    pars_stroca(t_chempion *ch, t_op_strukt *op, t_op_strukt *opp, int *i, t_new_st_label *label)
+void    pars_stroca(t_chempion *ch, t_op_strukt *op, t_op_strukt *last_op, int *i, t_new_st_label *label)
 {
     t_op_strukt *new_op;
     char *str;
@@ -151,24 +151,25 @@ void    pars_stroca(t_chempion *ch, t_op_strukt *op, t_op_strukt *opp, int *i, t
 
     new_op = op;
     st_i = 0;
-    str = opp->stroca;
-    //printf("%s smehenee = %d\n", str, opp->smechenee);
-    ch->mestnoe_smehenee = opp->smechenee;
-    ch->mestnoe_size = opp->size;
+    str = last_op->stroca;
+    //printf("%s smehenee = %d\n", str, last_op->smechenee);
+    ch->mestnoe_smehenee = last_op->smechenee;
+    ch->mestnoe_size = last_op->size;
     if (*i < ch->mestnoe_smehenee)
     {
        // printf("^^^^  %s %d\n", str, new_op->name);
-        ch->code[*i] = (char)new_op->name + 1;
-        printf("code[0] = %d\n", ch->code[*i]);
-        i++;
-        printf("op - %d type - %d\n", new_op->name, op_tab[new_op->name].code_type);
+        ch->code[*i] = new_op->name + 1;
+        printf("         code[0] = %d\n", ch->code[*i]);
+        (*i)++;
+        //printf("op - %d type - %d\n", new_op->name, op_tab[new_op->name].code_type);
         if (op_tab[new_op->name].code_type == 1)
             {
-                printf("******");
+                //printf("******");
                 ch->code[*i] = op_reg(str, ch, st_i, label, new_op);
-                printf("code[1] = %d\n", ch->code[*i]);
+                printf("         code[1] = %d\n", ch->code[*i]);
                 //printf("code = %d\n", ch->code[i+1]);
             }
+        (*i)++;
         nenugno = op_reg(str, ch, st_i, label, new_op);
         //i++;
         //new_op = new_op->next;
@@ -186,7 +187,7 @@ void    trace_byte_code(t_chempion *ch, t_new_st_label *label, t_op_strukt *op)
     ch->code = (char*)malloc(sizeof(char) * ch->smehenee);
     while (op_new)
     {
-        printf("@@@@ %d\n", op_new->name);
+        printf("name %d:\n", op_new->name);
         pars_stroca(ch, op, op_new, &i, label);
         op_new = op_new->next;
     }
