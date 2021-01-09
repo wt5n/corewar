@@ -117,5 +117,6 @@ int					min_n(int a, int b);
 void				ft_free_two_demention(char **str, int i);
 char 				*ft_strrev(char *str);
 int					ft_atoi_base(const char *str, int str_base);
+int					ft_pow(int a, int pow);
 
 #endif

@@ -46,13 +46,38 @@ void	place_pl_and_kors(t_cw *cw)
 
 void	read_byte(t_koretko *koretko, t_cw *cw)
 {
+	int ar[3];
+	int i;
+	int j;
+
+	i = -1;
+	j = 6;
+	ar[0] = 0;
+	ar[1] = 0;
+	ar[2] = 0;
 	koretko->op_code = cw->map[koretko->position];
-	if (cw->map[koretko->position] >= 0x01 && cw->map[koretko->position] <= 0x10)
+	if (koretko->op_code >= 0x01 && koretko->op_code <= 0x10)
 	{
 		koretko->delay = op_tab[koretko->op_code - 1].delay;
-		
-		check_args();
+		while (++i < op_tab[koretko->op_code - 1].num_of_args)
+		{
+			ar[i] = (cw->map[koretko->position + 1] & (3 * ft_pow(2, j))) >> j;
+			j -= 2;
+		}
+		while (--i)
+		{
+			if (!(ar[i] & op_tab[koretko->op_code - 1].args[i]))
+				break ;
+			if (ar[i] == T_REG && cw->map[koretko->position + 1 + i])
+				//0b 68 01 0007 0001
+
+		}
+
+		printf("1 - %d 2 - %d 3 - %d\n", ar[0], ar[1], ar[2]);
+		exit(0);
+//		read_op_args();
 	}
+
 }
 
 

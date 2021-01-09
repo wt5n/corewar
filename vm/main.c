@@ -50,7 +50,7 @@ void	read_champ_comm(int fd, t_champ *champ)
 }
 
 void	read_champ_code(int fd, t_champ *champ) {
-	char tmp[4];
+	char	tmp[4];
 	char	*code;
 
 	code = (char*)ft_memalloc(sizeof(char) * CHAMP_MAX_SIZE + 1);
@@ -125,6 +125,13 @@ int	main(int argc, char **argv)
 	}
 	nums_of_champs(cw, argc, argv);
 	circle(cw);
-//	ft_print_memory(cw->map, 4096);
+//	for (int k = 0; k < 22; k++)
+//	{
+//		printf("%#x ", cw->champs[1]->code[k]);
+//	}
+//	printf("%d\n", (cw->champs[1]->code[1] & 192) >> 6);
+//	printf("%d\n", (cw->champs[1]->code[1] & 48) >> 4);
+//	printf("%d\n", (cw->champs[1]->code[1] & 12) >> 2);
+//	printf("%c", cw->champs[1]->code[0]);
 	return (0);
 }

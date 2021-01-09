@@ -16,7 +16,7 @@ typedef struct s_op
 
 }				t_op;
 
-t_op    op_tab[16] =
+static t_op    op_tab[16] =
 	{
 		{
 			.name = "live",
@@ -35,7 +35,7 @@ t_op    op_tab[16] =
 			.op_code = 2,
 			.delay =  5,
 			.inf_carry =  1,
-			.unknown =  0,
+			.unknown = 0,
 			.tdir_size = 4
 		},
 		{
