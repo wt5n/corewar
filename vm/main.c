@@ -129,7 +129,6 @@ int	main(int argc, char **argv)
 //	{
 //		printf("%#x ", cw->champs[1]->code[k]);
 //	}
-//	printf("%d\n", (cw->champs[1]->code[1] & 192) >> 6);
 //	printf("%d\n", (cw->champs[1]->code[1] & 48) >> 4);
 //	printf("%d\n", (cw->champs[1]->code[1] & 12) >> 2);
 //	printf("%c", cw->champs[1]->code[0]);

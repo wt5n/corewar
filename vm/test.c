@@ -88,10 +88,10 @@ int main()
 //	}
 //	printf("1 - %d 2 - %d 3 - %d", r[0], r[1], r[2]);
 
-	printf("%d", ft_pow(5, 0));
+//	printf("%d", ft_pow(5, 0));
 //	printf("%d\n", k1->id);
 //	printf("%d\n", k1->next->id);
 //	printf("%d\n", k2->id);
 //	printf("%d\n", k3->id);
-
+	printf("%d\n", );
 }

@@ -22,7 +22,7 @@ void	ft_print_memory(const void *addr, size_t size)
 	while (i < size)
 	{
 		j = 0;
-		while (j < 64, i + j < size)
+		while (j < 64 && i + j < size)
 		{
 			ft_print_hex(p[i + j]);
 			if (j % 2)

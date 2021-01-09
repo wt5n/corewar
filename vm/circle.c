@@ -42,7 +42,33 @@ void	place_pl_and_kors(t_cw *cw)
 	}
 }
 
+int		is_correct_args(int i, int *ar, t_cw *cw, t_koretko *koretko)
+{
+	int x = 0;
 
+	while (--i)
+	{
+		if (!(ar[i] & op_tab[koretko->op_code - 1].args[i]) ||
+			(ar[i] == T_REG && (cw->map[koretko->position + 2 + x] < 1 ||
+			(cw->map[koretko->position + 2 + x] > 16))))
+		{
+
+			return (0);
+		}
+
+		printf("%d\n", cw->map[koretko->position + 2 + x]);
+		x += ar[i];
+
+	}
+	return (1);
+}
+
+void	exec_op(t_cw *cw, t_koretko *koretko)
+{
+	
+
+//	koretko->step += n;
+}
 
 void	read_byte(t_koretko *koretko, t_cw *cw)
 {
@@ -64,19 +90,23 @@ void	read_byte(t_koretko *koretko, t_cw *cw)
 			ar[i] = (cw->map[koretko->position + 1] & (3 * ft_pow(2, j))) >> j;
 			j -= 2;
 		}
-		while (--i)
+
+		if (is_correct_args(i, ar, cw, koretko))
 		{
-			if (!(ar[i] & op_tab[koretko->op_code - 1].args[i]))
-				break ;
-			if (ar[i] == T_REG && cw->map[koretko->position + 1 + i])
-				//0b 68 01 0007 0001
-
+			exec_op(cw, koretko);
 		}
+		else
 
+			printf("koretko->step += n;");
 		printf("1 - %d 2 - %d 3 - %d\n", ar[0], ar[1], ar[2]);
-		exit(0);
-//		read_op_args();
+
+		for (int v = 0; v < 22; v++ )
+			printf("%#x ", cw->map[v]);
+		printf("\n");
+		exit(1);
 	}
+	else
+		koretko->step += 1;
 
 }
 
