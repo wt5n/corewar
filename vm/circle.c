@@ -1,16 +1,15 @@
 #include "inc/vm.h"
 
 
-t_koretko	*create_koretko(int id)
+t_koretko	*create_koretko(int id, int position)
 {
 	t_koretko *kor;
 
 	if (!(kor = (t_koretko*)ft_memalloc(sizeof(t_koretko))))
 		return NULL;
-	if (!(kor->regs = (t_reg*)ft_memalloc(sizeof(t_reg))))
-		return NULL;
 	kor->next = NULL;
 	kor->id = id;
+	kor->position = position;
 	return kor;
 }
 
@@ -32,9 +31,8 @@ void	place_pl_and_kors(t_cw *cw)
 	{
 		ft_memcpy(&(cw->map[position]), cw->champs[player_id - 1]->code,
 			(size_t)cw->champs[player_id - 1]->code_size);
-		kor = create_koretko(cw->num_of_koretko + 1);
-		kor->position = position;
-		kor->regs->r1 = player_id;
+		kor = create_koretko(cw->num_of_koretko + 1, position);
+		kor->regs[0] = player_id;
 		kor->parent_id = player_id;
 		chain_kor(&cw->kors, kor);
 		position += MEM_SIZE / cw->num_of_champ;
@@ -93,6 +91,9 @@ void	read_byte(t_koretko *koretko, t_cw *cw)
 
 		if (is_correct_args(i, ar, cw, koretko))
 		{
+			koretko->args[0] = ar[0];
+			koretko->args[1] = ar[1];
+			koretko->args[2] = ar[2];
 			exec_op(cw, koretko);
 		}
 		else

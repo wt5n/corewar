@@ -7,27 +7,6 @@
 
 #define MAGIC_NUMBER_LENGTH 4
 
-
-typedef struct  s_reg
-{
-	int		r1;
-	int		r2;
-	int		r3;
-	int		r4;
-	int		r5;
-	int		r6;
-	int		r7;
-	int		r8;
-	int		r9;
-	int		r10;
-	int		r11;
-	int		r12;
-	int		r13;
-	int		r14;
-	int		r15;
-	int		r16;
-}				t_reg;
-
 typedef struct	s_champ
 {
 	int 		number;
@@ -46,7 +25,8 @@ typedef struct	s_koretko
 	int			last_alive;
 	int			delay;
 	int			step;
-	t_reg		*regs;
+	int			regs[16];
+	int 		args[3];
 	int 		op_code;
 	int			parent_id;
 	struct s_koretko	*next;

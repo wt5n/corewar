@@ -120,9 +120,7 @@ int	main(int argc, char **argv)
 
 	i = 0;
 	while (++i < argc)
-	{
 		read_champion(argv[i], cw->champs[i - 1], cw);
-	}
 	nums_of_champs(cw, argc, argv);
 	circle(cw);
 //	for (int k = 0; k < 22; k++)
