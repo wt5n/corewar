@@ -1,6 +1,26 @@
 #include "inc/vm.h"
 
-int get_value(t_cw *cw, t_koretko *koretko);
+int get_value(t_cw *cw, t_koretko *koretko, int arg)
+{
+	int ass;
+	int value;
+
+	ass = 0;
+	ass = cw->map[(koretko->position + koretko->step) % MEM_SIZE];
+	if (arg == T_REG)
+	{
+		value = ass;
+	}
+	else if (arg == T_DIR)
+	{
+
+	}
+	else if (arg == T_IND)
+	{
+
+	}
+	return value;
+}
 
 void	op_add(t_cw *cw, t_koretko *kor)
 {
@@ -8,12 +28,15 @@ void	op_add(t_cw *cw, t_koretko *kor)
 	int b;
 	int c;
 	int value;
-
-	a = get_value(cw, kor);
-	b = get_value(cw, kor);
-	c = get_value(cw, kor);
-	kor->step += 5;
-	value = kor->regs[a - 1] + kor->regs[b];
+	kor->step += 2;
+	a = cw->map[kor->position + kor->step];
+	kor->step += kor->args[0];
+	b = cw->map[kor->position + kor->step];
+	kor->step += kor->args[1];
+	c = cw->map[kor->position + kor->step];
+	kor->step += kor->args[2];
+	value = kor->regs[a - 1] + kor->regs[b - 1];
+	kor->regs[c - 1] = value;
 	kor->carry = value == 0 ? 1 : 0;
 }
 
@@ -24,12 +47,31 @@ void	op_sub(t_cw *cw, t_koretko *kor)
 	int c;
 	int value;
 
-	a = get_value(cw, kor);
-	b = get_value(cw, kor);
-	c = get_value(cw, kor);
-	kor->step += 5;
-	value = kor->regs[a - 1] - kor->regs[b];
+	kor->step += 2;
+	a = cw->map[kor->position + kor->step];
+	kor->step += kor->args[0];
+	b = cw->map[kor->position + kor->step];
+	kor->step += kor->args[1];
+	c = cw->map[kor->position + kor->step];
+	kor->step += kor->args[2];
+	value = kor->regs[a - 1] - kor->regs[b - 1];
+	kor->regs[c - 1] = value;
 	kor->carry = value == 0 ? 1 : 0;
+}
+
+void 	op_aff(t_cw *cw, t_koretko *kor)
+{
+	int a;
+
+	kor->step += 2;
+	a = cw->map[kor->position + kor->step];
+	kor->step++;
+	ft_printf("%c", kor->regs[a - 1]);
+}
+
+void	op_fork(t_cw *cw, t_koretko *kor)
+{
+
 }
 
 void 	op_and(t_cw *cw, t_koretko *kor)
@@ -39,9 +81,9 @@ void 	op_and(t_cw *cw, t_koretko *kor)
 	int reg;
 	int value;
 
-	a = get_value(cw, kor);
-	b = get_value(cw, kor);
-	reg = get_value(cw, kor);
+	a = get_value(cw, kor, kor->args[0]);
+	b = get_value(cw, kor, kor->args[1]);
+	reg = get_value(cw, kor, kor->args[2]);
 	kor->step += 5;
 	value = a & b;
 	kor->regs[reg - 1] = value;
@@ -55,9 +97,9 @@ void 	op_or(t_cw *cw, t_koretko *kor)
 	int reg;
 	int value;
 
-	a = get_value(cw, kor);
-	b = get_value(cw, kor);
-	reg = get_value(cw, kor);
+//	a = get_value(cw, kor, get_arg_type(cw, kor->position));
+//	b = get_value(cw, kor, get_arg_type(cw, kor->position));
+//	reg = get_value(cw, kor, get_arg_type(cw, kor->position));
 	kor->step += 5;
 	value = a | b;
 	kor->regs[reg - 1] = value;
@@ -71,9 +113,9 @@ void 	op_xor(t_cw *cw, t_koretko *kor)
 	int reg;
 	int value;
 
-	a = get_value(cw, kor);
-	b = get_value(cw, kor);
-	reg = get_value(cw, kor);
+//	a = get_value(cw, kor, get_arg_type(cw, kor->position));
+//	b = get_value(cw, kor, get_arg_type(cw, kor->position));
+//	reg = get_value(cw, kor, get_arg_type(cw, kor->position));
 	kor->step += 5;
 	value = a ^ b;
 	kor->regs[reg - 1] = value;
@@ -85,13 +127,13 @@ void 	op_st(t_cw *cw, t_koretko *kor)
 	int reg;
 	int second_arg;
 
-	reg = get_value(cw, kor);
-	second_arg =
-	if (kor-)
+//	reg = get_value(cw, kor, get_arg_type(cw, kor->position));
+//
 }
 
 //void	op_live(t_koretko *kor, int arg)
 //{
 //
 //	if (arg == )
-//}
+//}second_arg =
+////	if (kor-)

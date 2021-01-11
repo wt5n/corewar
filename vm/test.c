@@ -38,8 +38,6 @@ t_koretko	*create_koretko(int id)
 
 	if (!(kor = (t_koretko*)ft_memalloc(sizeof(t_koretko))))
 		return NULL;
-	if (!(kor->regs = (t_reg*)ft_memalloc(sizeof(t_reg))))
-		return NULL;
 	kor->next = NULL;
 	kor->id = id;
 	return kor;
@@ -61,6 +59,11 @@ int		ft_pow(int a, int pow)
 
 int main()
 {
+	int x = 0x40 + 1;
+
+	printf("%#x", x);
+
+//	printf("%d\n", x);
 //	t_koretko *k1;
 //	t_koretko *k2;
 //	t_koretko	*k3;
@@ -93,5 +96,4 @@ int main()
 //	printf("%d\n", k1->next->id);
 //	printf("%d\n", k2->id);
 //	printf("%d\n", k3->id);
-	printf("%d\n", );
 }

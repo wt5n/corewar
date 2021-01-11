@@ -70,36 +70,28 @@ void	exec_op(t_cw *cw, t_koretko *koretko)
 
 void	read_byte(t_koretko *koretko, t_cw *cw)
 {
-	int ar[3];
 	int i;
 	int j;
 
 	i = -1;
 	j = 6;
-	ar[0] = 0;
-	ar[1] = 0;
-	ar[2] = 0;
 	koretko->op_code = cw->map[koretko->position];
 	if (koretko->op_code >= 0x01 && koretko->op_code <= 0x10)
 	{
 		koretko->delay = op_tab[koretko->op_code - 1].delay;
 		while (++i < op_tab[koretko->op_code - 1].num_of_args)
 		{
-			ar[i] = (cw->map[koretko->position + 1] & (3 * ft_pow(2, j))) >> j;
+			koretko->args[i] = (cw->map[koretko->position + 1] & (3 * ft_pow(2, j))) >> j;
 			j -= 2;
 		}
-
-		if (is_correct_args(i, ar, cw, koretko))
-		{
-			koretko->args[0] = ar[0];
-			koretko->args[1] = ar[1];
-			koretko->args[2] = ar[2];
+		if (koretko->args[2] & T_DIR)
+			printf("true");
+		if (is_correct_args(i, koretko->args, cw, koretko))
 			exec_op(cw, koretko);
-		}
 		else
 
 			printf("koretko->step += n;");
-		printf("1 - %d 2 - %d 3 - %d\n", ar[0], ar[1], ar[2]);
+		printf("1 - %d 2 - %d 3 - %d\n", koretko->args[0], koretko->args[1], koretko->args[2]);
 
 		for (int v = 0; v < 22; v++ )
 			printf("%#x ", cw->map[v]);
@@ -122,9 +114,7 @@ void	make_op(t_cw *cw)
 	while (cur)
 	{
 		if (cur->delay == 0)
-		{
 			read_byte(cur, cw);
-		}
 		else if (cur->delay > 0)
 			cur->delay--;
 		cur = cur->next;
@@ -189,6 +179,8 @@ void circle(t_cw *cw)
 		ft_printf("* Player %d, weighing %d bytes, \"%s\" (\"%s\") !\n",
 		cw->champs[i]->number, cw->champs[i]->code_size,
 		cw->champs[i]->name, cw->champs[i]->comm);
+//	printf("%#x\n\n", cw->map[2048 + 4]);
+//	ft_print_memory(cw->map, 4096);
 	while (cw->num_of_koretko)
 	{
 		make_op(cw);

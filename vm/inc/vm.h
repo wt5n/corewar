@@ -25,7 +25,7 @@ typedef struct	s_koretko
 	int			last_alive;
 	int			delay;
 	int			step;
-	int			regs[16];
+	int			regs[REG_NUMBER];
 	int 		args[3];
 	int 		op_code;
 	int			parent_id;
