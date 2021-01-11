@@ -63,7 +63,7 @@ int		is_correct_args(int i, int *ar, t_cw *cw, t_koretko *koretko)
 
 void	exec_op(t_cw *cw, t_koretko *koretko)
 {
-	
+
 
 //	koretko->step += n;
 }
@@ -100,7 +100,6 @@ void	read_byte(t_koretko *koretko, t_cw *cw)
 	}
 	else
 		koretko->step += 1;
-
 }
 
 

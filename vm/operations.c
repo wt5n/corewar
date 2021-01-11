@@ -71,7 +71,17 @@ void 	op_aff(t_cw *cw, t_koretko *kor)
 
 void	op_fork(t_cw *cw, t_koretko *kor)
 {
+	t_koretko	*n_koretrko;
+	int			i;
 
+	i = -1;
+	pos = get_value();
+	n_koretrko = create_koretko(cw->num_of_koretko + 1, pos % IDX_MOD);
+	while (++i < REG_NUMBER)
+		n_koretrko->regs[i] = kor->regs[i];
+	n_koretrko->carry = kor->carry;
+	n_koretrko->last_alive = kor->last_alive;
+	chain_kor(&cw->kors, n_koretrko);
 }
 
 void 	op_and(t_cw *cw, t_koretko *kor)
