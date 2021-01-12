@@ -24,26 +24,31 @@ int		if_dir(t_cw *cw, t_koretko *koretko, int n)
 	int value;
 	int sign;
 	int i;
-
+	//00 07
 	i = 0;
 	value = 0;
 	sign = cw->map[get_adrs(koretko, 0)] & 128;
-//	while (n != i)
-//	{
-//		if (sign)
-//			value += (cw->map[get_adrs(koretko, -1)] ^ 255) << (i++ * 8);
-//		else
-//			value += (cw->map[get_adrs(koretko, -1)]) << (i++ * 8);
-//	}
+	koretko->step += n;
+	while (n)
+	{
+		if (sign)
+			value += (cw->map[get_adrs(koretko, n)] ^ 255) << (i++ * 8);
+		else
+			value += (cw->map[get_adrs(koretko, n)]) << (i++ * 8);
+		n--;
+	}
 	if (sign)
 		value = ~value;
-	koretko->step += n;
 	return value;
 }
 
 int 	if_indir(t_cw *cw, t_koretko *koretko, int n)
 {
+	int adrs;
+	int value;
 
+	adrs = if_dir(cw, koretko, T_IND);
+	return value;
 }
 
 int get_value(t_cw *cw, t_koretko *koretko, int arg)
@@ -111,13 +116,13 @@ void	op_fork(t_cw *cw, t_koretko *kor)
 	int			i;
 
 	i = -1;
-	pos = get_value();
-	n_koretrko = create_koretko(cw->num_of_koretko + 1, pos % IDX_MOD);
+//	pos = get_value();
+//	n_koretrko = create_koretko(cw->num_of_koretko + 1, pos % IDX_MOD);
 	while (++i < REG_NUMBER)
 		n_koretrko->regs[i] = kor->regs[i];
 	n_koretrko->carry = kor->carry;
 	n_koretrko->last_alive = kor->last_alive;
-	chain_kor(&cw->kors, n_koretrko);
+//	chain_kor(&cw->kors, n_koretrko);
 }
 
 void 	op_and(t_cw *cw, t_koretko *kor)

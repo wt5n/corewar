@@ -50,6 +50,9 @@ typedef struct		s_cw
 void 	ft_swap_two_let(char *str);
 void	ft_print_memory(const void *addr, size_t size);
 void 	circle(t_cw *cw);
+int		if_reg(t_cw *cw, t_koretko *koretko);
+int		get_adrs(t_koretko *koretko, int modif);
+int		if_dir(t_cw *cw, t_koretko *koretko, int n);
 
 #endif
 

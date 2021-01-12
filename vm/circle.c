@@ -85,13 +85,15 @@ void	read_byte(t_koretko *koretko, t_cw *cw)
 			j -= 2;
 		}
 		if (koretko->args[2] & T_DIR)
-			printf("true");
+			printf("true\n");
 		if (is_correct_args(i, koretko->args, cw, koretko))
 			exec_op(cw, koretko);
 		else
-
 			printf("koretko->step += n;");
-		printf("1 - %d 2 - %d 3 - %d\n", koretko->args[0], koretko->args[1], koretko->args[2]);
+//		printf("1 - %d 2 - %d 3 - %d\n", koretko->args[0], koretko->args[1], koretko->args[2]);
+
+		printf("---- %#x\n", if_dir(cw, cw->kors, 2));
+		exit(1);
 
 		for (int v = 0; v < 22; v++ )
 			printf("%#x ", cw->map[v]);

@@ -59,9 +59,9 @@ int		ft_pow(int a, int pow)
 
 int main()
 {
-	int x = 0x40 + 1;
+	int x = -2;
 
-	printf("%#x", x);
+	printf("%d", ~x);
 
 //	printf("%d\n", x);
 //	t_koretko *k1;
