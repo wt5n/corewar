@@ -26,7 +26,7 @@ void        print_struct(t_new_st_label *label)
         la = new_label->lab;
         while (la)
         {
-        printf("%s\n", la->name);
+        printf("%s   size = %d   smechenee = %d \n", la->name, la->op->size, la->op->smechenee);
         la = la->next;
         }
         new_label = new_label->next;

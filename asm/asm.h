@@ -82,4 +82,7 @@ int         	operation_name(char *srez, t_op_strukt **op);
 int         	pars_operation(char *line, t_chempion *ch, t_op_strukt **op, t_new_st_label  **label);
 void			trace_byte_code(t_chempion *ch, t_new_st_label *label, t_op_strukt *op);
 
+t_op_strukt *operation_last(t_op_strukt **op);
+t_new_st_label *label_last(t_new_st_label **label);
+
 #endif

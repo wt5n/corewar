@@ -58,26 +58,20 @@ int         pars_register(char *str, t_op_strukt **op)//t_new_st_label **label,
     return (1);
 }
 
-void            zap_label(t_new_st_label  **label, t_op_strukt **op)
+void            zap_label(t_new_st_label  **label, t_op_strukt *op)
 {
     t_label     *lab;
+    t_new_st_label  *new_label;
 
-    lab = (*label)->lab;
+    new_label = *label;
+    while (new_label->next)
+        new_label = new_label->next;
+    lab = new_label->lab;
     while (lab)
     {
-        lab->op = &(**op);
+        lab->op = op;
         lab = lab->next;
     }
-}
-
-t_op_strukt *operation_last(t_op_strukt **op)
-{
-    t_op_strukt *new_op;
-
-    new_op = *op;
-    while(new_op->next)
-        new_op = new_op->next;
-    return (new_op);
 }
 
 int         pars_operation(char *line, t_chempion *ch, t_op_strukt **op, t_new_st_label  **label)
@@ -85,6 +79,7 @@ int         pars_operation(char *line, t_chempion *ch, t_op_strukt **op, t_new_s
     int     tecyhee;
     char    *srez;
     t_op_strukt *new_op;
+    t_new_st_label  *new_label;
 
     tecyhee = kol_sim_not(line, ' ');
     if (tecyhee == -1)
@@ -97,12 +92,13 @@ int         pars_operation(char *line, t_chempion *ch, t_op_strukt **op, t_new_s
             return (-1);
         }
     if (ch->flag_label == 1)
-        zap_label(label, op);
+        zap_label(label, operation_last(op));
     free(srez);
     new_op = operation_last(op);
+    new_label = label_last(label);
     pars_register(&line[tecyhee], &new_op); //, label);
-    ch->smehenee += (*op)->size;
-    (*op)->smechenee = ch->smehenee;
-    (*label)->smehenee = ch->smehenee;
+    new_op->smechenee = ch->smehenee;
+    ch->smehenee += new_op->size;
+    new_label->smehenee = ch->smehenee;
     return (1);
 }
