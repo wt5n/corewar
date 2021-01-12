@@ -1,25 +1,61 @@
 #include "inc/vm.h"
 
+int		get_adrs(t_koretko *koretko, int modif)
+{
+	int	adrs;
+
+	adrs = (koretko->position + koretko->step + modif) % MEM_SIZE;
+	if (adrs < 0)
+		adrs += MEM_SIZE;
+	return (adrs);
+}
+
+int		if_reg(t_cw *cw, t_koretko *koretko)
+{
+	int reg;
+
+	reg = cw->map[get_adrs(koretko, 0)];
+	koretko->step++;
+	return (koretko->regs[reg - 1]);
+}
+
+int		if_dir(t_cw *cw, t_koretko *koretko, int n)
+{
+	int value;
+	int sign;
+	int i;
+
+	i = 0;
+	value = 0;
+	sign = cw->map[get_adrs(koretko, 0)] & 128;
+//	while (n != i)
+//	{
+//		if (sign)
+//			value += (cw->map[get_adrs(koretko, -1)] ^ 255) << (i++ * 8);
+//		else
+//			value += (cw->map[get_adrs(koretko, -1)]) << (i++ * 8);
+//	}
+	if (sign)
+		value = ~value;
+	koretko->step += n;
+	return value;
+}
+
+int 	if_indir(t_cw *cw, t_koretko *koretko, int n)
+{
+
+}
+
 int get_value(t_cw *cw, t_koretko *koretko, int arg)
 {
-	int ass;
-	int value;
-
-	ass = 0;
-	ass = cw->map[(koretko->position + koretko->step) % MEM_SIZE];
 	if (arg == T_REG)
-	{
-		value = ass;
-	}
+		return (if_reg(cw, koretko));
 	else if (arg == T_DIR)
-	{
-
-	}
+		return (if_dir(cw, koretko, op_tab[koretko->op_code - 1].tdir_size));
 	else if (arg == T_IND)
-	{
-
-	}
-	return value;
+		return (if_indir(cw, koretko, arg));
+	else
+		return 0;
 }
 
 void	op_add(t_cw *cw, t_koretko *kor)
