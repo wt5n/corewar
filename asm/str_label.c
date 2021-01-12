@@ -8,6 +8,7 @@ t_label		*new_add_label(char *str)
 		return (NULL);
 	label->next = NULL;
 	label->name = ft_strdup(str);
+	label->op = NULL;
 	return (label);
 }
 
@@ -39,21 +40,23 @@ t_new_st_label		*new_st_add_label(char *str)
 		return (NULL);
 	label->lab = new_add_label(str);
 	label->next = NULL;
-	label->lab->op = NULL;
 	return (label);
 }
 
 t_new_st_label		*ft_st_add_label(t_new_st_label **label, char *str)
 {
-    t_new_st_label	*next;
 	t_new_st_label	*n_label;
+	t_new_st_label	*new_label;
+	t_new_st_label	*next;
 
+	new_label = *label;
+	next = *label;
 	if (!(n_label = new_st_add_label(str)))
 		return (NULL);
-	next = *label;
-	*label = n_label;
-	n_label->next = next;
-	return (n_label);
+	while (new_label->next)
+		new_label = new_label->next;
+	new_label->next = n_label;
+	return (next);
 }
 
 t_new_st_label     *add_st_label(char *str, t_new_st_label **label)

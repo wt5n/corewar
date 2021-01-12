@@ -77,8 +77,8 @@ void			init_asm(t_chempion *ch, t_new_st_label **label, t_op_strukt **op)
     ch->flag_label = 0;
     ch->smehenee = 0;
     (*op) = NULL;
-    (*label)->lab = NULL;
-    (*label)->next = NULL;
+    (*label) = NULL;
+    //(*label)->next = NULL;
     zap_registr(ch);
 }
 
@@ -89,7 +89,7 @@ int				    main(int argc, char *argv[])
     t_new_st_label  *label;
     t_op_strukt     *op;
 
-    label = (t_new_st_label*)malloc(sizeof(t_new_st_label));
+    //label = (t_new_st_label*)malloc(sizeof(t_new_st_label));
     if (argc == 2)
     {
 		if (file_argv(argv[1]) < 0 || (fd = open(argv[1], O_RDONLY)) < 0)
