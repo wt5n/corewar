@@ -2,6 +2,7 @@
 
 int     proverca(char c)
 {
+    //printf("c = %c\n", c);
     if (c == 'r')
         return (REG_CODE);
     else if (c == '%')
@@ -74,7 +75,7 @@ int        proverca_registr(char *srez, t_chempion *ch, int *i, t_new_st_label *
                     //printf("RRRRRR");
                     //k = proverca_instruction(srez2, ch, label);
                     //printf("ch->mestnoe = %d   ch->size = %d   k == %d\n", ch->mestnoe_smehenee, ch->mestnoe_size, k);
-                    if ((k = proverca_instruction(srez2, ch, label)) > 0 && ch->flag != -1)
+                    if ((k = proverca_instruction(srez2, ch, label)) >= 0 && ch->flag != -1)
                         {
                             //printf("&&& new_op->name %d", op_tab[new_op->name].size);
                             //printf("k = %d\n", k);
@@ -99,6 +100,34 @@ int        proverca_registr(char *srez, t_chempion *ch, int *i, t_new_st_label *
                                 ch->code[*i] = k & 255;  
                                // printf("code2 = %d\n", ch->code[i]);
                            } 
+                        }
+                    else if (k < 0 && ch->flag != -1)
+                        {
+                            if (op_tab[new_op->name].size == 0)
+                            {
+                            k = 65536 + k;
+                            tmp2 = k << 16;
+                            ch->code[*i] = k >> 8; 
+                            printf("         code[%d] = %d\n", *i, ch->code[*i]);
+                            (*i)++;
+                            ch->code[*i] = k & 255;
+                            printf("         code[%d] = %d\n", *i, ch->code[*i]);
+                            (*i)++;
+                            tmp2 = k;
+                            ch->code[*i] = k >> 8;
+                            printf("         code[%d] = %d\n", *i, ch->code[*i]);
+                            (*i)++;
+                            ch->code[*i] = k & 255;
+                            }
+                            else
+                            {
+                                k = 256 + k;
+                                tmp2 = k;
+                            ch->code[*i] = k >> 8; 
+                            printf("         code[%d] = %d\n", *i, ch->code[*i]);
+                            (*i)++;
+                            ch->code[*i] = k & 255; 
+                            }
                         }
                     if (ch->flag == -1)
                         return (-1);
@@ -138,15 +167,17 @@ int        proverca_registr(char *srez, t_chempion *ch, int *i, t_new_st_label *
     return (1);
 }
 
-int         op_reg(char *str1, t_chempion *ch, t_new_st_label *label, t_op_strukt *new_op, int *tu)
+char         op_reg(char *str1, t_chempion *ch, t_new_st_label *label, t_op_strukt *new_op, int *tu)
 { 
     int     n;
-    char    type;
+    unsigned char    type;
     int     tecyhee;
     char    *srez;
     char    *str;
+    int     kol;
 
     n = 0;
+    kol = 0;
     str = str1;
     type = 0;
     while (n >= 0)
@@ -164,13 +195,21 @@ int         op_reg(char *str1, t_chempion *ch, t_new_st_label *label, t_op_struk
     }
     else
         srez = cut_one(&str[tecyhee], '\0', 0);
+    kol += 1;
     type = ((type << 2) + (proverca(srez[0])));
+    //printf("type = %d\n", type);
     if ((proverca_registr(srez, ch, tu, label, new_op)) < 0)
         return (-1);
     printf("         code[%d] = %d\n", *tu, ch->code[*tu]);
     (*tu)++;
     } 
     type = type << 2;
+    //printf("type = %d kol = %d\n", type, kol);
+    if (kol == 1)
+        type = type << 4;
+    else if (kol == 2)
+        type = type << 2;
+     //printf("type = %d\n", type);
     return (type);
 }
 
@@ -197,8 +236,8 @@ void    pars_stroca(t_chempion *ch, t_op_strukt *op, t_op_strukt *last_op, int *
         //printf("op - %d type - %d\n", new_op->name, op_tab[new_op->name].code_type);
         if (op_tab[last_op->name].code_type == 1)
             { 
-                //printf("!!!");
                 tu = (*i) + 1;
+                //printf("!!!");
                 //printf("****** %d\n", tu);
                 ch->code[*i] = op_reg(str, ch, label, last_op, &tu);
                 printf("         code[%d] = %d\n", *i, ch->code[*i]);
@@ -206,7 +245,7 @@ void    pars_stroca(t_chempion *ch, t_op_strukt *op, t_op_strukt *last_op, int *
             }
         else
         {
-            tu = (*i) + 1;
+            tu = (*i);
             op_reg(str, ch, label, last_op, &tu);
         }
         
@@ -227,7 +266,8 @@ void    trace_byte_code(t_chempion *ch, t_new_st_label *label, t_op_strukt *op)
 
     op_new = op;
     i = 0;
-    ch->code = (char*)malloc(sizeof(char) * ch->smehenee);
+    //printf("sme = %d\n", ch->smehenee);
+    ch->code = (char*)malloc(sizeof(char) * ch->smehenee - 1);
     while (op_new)
     {
         printf("name %d:\n", op_new->name + 1);
