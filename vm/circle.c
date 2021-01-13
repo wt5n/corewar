@@ -92,7 +92,7 @@ void	read_byte(t_koretko *koretko, t_cw *cw)
 			printf("koretko->step += n;");
 //		printf("1 - %d 2 - %d 3 - %d\n", koretko->args[0], koretko->args[1], koretko->args[2]);
 
-		printf("---- %#x\n", if_dir(cw, cw->kors, 2));
+		printf("---- %#x\n", is_dir(cw, cw->kors, 2));
 		exit(1);
 
 		for (int v = 0; v < 22; v++ )

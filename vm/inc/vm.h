@@ -29,6 +29,7 @@ typedef struct	s_koretko
 	int 		args[3];
 	int 		op_code;
 	int			parent_id;
+	int 		ind_adrs;
 	struct s_koretko	*next;
 }				t_koretko;
 

@@ -4,13 +4,17 @@ int		get_adrs(t_koretko *koretko, int modif)
 {
 	int	adrs;
 
-	adrs = (koretko->position + koretko->step + modif) % MEM_SIZE;
+	if (koretko->ind_adrs > 0)
+		adrs = koretko->position + koretko->ind_adrs + modif;
+	else
+		adrs = koretko->position + koretko->step + modif;
+	adrs %= MEM_SIZE;
 	if (adrs < 0)
 		adrs += MEM_SIZE;
 	return (adrs);
 }
 
-int		if_reg(t_cw *cw, t_koretko *koretko)
+int		is_reg(t_cw *cw, t_koretko *koretko)
 {
 	int reg;
 
@@ -19,12 +23,12 @@ int		if_reg(t_cw *cw, t_koretko *koretko)
 	return (koretko->regs[reg - 1]);
 }
 
-int		if_dir(t_cw *cw, t_koretko *koretko, int n)
+int		is_dir(t_cw *cw, t_koretko *koretko, int n)
 {
 	int value;
 	int sign;
 	int i;
-	//00 07
+
 	i = 0;
 	value = 0;
 	sign = cw->map[get_adrs(koretko, 0)] & 128;
@@ -42,25 +46,39 @@ int		if_dir(t_cw *cw, t_koretko *koretko, int n)
 	return value;
 }
 
-int 	if_indir(t_cw *cw, t_koretko *koretko, int n)
+int 	is_indir(t_cw *cw, t_koretko *koretko, int n)
 {
 	int adrs;
 	int value;
 
-	adrs = if_dir(cw, koretko, T_IND);
+	adrs = is_dir(cw, koretko, T_IND);
+	if (koretko->op_code != 13)
+		adrs %= IDX_MOD;
+	koretko->ind_adrs = adrs;
+	value = is_dir(cw, koretko, n);
+	koretko->ind_adrs = 0;
 	return value;
 }
 
 int get_value(t_cw *cw, t_koretko *koretko, int arg)
 {
 	if (arg == T_REG)
-		return (if_reg(cw, koretko));
+		return (is_reg(cw, koretko));
 	else if (arg == T_DIR)
-		return (if_dir(cw, koretko, op_tab[koretko->op_code - 1].tdir_size));
+		return (is_dir(cw, koretko, op_tab[koretko->op_code - 1].tdir_size));
 	else if (arg == T_IND)
-		return (if_indir(cw, koretko, arg));
+		return (is_indir(cw, koretko, arg));
 	else
 		return 0;
+}
+
+void	op_lld(t_cw *cw, t_koretko *kor)
+{
+	int value;
+
+	kor->step += 2;
+	value = get_value(cw, kor, op_tab[kor->op_code - 1].tdir_size);
+	kor->regs[is_reg(cw, kor) - 1] = value;
 }
 
 void	op_add(t_cw *cw, t_koretko *kor)
