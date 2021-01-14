@@ -42,6 +42,7 @@ typedef struct				s_chempion
 	char					*name;
 	char					*comment;
 	char					*code;
+	int						size;
 	int						flag;
 	int						flag_label;
 	int						smehenee;

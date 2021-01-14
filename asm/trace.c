@@ -103,10 +103,11 @@ int        proverca_registr(char *srez, t_chempion *ch, int *i, t_new_st_label *
                         }
                     else if (k < 0 && ch->flag != -1)
                         {
+                            //printf("name2 = %d\n", new_op->name);
                             if (op_tab[new_op->name].size == 0)
                             {
                             k = 65536 + k;
-                            tmp2 = k << 16;
+                            tmp2 = (k << 16);
                             ch->code[*i] = k >> 8; 
                             printf("         code[%d] = %d\n", *i, ch->code[*i]);
                             (*i)++;
@@ -121,9 +122,12 @@ int        proverca_registr(char *srez, t_chempion *ch, int *i, t_new_st_label *
                             }
                             else
                             {
-                                k = 256 + k;
+                                k = 65536 + k;
+                                // printf("k = %d\n", k);
                                 tmp2 = k;
-                            ch->code[*i] = k >> 8; 
+                            ch->code[*i] = k >> 8;
+                            //if (tmp2 < 256)
+                             //   ch->code[*i] = (char)255;
                             printf("         code[%d] = %d\n", *i, ch->code[*i]);
                             (*i)++;
                             ch->code[*i] = k & 255; 
@@ -266,8 +270,8 @@ void    trace_byte_code(t_chempion *ch, t_new_st_label *label, t_op_strukt *op)
 
     op_new = op;
     i = 0;
-    //printf("sme = %d\n", ch->smehenee);
-    ch->code = (char*)malloc(sizeof(char) * ch->smehenee - 1);
+    printf("sme = %d\n", ch->smehenee);
+    ch->code = (char*)malloc(sizeof(char) * ch->smehenee);
     while (op_new)
     {
         printf("name %d:\n", op_new->name + 1);

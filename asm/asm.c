@@ -76,6 +76,7 @@ void			init_asm(t_chempion *ch, t_new_st_label **label, t_op_strukt **op)
 	ch->code = NULL;
     ch->flag_label = 0;
     ch->smehenee = 0;
+    ch->size = 0;
     (*op) = NULL;
     (*label) = NULL;
     //(*label)->next = NULL;
@@ -103,10 +104,54 @@ int				    main(int argc, char *argv[])
         return (-1);
     }
     trace_byte_code(&ch, label, op);
+    close(fd);
+    //int fd1 = creat("aF", 0644);
+    //char c = 'a';
+    int fd1 = open("aFile", O_CREAT | O_WRONLY, 0644);
+    char *magic;
+    magic = (char*)malloc(sizeof(char) * 4);
+    short m;
+    magic[0] = COREWAR_EXEC_MAGIC >> 24;
+    magic[1] = (char)((COREWAR_EXEC_MAGIC >> 16) & 255);
+    m = (short)COREWAR_EXEC_MAGIC;
+    magic[2] = m >> 8;
+    magic[3] = m & 255;
+    write(fd1, magic, 4);
+    free(magic);
+    ch.size += 4;
+    ch.size += PROG_NAME_LENGTH;
+    int len_name = ft_strlen(ch.name);
+    write(fd1, ch.name, len_name);
+    char *name;
+    name = (char*)malloc(sizeof(char) * (PROG_NAME_LENGTH-len_name));
+    int i = 0;
+    while (i < PROG_NAME_LENGTH-len_name)
+    {
+        name[i] = 0;
+        i++;
+    }
+     write(fd1, name, PROG_NAME_LENGTH-len_name);
+     free(name);
+     char *nullu;
+     nullu = (char*)malloc(sizeof(char) * 4);
+     nullu[0] = 0;
+     nullu[1] = 0;
+     nullu[2] = 0;
+     nullu[3] = 0;
+     write(fd1, nullu, 4);
+     printf("sm = %d\n", ch.smehenee);
+     nullu[0] = ch.smehenee >> 24;
+     nullu[1] = (ch.smehenee >> 16) & 255;
+     m = ch.smehenee;
+     nullu[2] = m >> 8;
+     nullu[3] = m & 255;
+      write(fd1, nullu, 4);
+    write(fd1, ch.code, ch.smehenee);
+
     //printf("%s\n", ch.name);
     //printf("%s\n", ch.comment);
     //print_struct(label);
     //print_op(op);
-    close(fd);
+    close(fd1);
     return (0);
 }
