@@ -1,8 +1,8 @@
 #include "asm.h"
 
-int         propysc_probel(char *str)
+int propysc_probel(char *str)
 {
-    int     i;
+    int i;
 
     i = 0;
     while (str && (str[i] == '\t' || str[i] == ' '))
@@ -12,21 +12,21 @@ int         propysc_probel(char *str)
     return (i);
 }
 
-int         number_pr(char *str)
+int number_pr(char *str)
 {
-    int     i;
+    int i;
 
     i = 0;
     while (str && str[i] != '\t' && str[i] != ' ')
         i++;
-     if (str[i] == '\0')
+    if (str[i] == '\0')
         return (3);
     return (i);
 }
 
-int         kol_sim_not(char *str, char c)
+int kol_sim_not(char *str, char c)
 {
-    int     i;
+    int i;
 
     i = 0;
     while (str && str[i] == c)
@@ -36,9 +36,9 @@ int         kol_sim_not(char *str, char c)
     return (i);
 }
 
-int         kol_sim(char *str, char c)
+int kol_sim(char *str, char c)
 {
-    int     i;
+    int i;
 
     i = 0;
     while (str && str[i] != '\0' && str[i] != c)
@@ -47,4 +47,3 @@ int         kol_sim(char *str, char c)
         return (-1);
     return (i);
 }
-

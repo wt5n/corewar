@@ -84,6 +84,7 @@ int         	pars_operation(char *line, t_chempion *ch, t_op_strukt **op, t_new_
 void			trace_byte_code(t_chempion *ch, t_new_st_label *label, t_op_strukt *op);
 int				propysc_probel(char *str);
 int				number_pr(char *str);
+int			write_code(char *name_file, t_chempion ch);
 
 t_op_strukt *operation_last(t_op_strukt **op);
 t_new_st_label *label_last(t_new_st_label **label);

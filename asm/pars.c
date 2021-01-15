@@ -78,7 +78,6 @@ int         pars_label(char *line, t_chempion *ch, t_new_st_label **label, int *
             ch->flag = 3;
             zap_struct_ascii(ch, srez, label);
             free(srez);
-            //printf("tecyhee = %d\n", tecyhee);
             *i = tecyhee;
         }
         else
