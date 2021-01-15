@@ -33,14 +33,20 @@ int         pars_one(char *line, t_chempion *ch, t_new_st_label **label, t_op_st
                pars_name(line, ch, label);
         }
         else 
-            if ((pars_label(line, ch, label)) < 0)
+            {
+                int i = 0;
+                if ((pars_label(line, ch, label, &i)) < 0)
                 return (-1);
+                pars_one(&(line[i]), ch, label, op);
+            }
     }
     else
         {
-            if (pars_operation(line, ch, op, label) < 0)
+            int k = 0;
+            if ((k =pars_operation(line, ch, op, label)) < 0)
                 return (-1);
-            ch->flag_label = 0;
+            if (k != 0 && k !=3)
+                ch->flag_label = 0;
             //label????
         }
     return (1);
@@ -139,19 +145,42 @@ int				    main(int argc, char *argv[])
      nullu[2] = 0;
      nullu[3] = 0;
      write(fd1, nullu, 4);
-     printf("sm = %d\n", ch.smehenee);
-     nullu[0] = ch.smehenee >> 24;
-     nullu[1] = (ch.smehenee >> 16) & 255;
+
+     //printf("sm = %d\n", ch.smehenee);
+     nullu[0] = (char)ch.smehenee >> 24;
+     nullu[1] = (char)((ch.smehenee >> 16) & 255);
      m = ch.smehenee;
+     //printf("m = %d\n", m);
      nullu[2] = m >> 8;
      nullu[3] = m & 255;
-      write(fd1, nullu, 4);
+     //printf("nullu0 = %d\n", nullu[0]);
+     //printf("nullu1 = %d\n", nullu[1]);
+     //printf("nullu2 = %d\n", nullu[2]);
+     //printf("nullu3 = %d\n", nullu[3]);
+    write(fd1, nullu, 4);
+    //printf("nullu3 = %d\n", nullu[3]);
+    int len_comment = ft_strlen(ch.comment);
+     write(fd1, ch.comment, len_comment);
+    char *comment;
+    comment = (char*)malloc(sizeof(char) * (COMMENT_LENGTH-len_comment));
+   i = 0;
+     while (i < COMMENT_LENGTH-len_comment)
+    {
+        comment[i] = 0;
+        i++;
+    }
+write(fd1, comment, COMMENT_LENGTH-len_comment);
+nullu[0] = 0;
+     nullu[1] = 0;
+     nullu[2] = 0;
+     nullu[3] = 0;
+     write(fd1, nullu, 4);
     write(fd1, ch.code, ch.smehenee);
 
     //printf("%s\n", ch.name);
     //printf("%s\n", ch.comment);
-    //print_struct(label);
-    //print_op(op);
+    print_struct(label);
+    print_op(op);
     close(fd1);
     return (0);
 }

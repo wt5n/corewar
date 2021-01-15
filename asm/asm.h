@@ -72,7 +72,7 @@ t_new_st_label	*add_st_label(char *str, t_new_st_label **label);
 void        	print_struct(t_new_st_label *label); //del
 void            print_op(t_op_strukt *op); //del
 int         	pars_name(char *line, t_chempion *ch, t_new_st_label **label);
-int         	pars_label(char *line, t_chempion *ch, t_new_st_label **label);
+int         	pars_label(char *line, t_chempion *ch, t_new_st_label **label, int *i);
 int         	proverca_label(char *str);
 void        	zap_struct_ascii(t_chempion *ch, char *str, t_new_st_label **label);
 char        	*cut_one(char *str, char c, int n);
@@ -82,6 +82,8 @@ void			zap_registr(t_chempion *ch);
 int         	operation_name(char *srez, t_op_strukt **op);
 int         	pars_operation(char *line, t_chempion *ch, t_op_strukt **op, t_new_st_label  **label);
 void			trace_byte_code(t_chempion *ch, t_new_st_label *label, t_op_strukt *op);
+int				propysc_probel(char *str);
+int				number_pr(char *str);
 
 t_op_strukt *operation_last(t_op_strukt **op);
 t_new_st_label *label_last(t_new_st_label **label);

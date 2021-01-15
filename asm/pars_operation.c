@@ -10,6 +10,7 @@ int         analiz_registr(char *srez, t_op_strukt **op)
         if ((k = ft_atoi(&srez[1])) > 0 && k < REG_NUMBER)
             {
                 (*op)->size += T_REG;
+                //printf("*\n");
                 //printf("str - %s   size - %d\n", (*op)->stroca, (*op)->size);
             }
         else
@@ -37,7 +38,7 @@ int         pars_register(char *str, t_op_strukt **op)//t_new_st_label **label,
 
     n = 0;
     (*op)->stroca = ft_strdup(str);
-    //printf("%s\n", (*op)->stroca);
+    //printf("op_str = %s\n", (*op)->stroca);
     while (n >= 0)
     {if ((tecyhee = kol_sim_not(str, ' ')) < 0)
         {
@@ -81,11 +82,17 @@ int         pars_operation(char *line, t_chempion *ch, t_op_strukt **op, t_new_s
     t_op_strukt *new_op;
     t_new_st_label  *new_label;
 
-    tecyhee = kol_sim_not(line, ' ');
-    if (tecyhee == -1)
-        return (2);
-    srez = cut_one(&line[tecyhee], ' ', 0);
-    tecyhee += (ft_strlen(srez) + 1);
+    if (propysc_probel(line) == 3)
+        return (3);
+    //printf("stroca = %s\n", line);
+    int propusc = propysc_probel(&line[0]);
+    //printf("propusc = %d\n", propusc);
+    int prob = number_pr(&line[propusc]);  
+    //printf("probelov = %d\n", prob);  
+    srez = cut_one(&line[propusc], line[propusc + prob], 0);
+    //printf("srez1_operation = %s\n", srez);
+    tecyhee = propusc + prob;
+    //printf("astalinoe = %s\n", &line[tecyhee + 1]);
     if (operation_name(srez, op) < 0)
         {
             free(srez);
@@ -96,7 +103,7 @@ int         pars_operation(char *line, t_chempion *ch, t_op_strukt **op, t_new_s
     free(srez);
     new_op = operation_last(op);
     new_label = label_last(label);
-    pars_register(&line[tecyhee], &new_op); //, label);
+    pars_register(&line[tecyhee + 1], &new_op); //, label);
     new_op->smechenee = ch->smehenee;
     ch->smehenee += new_op->size;
     new_label->smehenee = ch->smehenee;

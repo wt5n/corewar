@@ -65,7 +65,7 @@ int         proverca_label(char *str)
     return (1);
 }
 
-int         pars_label(char *line, t_chempion *ch, t_new_st_label **label)
+int         pars_label(char *line, t_chempion *ch, t_new_st_label **label, int *i)
 {
     char    *srez;
     int     tecyhee;
@@ -78,8 +78,10 @@ int         pars_label(char *line, t_chempion *ch, t_new_st_label **label)
             ch->flag = 3;
             zap_struct_ascii(ch, srez, label);
             free(srez);
+            //printf("tecyhee = %d\n", tecyhee);
+            *i = tecyhee;
         }
-        else 
+        else
             return (-1);
         return (1);
 }
