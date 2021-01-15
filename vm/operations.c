@@ -84,37 +84,24 @@ void	op_lld(t_cw *cw, t_koretko *kor)
 void	op_add(t_cw *cw, t_koretko *kor)
 {
 	int a;
-	int b;
-	int c;
 	int value;
+
 	kor->step += 2;
-	a = cw->map[kor->position + kor->step];
-	kor->step += kor->args[0];
-	b = cw->map[kor->position + kor->step];
-	kor->step += kor->args[1];
-	c = cw->map[kor->position + kor->step];
-	kor->step += kor->args[2];
-	value = kor->regs[a - 1] + kor->regs[b - 1];
-	kor->regs[c - 1] = value;
+	value = is_reg(cw, kor) + is_reg(cw, kor);
+	a = cw->map[get_adrs(kor, 0)];
+	kor->regs[a - 1] = value;
 	kor->carry = value == 0 ? 1 : 0;
 }
 
 void	op_sub(t_cw *cw, t_koretko *kor)
 {
 	int a;
-	int b;
-	int c;
 	int value;
 
 	kor->step += 2;
-	a = cw->map[kor->position + kor->step];
-	kor->step += kor->args[0];
-	b = cw->map[kor->position + kor->step];
-	kor->step += kor->args[1];
-	c = cw->map[kor->position + kor->step];
-	kor->step += kor->args[2];
-	value = kor->regs[a - 1] - kor->regs[b - 1];
-	kor->regs[c - 1] = value;
+	value = is_reg(cw, kor) - is_reg(cw, kor);
+	a = cw->map[get_adrs(kor, 0)];
+	kor->regs[a - 1] = value;
 	kor->carry = value == 0 ? 1 : 0;
 }
 
@@ -123,24 +110,58 @@ void 	op_aff(t_cw *cw, t_koretko *kor)
 	int a;
 
 	kor->step += 2;
-	a = cw->map[kor->position + kor->step];
+	a = cw->map[get_adrs(kor, 0)];
 	kor->step++;
 	ft_printf("%c", kor->regs[a - 1]);
 }
 
 void	op_fork(t_cw *cw, t_koretko *kor)
 {
-	t_koretko	*n_koretrko;
+	t_koretko	*koretko;
+	int 	adrs;
 	int			i;
 
+	kor->step += 2;
 	i = -1;
-//	pos = get_value();
-//	n_koretrko = create_koretko(cw->num_of_koretko + 1, pos % IDX_MOD);
-	while (++i < REG_NUMBER)
-		n_koretrko->regs[i] = kor->regs[i];
-	n_koretrko->carry = kor->carry;
-	n_koretrko->last_alive = kor->last_alive;
-//	chain_kor(&cw->kors, n_koretrko);
+	adrs = get_value(cw, kor, kor->args[0]);
+	koretko = create_koretko(cw->num_of_koretko++, kor->position + (adrs % IDX_MOD));
+	while (i++ < REG_NUMBER)
+		koretko->regs[i] = kor->regs[i];
+	koretko->carry = kor->carry;
+	koretko->last_alive = kor->last_alive;
+	chain_kor(&cw->kors, koretko);
+}
+
+void	op_lfork(t_cw *cw, t_koretko *kor)
+{
+	t_koretko	*koretko;
+	int 	adrs;
+	int			i;
+
+	kor->step += 2;
+	i = -1;
+	adrs = get_value(cw, kor, kor->args[0]);
+	koretko = create_koretko(cw->num_of_koretko++, kor->position + adrs);
+	while (i++ < REG_NUMBER)
+		koretko->regs[i] = kor->regs[i];
+	koretko->carry = kor->carry;
+	koretko->last_alive = kor->last_alive;
+	chain_kor(&cw->kors, koretko);
+}
+
+void	op_zjmp(t_cw *cw, t_koretko *kor)
+{
+	int	adrs;
+
+	kor->step++;
+	adrs = get_value(cw, kor, kor->args[0]);
+	if (kor->carry)
+	{
+		adrs %= IDX_MOD;
+		kor->ind_adrs = adrs;
+		kor->position = get_adrs(kor, 0);
+		kor->step = 0;
+	}
 }
 
 void 	op_and(t_cw *cw, t_koretko *kor)
@@ -150,10 +171,10 @@ void 	op_and(t_cw *cw, t_koretko *kor)
 	int reg;
 	int value;
 
+	kor->step += 2;
 	a = get_value(cw, kor, kor->args[0]);
 	b = get_value(cw, kor, kor->args[1]);
-	reg = get_value(cw, kor, kor->args[2]);
-	kor->step += 5;
+	reg = get_adrs(kor, 0);
 	value = a & b;
 	kor->regs[reg - 1] = value;
 	kor->carry = value == 0 ? 1 : 0;
@@ -166,10 +187,10 @@ void 	op_or(t_cw *cw, t_koretko *kor)
 	int reg;
 	int value;
 
-//	a = get_value(cw, kor, get_arg_type(cw, kor->position));
-//	b = get_value(cw, kor, get_arg_type(cw, kor->position));
-//	reg = get_value(cw, kor, get_arg_type(cw, kor->position));
-	kor->step += 5;
+	kor->step += 2;
+	a = get_value(cw, kor, kor->args[0]);
+	b = get_value(cw, kor, kor->args[1]);
+	reg = get_adrs(kor, 0);
 	value = a | b;
 	kor->regs[reg - 1] = value;
 	kor->carry = value == 0 ? 1 : 0;
@@ -182,10 +203,10 @@ void 	op_xor(t_cw *cw, t_koretko *kor)
 	int reg;
 	int value;
 
-//	a = get_value(cw, kor, get_arg_type(cw, kor->position));
-//	b = get_value(cw, kor, get_arg_type(cw, kor->position));
-//	reg = get_value(cw, kor, get_arg_type(cw, kor->position));
-	kor->step += 5;
+	kor->step += 2;
+	a = get_value(cw, kor, kor->args[0]);
+	b = get_value(cw, kor, kor->args[1]);
+	reg = get_adrs(kor, 0);
 	value = a ^ b;
 	kor->regs[reg - 1] = value;
 	kor->carry = value == 0 ? 1 : 0;
@@ -196,13 +217,75 @@ void 	op_st(t_cw *cw, t_koretko *kor)
 	int reg;
 	int second_arg;
 
+	kor->step += 2;
+	reg = is_reg(cw, kor);
+	if (kor->args[1] == T_REG)
+	{
+		second_arg = get_adrs(kor, 0);
+		kor->regs[second_arg - 1] = reg;
+	}
+	else
+	{
+		second_arg = is_indir(cw, kor, T_IND);
+		second_arg %= IDX_MOD;
+	}
 //	reg = get_value(cw, kor, get_arg_type(cw, kor->position));
 //
 }
 
-//void	op_live(t_koretko *kor, int arg)
-//{
-//
-//	if (arg == )
-//}second_arg =
-////	if (kor-)
+void	op_ld(t_cw *cw, t_koretko *kor)
+{
+	int value;
+	int reg;
+
+	kor->step += 2;
+	value = get_value(cw, kor, kor->args[0]);
+	kor->carry = value == 0 ? 1 : 0;
+	reg = get_adrs(kor, 0);
+	kor->regs[reg - 1] = value;
+	kor->step++;
+}
+
+void	op_ldi(t_cw *cw, t_koretko *kor)
+{
+	int first_arg;
+	int second_arg;
+	int reg;
+
+	kor->step += 2;
+	first_arg = get_value(cw, kor, kor->args[0]);
+	second_arg = get_value(cw, kor, kor->args[1]);
+	reg = get_adrs(kor, 0);
+	kor->ind_adrs = (first_arg + second_arg) % IDX_MOD;
+	kor->regs[reg - 1] = get_value(cw, kor, T_DIR);
+}
+
+void	op_lldi(t_cw *cw, t_koretko *kor)
+{
+	int first_arg;
+	int second_arg;
+	int reg;
+
+	first_arg = get_value(cw, kor, kor->args[0]);
+	second_arg = get_value(cw, kor, kor->args[1]);
+	reg = get_adrs(kor, 0);
+	kor->ind_adrs = first_arg + second_arg;
+	kor->regs[reg - 1] = get_value(cw, kor, T_DIR);
+}
+
+void	op_live(t_cw *cw, t_koretko *kor)
+{
+	int player;
+	t_champ *champ;
+
+	player = get_value(cw, kor, kor->args[0]);
+	cw->num_of_lives++;
+	kor->num_live_circle = cw->cycles;
+	if (player <= -1 && player >= -cw->num_of_champ)
+	{
+		champ = cw->champs[mod_n(player) - 1];
+		champ->live_cycle = cw->cycles;
+		champ->lives_num++;
+		cw->last_player = player;
+	}
+}
