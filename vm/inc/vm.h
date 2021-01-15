@@ -52,12 +52,41 @@ typedef struct		s_cw
 
 void 	ft_swap_two_let(char *str);
 void	ft_print_memory(const void *addr, size_t size);
-void 	circle(t_cw *cw);
-int		is_reg(t_cw *cw, t_koretko *koretko);
-int		get_adrs(t_koretko *koretko, int modif);
-int		is_dir(t_cw *cw, t_koretko *koretko, int n);
+void 	cycle(t_cw *cw);
 t_koretko	*create_koretko(int id, int position);
 void	chain_kor(t_koretko **kors, t_koretko *kor);
+
+// args
+int			get_adrs(t_koretko *koretko, int modif);
+int			is_reg(t_cw *cw, t_koretko *koretko);
+int			is_dir(t_cw *cw, t_koretko *koretko, int n);
+int 		is_indir(t_cw *cw, t_koretko *koretko, int n);
+int			get_value(t_cw *cw, t_koretko *koretko, int arg);
+
+// operations
+void		op_live(t_cw *cw, t_koretko *kor);
+void		op_ld(t_cw *cw, t_koretko *kor);
+void		op_st(t_cw *cw, t_koretko *kor);
+void		op_add(t_cw *cw, t_koretko *kor);
+void		op_sub(t_cw *cw, t_koretko *kor);
+void		op_and(t_cw *cw, t_koretko *kor);
+void		op_or(t_cw *cw, t_koretko *kor);
+void		op_xor(t_cw *cw, t_koretko *kor);
+void		op_zjmp(t_cw *cw, t_koretko *kor);
+void		op_ldi(t_cw *cw, t_koretko *kor);
+void		op_sti(t_cw *cw, t_koretko *kor);
+void		op_fork(t_cw *cw, t_koretko *kor);
+void		op_lld(t_cw *cw, t_koretko *kor);
+void		op_lldi(t_cw *cw, t_koretko *kor);
+void		op_lfork(t_cw *cw, t_koretko *kor);
+void		op_aff(t_cw *cw, t_koretko *kor);
+
+// parse
+void		read_magic_number(char *argv, int fd);
+void		read_champ_name(int fd, t_champ *champ);
+void		read_champ_code_size(int fd, t_champ *champ);
+void		read_champ_comm(int fd, t_champ *champ);
+void		read_champ_code(int fd, t_champ *champ);
 
 #endif
 

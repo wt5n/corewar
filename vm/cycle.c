@@ -167,7 +167,7 @@ void	check_cycles(t_cw *cw)
 	cw->cycles_to_check = 0;
 }
 
-void circle(t_cw *cw)
+void cycle(t_cw *cw)
 {
 	int i;
 
