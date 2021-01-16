@@ -31,18 +31,6 @@ void	delete_koretko(int id, t_koretko **kors)
 	free(current);
 }
 
-
-t_koretko	*create_koretko(int id)
-{
-	t_koretko *kor;
-
-	if (!(kor = (t_koretko*)ft_memalloc(sizeof(t_koretko))))
-		return NULL;
-	kor->next = NULL;
-	kor->id = id;
-	return kor;
-}
-
 int		ft_pow(int a, int pow)
 {
 	int res;
@@ -57,11 +45,23 @@ int		ft_pow(int a, int pow)
 	return (res);
 }
 
-int main()
+int main(int ac, char **av)
 {
-	int x = -2;
+	char *arr[5];
+	
+	for (int i = 0; i < 5; i++)
+		arr[i] = 0;
 
-	printf("%d", ~x);
+	for (int i = 0; i < 5; i++)
+	{
+		arr[i] = av[i];
+		if (ft_strcmp(av[i], "-n") == 0)
+
+	}
+
+	for (int i = 0; i < 5; i++)
+		printf("%s\n", av[i]);
+
 
 //	printf("%d\n", x);
 //	t_koretko *k1;

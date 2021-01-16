@@ -1,6 +1,5 @@
 #include "inc/vm.h"
 
-
 t_koretko	*create_koretko(int id, int position)
 {
 	t_koretko *kor;
@@ -104,8 +103,6 @@ void	read_byte(t_koretko *koretko, t_cw *cw)
 		koretko->step += 1;
 }
 
-
-
 void	make_op(t_cw *cw)
 {
 	t_koretko *cur;
@@ -167,7 +164,7 @@ void	check_cycles(t_cw *cw)
 	cw->cycles_to_check = 0;
 }
 
-void cycle(t_cw *cw)
+void	cycle(t_cw *cw)
 {
 	int i;
 

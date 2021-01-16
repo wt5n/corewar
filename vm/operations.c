@@ -159,6 +159,25 @@ void 	op_st(t_cw *cw, t_koretko *kor)
 	}
 }
 
+void 	op_sti(t_cw *cw, t_koretko *kor)
+{
+	int reg;
+	int second_arg;
+
+	kor->step += 2;
+	reg = is_reg(cw, kor);
+	if (kor->args[1] == T_REG)
+	{
+		second_arg = get_adrs(kor, 0);
+		kor->regs[second_arg - 1] = reg;
+	}
+	else
+	{
+		second_arg = is_indir(cw, kor, T_IND);
+		second_arg %= IDX_MOD;
+	}
+}
+
 void	op_ld(t_cw *cw, t_koretko *kor)
 {
 	int value;

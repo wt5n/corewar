@@ -11,7 +11,6 @@ void	read_magic_number(char *argv, int fd)
 	vv2 = ft_strndup(vv2, 6);
 	char *vv3 = ft_strrev(vv2);
 	ft_swap_two_let(vv3);
-//	printf("%s\n", vv3);
 }
 
 void	read_champ_name(int fd, t_champ *champ)
