@@ -5,7 +5,7 @@ int		get_adrs(t_koretko *koretko, int modif)
 	int	adrs;
 
 	if (koretko->ind_adrs > 0)
-		adrs = koretko->position + koretko->ind_adrs + modif;
+		adrs = koretko->position + koretko->ind_adrs;
 	else
 		adrs = koretko->position + koretko->step + modif;
 	adrs %= MEM_SIZE;
@@ -32,7 +32,8 @@ int		is_dir(t_cw *cw, t_koretko *koretko, int n)
 	i = 0;
 	value = 0;
 	sign = cw->map[get_adrs(koretko, 0)] & 128;
-	koretko->step += n;
+	if (koretko->ind_adrs == 0)
+		koretko->step += n;
 	while (n)
 	{
 		if (sign)
@@ -46,16 +47,26 @@ int		is_dir(t_cw *cw, t_koretko *koretko, int n)
 	return (value);
 }
 
-int		is_indir(t_cw *cw, t_koretko *koretko, int n)
+//void	write_value(t_cw *cw, int adrs, int value, int size)
+//{
+//
+//	value = ft_atoi_base(ft_itoa(value), 2);
+//	while (size--)
+//	{
+//		cw->map[adrs] = value
+//	}
+//}
+
+int		is_indir(t_cw *cw, t_koretko *koretko)
 {
 	int	adrs;
 	int	value;
 
-	adrs = is_dir(cw, koretko, T_IND);
+	adrs = is_dir(cw, koretko, IND_SIZE);
 	if (koretko->op_code != 13)
 		adrs %= IDX_MOD;
 	koretko->ind_adrs = adrs;
-	value = is_dir(cw, koretko, n);
+	value = is_dir(cw, koretko, op_tab[koretko->op_code - 1].tdir_size); //sprosit Tanyu
 	koretko->ind_adrs = 0;
 	return (value);
 }
@@ -67,7 +78,7 @@ int		get_value(t_cw *cw, t_koretko *koretko, int arg)
 	else if (arg == T_DIR)
 		return (is_dir(cw, koretko, op_tab[koretko->op_code - 1].tdir_size));
 	else if (arg == T_IND)
-		return (is_indir(cw, koretko, arg));
+		return (is_indir(cw, koretko));
 	else
 		return (0);
 }

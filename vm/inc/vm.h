@@ -38,7 +38,7 @@ typedef struct			s_koretko
 typedef struct			s_cw
 {
 	t_champ				**champs;
-	unsigned char		*map;
+	unsigned char	 	map[MEM_SIZE];
 	int					num_of_champ;
 	int					num_of_koretko;
 	int					cycles;
@@ -60,7 +60,7 @@ void					chain_kor(t_koretko **kors, t_koretko *kor);
 int			get_adrs(t_koretko *koretko, int modif);
 int			is_reg(t_cw *cw, t_koretko *koretko);
 int			is_dir(t_cw *cw, t_koretko *koretko, int n);
-int 		is_indir(t_cw *cw, t_koretko *koretko, int n);
+int 		is_indir(t_cw *cw, t_koretko *koretko);
 int			get_value(t_cw *cw, t_koretko *koretko, int arg);
 
 // operations

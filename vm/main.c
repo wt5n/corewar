@@ -50,7 +50,7 @@ int	main(int argc, char **argv)
 		create_champ(cw, i);
 	i = -1;
 
-	cw->map = (unsigned char*)ft_memalloc(sizeof(char) * 4097);
+//	cw->map = (unsigned char*)ft_memalloc(sizeof(char) * 4097);
 	cw->kors = (t_koretko*)ft_memalloc(sizeof(t_koretko));
 	while (++i < 4096)
 		cw->map[i] = 0;
