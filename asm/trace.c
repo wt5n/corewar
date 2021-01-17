@@ -107,9 +107,39 @@ int        proverca_registr(char *srez, t_chempion *ch, int *i, t_new_st_label *
                 }
                 else
                 {
-                    if  ((k = ft_atoi(&srez[1])) < 0)
-                        k = 65536 + k;
-                        if (op_tab[new_op->name].size == 1)
+                    k = 0;
+                     long k2;
+                    if (op_tab[new_op->name].size == 0)
+                     {
+                            k2 = ft_latoi(&srez[1]);
+                        if (k2 < 0)
+                            k2 = 4294967296 + k2;
+                            printf("k = %d\n", k);
+                            tmp2 = k2 >> 16;
+                            //printf("%d\n", tmp2);
+                            ch->code[*i] = tmp2 >> 8; 
+                           // printf("         code[%d] = %d\n", *i, ch->code[*i]);
+                            (*i)++;
+                            ch->code[*i] = tmp2 & 255;
+                           // printf("         code[%d] = %d\n", *i, ch->code[*i]);
+                            (*i)++;
+                            tmp2 = k2;
+                            ch->code[*i] = tmp2 >> 8;
+                            //printf("         code[%d] = %d\n", *i, ch->code[*i]);
+                            (*i)++;
+                            ch->code[*i] = tmp2 & 255;
+                     }
+                    if  ((k = ft_atoi(&srez[1])) < 0 && op_tab[new_op->name].size == 1)
+                        {
+                            k = 65536 + k;
+                         printf("k1 = %d\n", k);
+                         }
+                    //if  ((k = ft_atoi(&srez[1])) < 0 && op_tab[new_op->name].size == 0)
+                      //{ 
+                        //  k = 2147483648 + k;    
+                         //printf("k2 = %d\n", k);}
+
+                    if (op_tab[new_op->name].size == 1)
                         {
                             tmp2 = k;
                             ch->code[*i] = tmp2 >> 8; 
@@ -117,9 +147,11 @@ int        proverca_registr(char *srez, t_chempion *ch, int *i, t_new_st_label *
                             (*i)++;
                             ch->code[*i] = tmp2 & 255; 
                         }
-                        else
+                       /* else
                         {
-                            tmp2 = k << 16;
+                            printf("k = %d\n", k);
+                            tmp2 = k >> 16;
+                            //printf("%d\n", tmp2);
                             ch->code[*i] = tmp2 >> 8; 
                            // printf("         code[%d] = %d\n", *i, ch->code[*i]);
                             (*i)++;
@@ -131,7 +163,7 @@ int        proverca_registr(char *srez, t_chempion *ch, int *i, t_new_st_label *
                             //printf("         code[%d] = %d\n", *i, ch->code[*i]);
                             (*i)++;
                             ch->code[*i] = tmp2 & 255;
-                        }
+                        }*/
                 }
             }     
     return (1);

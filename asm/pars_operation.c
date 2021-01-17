@@ -57,6 +57,7 @@ int         pars_register(char *str, t_op_strukt **op)//t_new_st_label **label,
         str = str + tecyhee;
     }else
         srez = cut_one(&str[tecyhee], '\0', 0);
+    //printf("sr = %s\n", srez);
     if (analiz_registr(srez, op) < 0)
         return (-1);
        // printf("%s - %d\n", srez, (*op)->size);
@@ -89,7 +90,7 @@ int         pars_operation(char *line, t_chempion *ch, t_op_strukt **op, t_new_s
 
     if (propysc_probel(line) == 3)
         return (3);
-    //printf("stroca = %s\n", line);
+    printf("stroca = %s\n", line);
     int propusc = propysc_probel(&line[0]);
     //printf("propusc = %d\n", propusc);
     int prob = number_pr(&line[propusc]);  
@@ -107,10 +108,13 @@ int         pars_operation(char *line, t_chempion *ch, t_op_strukt **op, t_new_s
         zap_label(label, operation_last(op));
     free(srez);
     new_op = operation_last(op);
-    new_label = label_last(label);
     pars_register(&line[tecyhee + 1], &new_op); //, label);
     new_op->smechenee = ch->smehenee;
     ch->smehenee += new_op->size;
-    new_label->smehenee = ch->smehenee;
+    if (ch->flag_label == 1)
+        {
+            new_label = label_last(label);
+            new_label->smehenee = ch->smehenee;
+        }
     return (1);
 }
