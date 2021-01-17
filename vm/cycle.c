@@ -62,9 +62,42 @@ int		is_correct_args(int i, int *ar, t_cw *cw, t_koretko *koretko)
 
 void	exec_op(t_cw *cw, t_koretko *koretko)
 {
+	koretko->op_code == 1 ? op_live(cw, koretko) : 0;
+	koretko->op_code == 2 ? op_ld(cw, koretko) : 0;
+	koretko->op_code == 3 ? op_st(cw, koretko) : 0;
+	koretko->op_code == 4 ? op_add(cw, koretko) : 0;
+	koretko->op_code == 5 ? op_sub(cw, koretko) : 0;
+	koretko->op_code == 6 ? op_end(cw, koretko) : 0;
+	koretko->op_code == 7 ? op_or(cw, koretko) : 0;
+	koretko->op_code == 8 ? op_xor(cw, koretko) : 0;
+	koretko->op_code == 9 ? op_zjmp(cw, koretko) : 0;
+	koretko->op_code == 10 ? op_ldi(cw, koretko) : 0;
+	koretko->op_code == 11 ? op_sti(cw, koretko) : 0;
+	koretko->op_code == 12 ? op_fork(cw, koretko) : 0;
+	koretko->op_code == 13 ? op_lld(cw, koretko) : 0;
+	koretko->op_code == 14 ? op_lldi(cw, koretko) : 0;
+	koretko->op_code == 15 ? op_lfork(cw, koretko) : 0;
+	koretko->op_code == 16 ? op_aff(cw, koretko) : 0;
+	koretko->position = get_adrs(koretko, 0);
+	koretko->step = 0;
+}
 
+void wrong_args(t_koretko *kor)
+{
+	int	i;
 
-//	koretko->step += n;
+	i = -1;
+	while (++i < 3)
+	{
+		if (kor->args[i] == T_REG)
+			kor->step++;
+		else if (kor->args[i] == T_DIR)
+			kor->step += op_tab[kor->op_code - 1].tdir_size;
+		else
+			kor->step += 2;
+	}
+	kor->position = get_adrs(kor, 0);
+	kor->step = 0;
 }
 
 void	read_byte(t_koretko *koretko, t_cw *cw)
@@ -83,24 +116,13 @@ void	read_byte(t_koretko *koretko, t_cw *cw)
 			koretko->args[i] = (cw->map[koretko->position + 1] & (3 * ft_pow(2, j))) >> j;
 			j -= 2;
 		}
-		if (koretko->args[2] & T_DIR)
-			printf("true\n");
 		if (is_correct_args(i, koretko->args, cw, koretko))
 			exec_op(cw, koretko);
 		else
-			printf("koretko->step += n;");
-//		printf("1 - %d 2 - %d 3 - %d\n", koretko->args[0], koretko->args[1], koretko->args[2]);
-
-		printf("---- %#x\n", is_dir(cw, cw->kors, 2));
-		exit(1);
-
-		for (int v = 0; v < 22; v++ )
-			printf("%#x ", cw->map[v]);
-		printf("\n");
-		exit(1);
+			wrong_args(koretko);
 	}
 	else
-		koretko->step += 1;
+		koretko->position = get_adrs(koretko, 1);
 }
 
 void	make_op(t_cw *cw)
