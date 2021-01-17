@@ -84,5 +84,6 @@ void	ft_putnbr_fd(int n, int fd);
 void	ft_putnbr_fd(int n, int fd);
 void	ft_lstdelone(t_list **alst, void (*del)(void *, size_t));
 char	*ft_itoa_base(unsigned long long int input, int base, int height);
+long	ft_latoi(char *str);
 
 #endif

@@ -20,12 +20,20 @@ int		pars_one(char *line, t_chempion *ch, t_new_st_label **label, \
 		else
 		{
 			if ((pars_label(line, ch, label, &i)) < 0)
-				return (-1);
-			pars_one(&(line[i]), ch, label, op);
+				{
+					k = 0;
+        			if ((k = pars_operation(line, ch, op, label)) < 0)
+            			return (-1);
+        			if (k != 0 && k != 3)
+            			ch->flag_label = 0;
+				}
+			else
+				pars_one(&(line[i]), ch, label, op);
 		}
 	}
 	else
 	{
+		//printf("$ %s\n", line);
 		k = 0;
         if ((k = pars_operation(line, ch, op, label)) < 0)
             return (-1);
