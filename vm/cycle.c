@@ -41,21 +41,21 @@ void	place_pl_and_kors(t_cw *cw)
 
 int		is_correct_args(int i, int *ar, t_cw *cw, t_koretko *koretko)
 {
-	int x = 0;
+	int step;
 
+	step = 2;
 	while (--i)
 	{
 		if (!(ar[i] & op_tab[koretko->op_code - 1].args[i]) ||
-			(ar[i] == T_REG && (cw->map[koretko->position + 2 + x] < 1 ||
-			(cw->map[koretko->position + 2 + x] > 16))))
-		{
-
+			(ar[i] == T_REG && (cw->map[get_adrs(koretko, step)] < 1 ||
+			(cw->map[get_adrs(koretko, step)] > 16))))
 			return (0);
-		}
-
-		printf("%d\n", cw->map[koretko->position + 2 + x]);
-		x += ar[i];
-
+		if (koretko->args[i] == T_REG)
+			step++;
+		else if (koretko->args[i] == T_DIR)
+			step += op_tab[koretko->op_code - 1].tdir_size;
+		else
+			step += 2;
 	}
 	return (1);
 }
@@ -67,7 +67,7 @@ void	exec_op(t_cw *cw, t_koretko *koretko)
 	koretko->op_code == 3 ? op_st(cw, koretko) : 0;
 	koretko->op_code == 4 ? op_add(cw, koretko) : 0;
 	koretko->op_code == 5 ? op_sub(cw, koretko) : 0;
-	koretko->op_code == 6 ? op_end(cw, koretko) : 0;
+	koretko->op_code == 6 ? op_and(cw, koretko) : 0;
 	koretko->op_code == 7 ? op_or(cw, koretko) : 0;
 	koretko->op_code == 8 ? op_xor(cw, koretko) : 0;
 	koretko->op_code == 9 ? op_zjmp(cw, koretko) : 0;
@@ -207,5 +207,11 @@ void	cycle(t_cw *cw)
 		if (cw->cycles_to_die == cw->cycles_to_check
 			|| cw->cycles_to_die <= 0)
 			check_cycles(cw);
+		if (cw->cycles == 5000)
+		{
+			ft_print_memory(cw->map, 4096);
+			exit(1);
+		}
 	}
+	ft_printf("Graz! %d is winner!", cw->last_player);
 }
