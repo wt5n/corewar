@@ -23,7 +23,7 @@ typedef struct			s_koretko
 	int					id;
 	int					carry;
 	int					position;
-	int					num_live_circle;
+	int					num_live_cycle;
 	int					last_alive;
 	int					delay;
 	int					step;

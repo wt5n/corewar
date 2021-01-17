@@ -1,5 +1,17 @@
 #include "inc/vm.h"
 
+void	write_value(t_cw *cw, int adrs, int value, int size)
+{
+	int	i;
+
+	i = 0;
+	while (--size >= 0)
+	{
+		cw->map[(adrs + size) % 4096] = value >> i * 8 & 255;
+		i++;
+	}
+}
+
 int		get_adrs(t_koretko *koretko, int modif)
 {
 	int	adrs;
@@ -45,18 +57,6 @@ int		is_dir(t_cw *cw, t_koretko *koretko, int n)
 	if (sign)
 		value = ~value;
 	return (value);
-}
-
-void	write_value(t_cw *cw, int adrs, int value, int size)
-{
-	int	i;
-
-	i = 0;
-	while (--size >= 0)
-	{
-		cw->map[(adrs + size) % 4096] = value >> i * 8 & 255;
-		i++;
-	}
 }
 
 int		is_indir(t_cw *cw, t_koretko *koretko)
