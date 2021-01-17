@@ -11,7 +11,8 @@ SRC = 	asm.c \
 		pars_operation.c \
 		op.c \
 		trace.c \
-		write_code.c
+		write_code.c \
+		pars_one.c
 LIB_FT = ./libft/libft.a 
 OBJ = $(patsubst %.c, %.o, $(SRC))
 CFLAGS = -Wall -Werror -Wextra $(INCLUDES)

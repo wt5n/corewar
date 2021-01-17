@@ -66,8 +66,10 @@ int write_code2(int fd1, t_chempion ch)
 	nullu[2] = 0;
 	nullu[3] = 0;
 	write(fd1, nullu, 4);
-	nullu[0] = (char)ch.smehenee >> 24;
-	nullu[1] = (char)((ch.smehenee >> 16) & 255);
+	free(nullu);
+	m = ch.smehenee >> 16;
+	nullu[0] = m >> 8;
+	nullu[1] = m & 255;
 	m = ch.smehenee;
 	nullu[2] = m >> 8;
 	nullu[3] = m & 255;

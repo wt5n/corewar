@@ -35,8 +35,13 @@ int         pars_register(char *str, t_op_strukt **op)//t_new_st_label **label,
     int     tecyhee;
     char    *srez;
     int     n;
+    int     number;
 
     n = 0;
+    //printf("stroc = %s\n", str);
+    if ((number = kol_sim(str, '#')) != -1)
+        str[number] = '\0';
+    //printf("num = %d\n", number);
     (*op)->stroca = ft_strdup(str);
     //printf("op_str = %s\n", (*op)->stroca);
     while (n >= 0)
@@ -54,7 +59,7 @@ int         pars_register(char *str, t_op_strukt **op)//t_new_st_label **label,
         srez = cut_one(&str[tecyhee], '\0', 0);
     if (analiz_registr(srez, op) < 0)
         return (-1);
-        //printf("%s - %d\n", srez, (*op)->size);
+       // printf("%s - %d\n", srez, (*op)->size);
     } 
     return (1);
 }
@@ -92,7 +97,7 @@ int         pars_operation(char *line, t_chempion *ch, t_op_strukt **op, t_new_s
     srez = cut_one(&line[propusc], line[propusc + prob], 0);
     //printf("srez1_operation = %s\n", srez);
     tecyhee = propusc + prob;
-    //printf("astalinoe = %s\n", &line[tecyhee + 1]);
+    //printf("ostalinoe = %s\n", &line[tecyhee + 1]);
     if (operation_name(srez, op) < 0)
         {
             free(srez);

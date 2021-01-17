@@ -76,30 +76,29 @@ int        proverca_registr(char *srez, t_chempion *ch, int *i, t_new_st_label *
                         }
                     else if (k < 0 && ch->flag != -1)
                         {
+                            k = 65536 + k;
                             if (op_tab[new_op->name].size == 0)
                             {
-                            k = 65536 + k;
                             tmp2 = (k << 16);
-                            ch->code[*i] = k >> 8; 
+                            ch->code[*i] = tmp2 >> 8; 
                             //printf("         code[%d] = %d\n", *i, ch->code[*i]);
                             (*i)++;
-                            ch->code[*i] = k & 255;
+                            ch->code[*i] = tmp2 & 255;
                             //printf("         code[%d] = %d\n", *i, ch->code[*i]);
                             (*i)++;
                             tmp2 = k;
-                            ch->code[*i] = k >> 8;
+                            ch->code[*i] = tmp2 >> 8;
                            // printf("         code[%d] = %d\n", *i, ch->code[*i]);
                             (*i)++;
-                            ch->code[*i] = k & 255;
+                            ch->code[*i] = tmp2 & 255;
                             }
                             else
                             {
-                                k = 65536 + k;
                                 tmp2 = k;
-                            ch->code[*i] = k >> 8;
+                            ch->code[*i] = tmp2 >> 8;
                            // printf("         code[%d] = %d\n", *i, ch->code[*i]);
                             (*i)++;
-                            ch->code[*i] = k & 255; 
+                            ch->code[*i] = tmp2 & 255; 
                             }
                         }
                     if (ch->flag == -1)
@@ -108,33 +107,31 @@ int        proverca_registr(char *srez, t_chempion *ch, int *i, t_new_st_label *
                 }
                 else
                 {
-                    if  ((k = ft_atoi(&srez[1])) >= 0)
-                    {
+                    if  ((k = ft_atoi(&srez[1])) < 0)
+                        k = 65536 + k;
                         if (op_tab[new_op->name].size == 1)
                         {
                             tmp2 = k;
-                            ch->code[*i] = k >> 8; 
+                            ch->code[*i] = tmp2 >> 8; 
                             //printf("         code[%d] = %d\n", *i, ch->code[*i]);
                             (*i)++;
-                            ch->code[*i] = k & 255; 
+                            ch->code[*i] = tmp2 & 255; 
                         }
                         else
                         {
                             tmp2 = k << 16;
-                            ch->code[*i] = k >> 8; 
+                            ch->code[*i] = tmp2 >> 8; 
                            // printf("         code[%d] = %d\n", *i, ch->code[*i]);
                             (*i)++;
-                            ch->code[*i] = k & 255;
+                            ch->code[*i] = tmp2 & 255;
                            // printf("         code[%d] = %d\n", *i, ch->code[*i]);
                             (*i)++;
                             tmp2 = k;
-                            ch->code[*i] = k >> 8;
+                            ch->code[*i] = tmp2 >> 8;
                             //printf("         code[%d] = %d\n", *i, ch->code[*i]);
                             (*i)++;
-                            ch->code[*i] = k & 255;
+                            ch->code[*i] = tmp2 & 255;
                         }
-                        
-                    }
                 }
             }     
     return (1);
