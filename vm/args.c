@@ -47,15 +47,17 @@ int		is_dir(t_cw *cw, t_koretko *koretko, int n)
 	return (value);
 }
 
-//void	write_value(t_cw *cw, int adrs, int value, int size)
-//{
-//
-//	value = ft_atoi_base(ft_itoa(value), 2);
-//	while (size--)
-//	{
-//		cw->map[adrs] = value
-//	}
-//}
+void	write_value(t_cw *cw, int adrs, int value, int size)
+{
+	int	i;
+
+	i = 0;
+	while (--size >= 0)
+	{
+		cw->map[(adrs + size) % 4096] = value >> i * 8 & 255;
+		i++;
+	}
+}
 
 int		is_indir(t_cw *cw, t_koretko *koretko)
 {

@@ -62,6 +62,7 @@ int			is_reg(t_cw *cw, t_koretko *koretko);
 int			is_dir(t_cw *cw, t_koretko *koretko, int n);
 int 		is_indir(t_cw *cw, t_koretko *koretko);
 int			get_value(t_cw *cw, t_koretko *koretko, int arg);
+void	write_value(t_cw *cw, int adrs, int value, int size);
 
 // operations
 void		op_live(t_cw *cw, t_koretko *kor);

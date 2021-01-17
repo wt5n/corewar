@@ -157,7 +157,7 @@ void 	op_st(t_cw *cw, t_koretko *kor)
 		second_arg = is_indir(cw, kor);
 		second_arg %= IDX_MOD;
 		kor->ind_adrs = second_arg;
-		cw->map[get_adrs(kor, 0)] = first_arg;
+		write_value(cw, get_adrs(kor, 0), second_arg, op_tab[kor->op_code - 1].tdir_size);
 		kor->ind_adrs = 0;
 	}
 }
@@ -178,8 +178,9 @@ void 	op_sti(t_cw *cw, t_koretko *kor)
 		third_arg = cw->map[get_adrs(kor, 0)];
 	else
 		third_arg = get_value(cw, kor, kor->args[2]);
+
 	kor->ind_adrs = (second_arg + third_arg) % IDX_MOD;
-	cw->map[get_adrs(kor, 0)] = first_arg;
+	write_value(cw, get_adrs(kor, 0), second_arg, op_tab[kor->op_code - 1].tdir_size);
 	kor->ind_adrs = 0;
 }
 

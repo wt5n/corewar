@@ -45,55 +45,39 @@ int		ft_pow(int a, int pow)
 	return (res);
 }
 
+void	write_value(t_cw *cw, int adrs, int value, int size)
+{
+	int	i;
+
+	i = 0;
+	while (--size >= 0)
+	{
+		cw->map[(adrs + size) % 4096] = value >> i * 8 & 255;
+		i++;
+	}
+}
+
 int main(int ac, char **av)
 {
-	char *arr[5];
-	
-	for (int i = 0; i < 5; i++)
-		arr[i] = 0;
+//	char map[2];
+	int	n = 300;
+	int j = 2;
+	int	x = 0;
 
-	for (int i = 0; i < 5; i++)
-	{
-		arr[i] = av[i];
-		if (ft_strcmp(av[i], "-n") == 0)
+//	for (int i = 0; i < 2; i++)
+//		map[i] = 0;
 
-	}
+	t_cw *cw;
+	cw = (t_cw*)ft_memalloc(sizeof(t_cw));
+	write_value(cw, 0, 64949, 4);
 
-	for (int i = 0; i < 5; i++)
-		printf("%s\n", av[i]);
+//	map[1] = n >> 0 * 8 & 255;
+//	map[0] = n >> 1 * 8 & 255;
+
+	// map[1] = n & 255 >> 1 * 8;
+//	/**/printf("%#x", map[0]);
+//	 printf("%x\n", map[1]);
+	ft_print_memory(cw->map, 4096);
 
 
-//	printf("%d\n", x);
-//	t_koretko *k1;
-//	t_koretko *k2;
-//	t_koretko	*k3;
-//	int r[3];
-//
-//	k1 = create_koretko(1);
-//	k2 = create_koretko(2);
-//	k3 = create_koretko(3);
-//
-//	chain_kor(&k1, k2);
-//	chain_kor(&k1, k3);
-//
-//	delete_koretko(3, &k1);
-//	t_koretko *res = k1;
-//	while (res)
-//	{
-//		printf("%d\n", res->id);
-//		res = res->next;
-//	}
-//	delete_koretko(1, &k1);
-//	while (k1)
-//	{
-//		printf("%d\n", k1->id);
-//		k1 = k1->next;
-//	}
-//	printf("1 - %d 2 - %d 3 - %d", r[0], r[1], r[2]);
-
-//	printf("%d", ft_pow(5, 0));
-//	printf("%d\n", k1->id);
-//	printf("%d\n", k1->next->id);
-//	printf("%d\n", k2->id);
-//	printf("%d\n", k3->id);
 }

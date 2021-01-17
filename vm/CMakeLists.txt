@@ -16,7 +16,8 @@ set(SRC
 
 add_executable(corewar ${SRC})
 
-add_executable(test test.c)
+add_executable(test test.c
+                ft_print_memory.c)
 
 add_subdirectory(libft)
 target_link_libraries(corewar libft)
