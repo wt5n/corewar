@@ -51,11 +51,11 @@ void	read_champ_comm(int fd, t_champ *champ)
 void	read_champ_code(int fd, t_champ *champ) {
 	char	tmp[4];
 	char	*code;
+	unsigned char *size;
 
 	code = (char*)ft_memalloc(sizeof(char) * CHAMP_MAX_SIZE + 1);
 	code[CHAMP_MAX_SIZE] = '\0';
 	read(fd, &tmp, 4);
-	unsigned char *size;
 	size = (unsigned char*)ft_memalloc(sizeof(char) * CHAMP_MAX_SIZE + 1);
 	read(fd, size, champ->code_size);
 	champ->code = size;

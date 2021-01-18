@@ -80,6 +80,10 @@ void	exec_op(t_cw *cw, t_koretko *koretko)
 	koretko->op_code == 16 ? op_aff(cw, koretko) : 0;
 	koretko->position = get_adrs(koretko, 0);
 	koretko->step = 0;
+	koretko->op_code = 0;
+	koretko->args[0] = 0;
+	koretko->args[1] = 0;
+	koretko->args[2] = 0;
 }
 
 void wrong_args(t_koretko *kor)
@@ -98,6 +102,7 @@ void wrong_args(t_koretko *kor)
 	}
 	kor->position = get_adrs(kor, 0);
 	kor->step = 0;
+	kor->op_code = 0;
 }
 
 void	read_byte(t_koretko *koretko, t_cw *cw)
@@ -110,19 +115,24 @@ void	read_byte(t_koretko *koretko, t_cw *cw)
 	koretko->op_code = cw->map[koretko->position];
 	if (koretko->op_code >= 0x01 && koretko->op_code <= 0x10)
 	{
-		koretko->delay = op_tab[koretko->op_code - 1].delay;
 		while (++i < op_tab[koretko->op_code - 1].num_of_args)
 		{
 			koretko->args[i] = (cw->map[koretko->position + 1] & (3 * ft_pow(2, j))) >> j;
 			j -= 2;
 		}
 		if (is_correct_args(i, koretko->args, cw, koretko))
-			exec_op(cw, koretko);
-		else
+		{
+//			exec_op(cw, koretko);
+			koretko->delay = op_tab[koretko->op_code - 1].delay;
+		}
+		else {
 			wrong_args(koretko);
+		}
 	}
-	else
+	else {
+		koretko->op_code = 0;
 		koretko->position = get_adrs(koretko, 1);
+	}
 }
 
 void	make_op(t_cw *cw)
@@ -134,8 +144,14 @@ void	make_op(t_cw *cw)
 	while (cur)
 	{
 		if (cur->delay == 0)
+		{
+			if (cur->op_code > 0)
+			{
+				exec_op(cw, cur);
+			}
 			read_byte(cur, cw);
-		else if (cur->delay > 0)
+		}
+		else
 			cur->delay--;
 		cur = cur->next;
 	}
@@ -201,6 +217,8 @@ void	cycle(t_cw *cw)
 		cw->champs[i]->name, cw->champs[i]->comm);
 //	printf("%#x\n\n", cw->map[2048 + 4]);
 //	ft_print_memory(cw->map, 4096);
+//	ft_print_memory(cw->map, 4096);
+//	exit(1);
 	while (cw->num_of_koretko)
 	{
 		make_op(cw);
@@ -212,7 +230,7 @@ void	cycle(t_cw *cw)
 			ft_printf("Graz! %d is winner!", cw->last_player);
 			exit(1);
 		}
-		if (cw->cycles == 5000)
+		if (cw->cycles == 5)
 		{
 			ft_print_memory(cw->map, 4096);
 			exit(1);

@@ -7,10 +7,9 @@ void	write_value(t_cw *cw, int adrs, int value, int size)
 	i = 0;
 	while (--size >= 0)
 	{
-		cw->map[(adrs + size) % 4096] = value >> i * 8 & 255;
+		cw->map[(adrs + size) % 4096] = (value >> i * 8) & 255;
 		i++;
 	}
-	ft_print_memory(cw->map, 0);
 }
 
 int		get_adrs(t_koretko *koretko, int modif)

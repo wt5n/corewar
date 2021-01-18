@@ -153,10 +153,9 @@ void 	op_st(t_cw *cw, t_koretko *kor)
 	}
 	else
 	{
-		second_arg = is_indir(cw, kor);
-		second_arg %= IDX_MOD;
+		second_arg = get_value(cw, kor, kor->args[1]) % IDX_MOD;
 		kor->ind_adrs = second_arg;
-		write_value(cw, get_adrs(kor, 0), second_arg, op_tab[kor->op_code - 1].tdir_size);
+		write_value(cw, get_adrs(kor, 0), first_arg, op_tab[kor->op_code - 1].tdir_size);
 		kor->ind_adrs = 0;
 	}
 }
