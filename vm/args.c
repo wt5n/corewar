@@ -10,6 +10,7 @@ void	write_value(t_cw *cw, int adrs, int value, int size)
 		cw->map[(adrs + size) % 4096] = value >> i * 8 & 255;
 		i++;
 	}
+	ft_print_memory(cw->map, 0);
 }
 
 int		get_adrs(t_koretko *koretko, int modif)
@@ -49,9 +50,9 @@ int		is_dir(t_cw *cw, t_koretko *koretko, int n)
 	while (n)
 	{
 		if (sign)
-			value += (cw->map[get_adrs(koretko, n)] ^ 255) << (i++ * 8);
+			value += (cw->map[get_adrs(koretko, 0)] ^ 255) << (i++ * 8);
 		else
-			value += (cw->map[get_adrs(koretko, n)]) << (i++ * 8);
+			value += (cw->map[get_adrs(koretko, 0)]) << (i++ * 8);
 		n--;
 	}
 	if (sign)

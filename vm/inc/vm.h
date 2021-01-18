@@ -37,7 +37,7 @@ typedef struct			s_koretko
 
 typedef struct			s_cw
 {
-	t_champ				**champs;
+	t_champ				*champs[MAX_PLAYERS];
 	unsigned char	 	map[MEM_SIZE];
 	int					num_of_champ;
 	int					num_of_koretko;
@@ -90,5 +90,3 @@ void		read_champ_comm(int fd, t_champ *champ);
 void		read_champ_code(int fd, t_champ *champ);
 
 #endif
-
-//90 65 e2 42 fc 7f

@@ -207,6 +207,11 @@ void	cycle(t_cw *cw)
 		if (cw->cycles_to_die == cw->cycles_to_check
 			|| cw->cycles_to_die <= 0)
 			check_cycles(cw);
+		if (cw->num_of_koretko == 1)
+		{
+			ft_printf("Graz! %d is winner!", cw->last_player);
+			exit(1);
+		}
 		if (cw->cycles == 5000)
 		{
 			ft_print_memory(cw->map, 4096);

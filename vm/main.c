@@ -45,17 +45,14 @@ int	main(int argc, char **argv)
 
 	cw = (t_cw*)ft_memalloc(sizeof(t_cw));
 
-	cw->champs = (t_champ**)ft_memalloc(sizeof(t_champ*) * MAX_PLAYERS);
+//	cw->champs = (t_champ**)ft_memalloc(sizeof(t_champ*) * MAX_PLAYERS);
 	while (++i < argc)
 		create_champ(cw, i);
 	i = -1;
-
-//	cw->map = (unsigned char*)ft_memalloc(sizeof(char) * 4097);
 	cw->kors = (t_koretko*)ft_memalloc(sizeof(t_koretko));
 	while (++i < 4096)
 		cw->map[i] = 0;
-	cw->map[4096] = '\0';
-
+//	cw->map[4096] = '\0';
 	i = 0;
 	while (++i < argc)
 		read_champion(argv[i], cw->champs[i - 1], cw);

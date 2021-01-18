@@ -43,7 +43,6 @@ void 	op_aff(t_cw *cw, t_koretko *kor)
 void	op_fork(t_cw *cw, t_koretko *kor)
 {
 	t_koretko	*koretko;
-	int 		adrs;
 	int			i;
 
 	kor->step++;
@@ -62,7 +61,6 @@ void	op_fork(t_cw *cw, t_koretko *kor)
 void	op_lfork(t_cw *cw, t_koretko *kor)
 {
 	t_koretko	*koretko;
-	int 	adrs;
 	int			i;
 
 	kor->step++;
@@ -186,7 +184,7 @@ void 	op_sti(t_cw *cw, t_koretko *kor)
 	else
 		third_arg = get_value(cw, kor, kor->args[2]);
 	kor->ind_adrs = (second_arg + third_arg) % IDX_MOD;
-	write_value(cw, get_adrs(kor, 0), second_arg, op_tab[kor->op_code - 1].tdir_size);
+	write_value(cw, get_adrs(kor, 0), first_arg, op_tab[kor->op_code - 1].tdir_size);
 	kor->ind_adrs = 0;
 }
 
