@@ -6,18 +6,19 @@ set(CMAKE_C_STANDARD 99)
 include_directories(inc)
 
 set(SRC
-        ft_print_memory.c
         functions.c
         cycle.c
         operations.c
         args.c
         parse.c
-        main.c init.c checks.c koretko_utils.c)
+        main.c init.c
+        checks.c
+        koretko_utils.c
+        errors.c)
 
 add_executable(corewar ${SRC})
 
-add_executable(test test.c
-                ft_print_memory.c)
+add_executable(test test.c)
 
 add_subdirectory(libft)
 target_link_libraries(corewar libft)

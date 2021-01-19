@@ -52,7 +52,7 @@ void	write_value(t_cw *cw, int adrs, int value, int size)
 	i = 0;
 	while (--size >= 0)
 	{
-		cw->map[(adrs + size) % 4096] = value >> i * 8 & 255;
+		cw->map[(adrs + size) % 4096] = (value >> i * 8) & 255;
 		i++;
 	}
 }
@@ -69,7 +69,7 @@ int main(int ac, char **av)
 
 	t_cw *cw;
 	cw = (t_cw*)ft_memalloc(sizeof(t_cw));
-	write_value(cw, 0, 64949, 4);
+	write_value(cw, 0, 0xfffffffe, 4);
 
 //	map[1] = n >> 0 * 8 & 255;
 //	map[0] = n >> 1 * 8 & 255;
