@@ -29,7 +29,10 @@ void	place_pl_and_kors(t_cw *cw)
 		kor = create_koretko(cw->num_of_koretko + 1, position);
 		kor->regs[0] = player_id;
 		kor->parent_id = player_id;
-		chain_kor(&cw->kors, kor);
+		if (cw->num_of_koretko > 0)
+			chain_kor(&cw->kors, kor);
+		else
+			cw->kors = kor;
 		position += MEM_SIZE / cw->num_of_champ;
 		cw->num_of_koretko++;
 	}

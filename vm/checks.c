@@ -3,17 +3,19 @@
 int		is_correct_args(int i, int *ar, t_cw *cw, t_koretko *koretko)
 {
 	int step;
+	int j;
 
 	step = 2;
-	while (--i)
+	j = -1;
+	while (++j != i)
 	{
-		if (!(ar[i] & op_tab[koretko->op_code - 1].args[i]) ||
-			(ar[i] == T_REG && (cw->map[get_adrs(koretko, step)] < 1 ||
+		if (!(ar[j] & op_tab[koretko->op_code - 1].args[j]) ||
+			(ar[j] == T_REG && (cw->map[get_adrs(koretko, step)] < 1 ||
 								(cw->map[get_adrs(koretko, step)] > 16))))
 			return (0);
-		if (koretko->args[i] == T_REG)
+		if (koretko->args[j] == T_REG)
 			step++;
-		else if (koretko->args[i] == T_DIR)
+		else if (koretko->args[j] == T_DIR)
 			step += op_tab[koretko->op_code - 1].tdir_size;
 		else
 			step += 2;
@@ -48,10 +50,11 @@ void	check_cycles(t_cw *cw)
 	kor = cw->kors;
 	while (kor)
 	{
-		if (cw->cycles - kor->last_alive  >= cw->cycles_to_die ||
+		if (cw->cycles - kor->last_alive >= cw->cycles_to_die ||
 			cw->cycles_to_die <= 0)
 		{
 			delete_koretko(kor->id, &cw->kors);
+			printf("DIE PUNK id = %d, cycle = %d!!!\n", kor->id, cw->cycles);
 			cw->num_of_koretko--;
 		}
 		kor = kor->next;

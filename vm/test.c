@@ -2,12 +2,6 @@
 
 void	chain_kor(t_koretko **kors, t_koretko *kor)
 {
-	// t_koretko	*current;
-
-	// current = kors;
-	// while(current->next != NULL)
-	// 	current = current->next;
-	// curent->next = kor;
 	kor->next = *kors;
 	*kors = kor;
 }
