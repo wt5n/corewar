@@ -20,6 +20,8 @@ void	place_pl_and_kors(t_cw *cw)
 
 	position = 0;
 	player_id = 0;
+	cw->last_player = cw->champs[0]->number;
+	cw->cycles_to_die = CYCLE_TO_DIE;
 	while (++player_id <= cw->num_of_champ)
 	{
 		ft_memcpy(&(cw->map[position]), cw->champs[player_id - 1]->code,

@@ -150,6 +150,7 @@ void 	op_st(t_cw *cw, t_koretko *kor)
 	{
 		second_arg = cw->map[get_adrs(kor, 0)];
 		kor->regs[second_arg - 1] = first_arg;
+		kor->step++;
 	}
 	else
 	{
