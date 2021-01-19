@@ -6,10 +6,9 @@ void	read_magic_number(char *argv, int fd)
 
 	fd = open(argv, O_RDONLY);
 	read(fd, &buf, MAGIC_NUMBER_LENGTH);
-	char *vv = adv_ft_itoa(COREWAR_EXEC_MAGIC, 16, 'a');
-	char *vv2 = adv_ft_itoa(buf, 16, 'a');
-	vv2 = ft_strndup(vv2, 6);
-	char *vv3 = ft_strrev(vv2);
+	char *magic_num = adv_ft_itoa(buf, 16, 'a');
+	magic_num = ft_strndup(magic_num, 6);
+	char *vv3 = ft_strrev(magic_num);
 	ft_swap_two_let(vv3);
 }
 

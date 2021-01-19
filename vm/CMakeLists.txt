@@ -12,7 +12,7 @@ set(SRC
         operations.c
         args.c
         parse.c
-        main.c)
+        main.c init.c checks.c koretko_utils.c)
 
 add_executable(corewar ${SRC})
 

@@ -44,8 +44,6 @@ int	main(int argc, char **argv)
 	int	i = -1;
 
 	cw = (t_cw*)ft_memalloc(sizeof(t_cw));
-
-//	cw->champs = (t_champ**)ft_memalloc(sizeof(t_champ*) * MAX_PLAYERS);
 	while (++i < argc)
 		create_champ(cw, i);
 	i = -1;

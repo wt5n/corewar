@@ -52,11 +52,9 @@ typedef struct			s_cw
 
 void					ft_swap_two_let(char *str);
 void					ft_print_memory(const void *addr, size_t size);
-void					cycle(t_cw *cw);
-t_koretko				*create_koretko(int id, int position);
-void					chain_kor(t_koretko **kors, t_koretko *kor);
 
-// args
+
+// args.c
 int			get_adrs(t_koretko *koretko, int modif);
 int			is_reg(t_cw *cw, t_koretko *koretko);
 int			is_dir(t_cw *cw, t_koretko *koretko, int n);
@@ -64,7 +62,7 @@ int 		is_indir(t_cw *cw, t_koretko *koretko);
 int			get_value(t_cw *cw, t_koretko *koretko, int arg);
 void	write_value(t_cw *cw, int adrs, int value, int size);
 
-// operations
+// operations.c
 void		op_live(t_cw *cw, t_koretko *kor);
 void		op_ld(t_cw *cw, t_koretko *kor);
 void		op_st(t_cw *cw, t_koretko *kor);
@@ -82,11 +80,27 @@ void		op_lldi(t_cw *cw, t_koretko *kor);
 void		op_lfork(t_cw *cw, t_koretko *kor);
 void		op_aff(t_cw *cw, t_koretko *kor);
 
-// parse
+// parse.c
 void		read_magic_number(char *argv, int fd);
 void		read_champ_name(int fd, t_champ *champ);
 void		read_champ_code_size(int fd, t_champ *champ);
 void		read_champ_comm(int fd, t_champ *champ);
 void		read_champ_code(int fd, t_champ *champ);
+
+// init.c
+void		place_pl_and_kors(t_cw *cw);
+
+// koretko_utils.c
+t_koretko	*create_koretko(int id, int position);
+void		delete_koretko(int id, t_koretko **kors);
+void		chain_kor(t_koretko **kors, t_koretko *kor);
+
+// checks.c
+void		check_cycles(t_cw *cw);
+void		wrong_args(t_koretko *kor);
+int			is_correct_args(int i, int *ar, t_cw *cw, t_koretko *koretko);
+
+// cycle.c
+void		cycle(t_cw *cw);
 
 #endif
