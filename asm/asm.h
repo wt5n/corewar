@@ -81,6 +81,8 @@ t_op_strukt		*add_op_struct(t_op_strukt **label);
 void			zap_registr(t_chempion *ch);
 int         	operation_name(char *srez, t_op_strukt **op);
 int         	pars_operation(char *line, t_chempion *ch, t_op_strukt **op, t_new_st_label  **label);
+int				pars_one(char *line, t_chempion *ch, t_new_st_label **label, \
+t_op_strukt **op);
 void			trace_byte_code(t_chempion *ch, t_new_st_label *label, t_op_strukt *op);
 int				propysc_probel(char *str);
 int				number_pr(char *str);
