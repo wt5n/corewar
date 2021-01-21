@@ -9,50 +9,49 @@
 
 typedef struct			s_champ
 {
-	int					number;
-	char				*name;
-	int					code_size;
-	char				*comm;
-	unsigned char		*code;
-	int					live_cycle;
-	int					lives_num;
+	int					number; // id игрока
+	char				*name; // имя
+	int					code_size; // размер исполняемого кода
+	char				*comm; // комментарий
+	unsigned char		*code; // код игрока
+	int					live_cycle; // номер цикла последней оперции live
+	int					lives_num; // количество операций live
 }						t_champ;
 
 typedef struct			s_koretko
 {
-	int					id;
-	int					carry;
-	int					position;
-	int					num_live_cycle;
-	int					last_alive;
-	int					delay;
-	int					step;
-	int					regs[REG_NUMBER];
-	int					args[3];
-	int					op_code;
-	int					parent_id;
-	int					ind_adrs;
+	int					id; // id коретки
+	int					carry; // флаг керри
+	int					position; // позиция коретки
+	int					num_live_cycle; // цикл
+	int					last_alive; // последний цикл операции лайв
+	int					delay; // задержка перед выполнением операции
+	int					step; // количество шагов перед передвижением коретки
+	int					regs[REG_NUMBER]; // регистры
+	int					args[3]; // типы аргументов операции
+	int					op_code; // код операции
+	int					parent_id; // айди игрока у коретки
+	int					ind_adrs; // indirect адрес
 	struct s_koretko	*next;
 }						t_koretko;
 
 typedef struct			s_cw
 {
-	t_champ				*champs[MAX_PLAYERS];
-	unsigned char	 	map[MEM_SIZE];
-	int					num_of_champ;
-	int					num_of_koretko;
-	int					cycles;
-	int 				last_player;
-	int 				num_of_lives;
+	t_champ				*champs[MAX_PLAYERS]; // игроки
+	unsigned char	 	map[MEM_SIZE]; // основная карта
+	int					num_of_champ; // количество чемпионов
+	int					num_of_koretko; // количество кореток
+	int					cycles; // общее количество циклов
+	int 				last_player; // последний игрок объявивший себя живым
+	int 				num_of_lives; // количество операций live за cycle_to_die
 	int 				cycles_to_die;
-	int					cycles_to_check;
-	int					num_of_checks;
-	t_koretko 			*kors;
+	int					cycles_to_check; // циклов после проверки
+	int					num_of_checks; // количество проверок за cycle_to_die
+	t_koretko 			*kors; // список кореток
 }						t_cw;
 
 void					ft_swap_two_let(char *str);
 void					ft_print_memory(const void *addr, size_t size);
-
 
 // args.c
 int			get_adrs(t_koretko *koretko, int modif);

@@ -54,6 +54,7 @@ void	op_fork(t_cw *cw, t_koretko *kor)
 		koretko->regs[i] = kor->regs[i];
 	koretko->carry = kor->carry;
 	koretko->last_alive = kor->last_alive;
+	koretko->parent_id = kor->parent_id;
 	chain_kor(&cw->kors, koretko);
 	kor->ind_adrs = 0;
 }
@@ -72,6 +73,7 @@ void	op_lfork(t_cw *cw, t_koretko *kor)
 		koretko->regs[i] = kor->regs[i];
 	koretko->carry = kor->carry;
 	koretko->last_alive = kor->last_alive;
+	koretko->parent_id = kor->parent_id;
 	chain_kor(&cw->kors, koretko);
 	kor->ind_adrs = 0;
 }
@@ -244,6 +246,7 @@ void	op_live(t_cw *cw, t_koretko *kor)
 	{
 		champ = cw->champs[mod_n(player) - 1];
 		champ->live_cycle = cw->cycles;
+		kor->last_alive = player;
 		champ->lives_num++;
 		cw->last_player = player;
 	}

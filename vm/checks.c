@@ -50,7 +50,7 @@ void	check_cycles(t_cw *cw)
 	kor = cw->kors;
 	while (kor)
 	{
-		if (cw->cycles - kor->last_alive >= cw->cycles_to_die ||
+		if (cw->cycles - kor->num_live_cycle >= cw->cycles_to_die ||
 			cw->cycles_to_die <= 0)
 		{
 			delete_koretko(kor->id, &cw->kors);
