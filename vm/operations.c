@@ -157,8 +157,13 @@ void 	op_st(t_cw *cw, t_koretko *kor)
 	else
 	{
 		second_arg = get_value(cw, kor, kor->args[1]) % IDX_MOD;
+		printf("second arg =  %d\n", second_arg);
 		kor->ind_adrs = second_arg;
-		write_value(cw, get_adrs(kor, 0), first_arg, op_tab[kor->op_code - 1].tdir_size);
+		printf("before %d %d\n", kor->position, kor->step);
+		int ttt =  get_adrs(kor, 0);
+		write_value(cw, get_adrs(kor, kor->step), first_arg, op_tab[kor->op_code - 1].tdir_size);
+		printf("after %d\n", ttt);
+		exit(1);
 		kor->ind_adrs = 0;
 	}
 }
@@ -242,11 +247,12 @@ void	op_live(t_cw *cw, t_koretko *kor)
 	player = get_value(cw, kor, kor->args[0]);
 	cw->num_of_lives++;
 	kor->num_live_cycle = cw->cycles;
-	if (player <= -1 && player >= -cw->num_of_champ)
+	printf("player =  %d\n", player);
+	if (player <= -1 && player >= cw->num_of_champ * -1)
 	{
 		champ = cw->champs[mod_n(player) - 1];
 		champ->live_cycle = cw->cycles;
-		kor->last_alive = player;
+		kor->last_alive = cw->cycles;
 		champ->lives_num++;
 		cw->last_player = player;
 	}

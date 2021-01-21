@@ -12,12 +12,12 @@ void	write_value(t_cw *cw, int adrs, int value, int size)
 	}
 }
 
-int		get_adrs(t_koretko *koretko, int modif)
+int		get_adrs(t_koretko *koretko, int modif, int phantom_step)
 {
 	int	adrs;
 
-	if (koretko->ind_adrs > 0)
-		adrs = koretko->position + koretko->ind_adrs;
+	if (phantom_step == 1)
+		adrs = koretko->position + modif;
 	else
 		adrs = koretko->position + koretko->step + modif;
 	adrs %= MEM_SIZE;

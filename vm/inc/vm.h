@@ -23,7 +23,7 @@ typedef struct			s_koretko
 	int					id; // id коретки
 	int					carry; // флаг керри
 	int					position; // позиция коретки
-	int					num_live_cycle; // цикл
+	int					num_live_cycle; // сколько раз делала операцию live
 	int					last_alive; // последний цикл операции лайв
 	int					delay; // задержка перед выполнением операции
 	int					step; // количество шагов перед передвижением коретки
@@ -54,7 +54,7 @@ void					ft_swap_two_let(char *str);
 void					ft_print_memory(const void *addr, size_t size);
 
 // args.c
-int			get_adrs(t_koretko *koretko, int modif);
+int			get_adrs(t_koretko *koretko, int modif, int phantom_step);
 int			is_reg(t_cw *cw, t_koretko *koretko);
 int			is_dir(t_cw *cw, t_koretko *koretko, int n);
 int 		is_indir(t_cw *cw, t_koretko *koretko);

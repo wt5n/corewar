@@ -62,14 +62,15 @@ void	make_op(t_cw *cw)
 	cur = cw->kors;
 	while (cur)
 	{
+		if (cur->delay > 0)
+			cur->delay--;
 		if (cur->delay == 0)
 		{
 			if (cur->op_code > 0)
 				exec_op(cw, cur);
 			read_byte(cur, cw);
 		}
-		else
-			cur->delay--;
+//		else
 		cur = cur->next;
 	}
 }
@@ -83,12 +84,14 @@ void	cycle(t_cw *cw)
 		if (cw->cycles_to_die == cw->cycles_to_check
 			|| cw->cycles_to_die <= 0)
 		{
-			printf("ctd = %d, ctc = %d, nol = %d\n", cw->cycles_to_die, cw->cycles_to_check, cw->num_of_lives);
+			printf("ctd = %d, ctc = %d, nol = %d, cyc = %d\n", cw->cycles_to_die,
+		  	cw->cycles_to_check, cw->num_of_lives, cw->cycles);
 			check_cycles(cw);
 		}
 		if (cw->cycles_to_check % 100 == 0)
-			printf("ctd = %d, ctc = %d, nol = %d\n", cw->cycles_to_die, cw->cycles_to_check, cw->num_of_lives);
-		if (cw->cycles == 5000)
+			printf("ctd = %d, ctc = %d, nol = %d , cyc = %d\n", cw->cycles_to_die,
+		  cw->cycles_to_check, cw->num_of_lives, cw->cycles);
+		if (cw->cycles == 5)
 		{
 			ft_print_memory(cw->map, 4096);
 			exit(1);
