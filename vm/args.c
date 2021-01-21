@@ -17,7 +17,7 @@ int		get_adrs(t_koretko *koretko, int modif, int phantom_step)
 	int	adrs;
 
 	if (phantom_step == 1)
-		adrs = koretko->position + modif;
+		adrs = koretko->position + koretko->ind_adrs;
 	else
 		adrs = koretko->position + koretko->step + modif;
 	adrs %= MEM_SIZE;
@@ -30,12 +30,12 @@ int		is_reg(t_cw *cw, t_koretko *koretko)
 {
 	int	reg;
 
-	reg = cw->map[get_adrs(koretko, 0)];
+	reg = cw->map[get_adrs(koretko, 0, 0)];
 	koretko->step++;
 	return (koretko->regs[reg - 1]);
 }
 
-int		is_dir(t_cw *cw, t_koretko *koretko, int n)
+int		is_dir(t_cw *cw, t_koretko *koretko, int n, int pha)
 {
 	int	value;
 	int	sign;
@@ -43,15 +43,15 @@ int		is_dir(t_cw *cw, t_koretko *koretko, int n)
 
 	i = 0;
 	value = 0;
-	sign = cw->map[get_adrs(koretko, 0)] & 128;
+	sign = cw->map[get_adrs(koretko, 0, pha)] & 128;
 	if (koretko->ind_adrs == 0)
 		koretko->step += n;
 	while (n)
 	{
 		if (sign)
-			value += (cw->map[get_adrs(koretko, 0)] ^ 255) << (i++ * 8);
+			value += (cw->map[get_adrs(koretko, 0, pha)] ^ 255) << (i++ * 8);
 		else
-			value += (cw->map[get_adrs(koretko, 0)]) << (i++ * 8);
+			value += (cw->map[get_adrs(koretko, 0, pha)]) << (i++ * 8);
 		n--;
 	}
 	if (sign)
@@ -64,21 +64,21 @@ int		is_indir(t_cw *cw, t_koretko *koretko)
 	int	adrs;
 	int	value;
 
-	adrs = is_dir(cw, koretko, IND_SIZE);
+	adrs = is_dir(cw, koretko, IND_SIZE, 0);
 	if (koretko->op_code != 13)
 		adrs %= IDX_MOD;
 	koretko->ind_adrs = adrs;
-	value = is_dir(cw, koretko, op_tab[koretko->op_code - 1].tdir_size); //sprosit Tanyu
+	value = is_dir(cw, koretko, op_tab[koretko->op_code - 1].tdir_size, 1);
 	koretko->ind_adrs = 0;
 	return (value);
 }
 
-int		get_value(t_cw *cw, t_koretko *koretko, int arg)
+int		get_value(t_cw *cw, t_koretko *koretko, int arg, int pha)
 {
 	if (arg == T_REG)
 		return (is_reg(cw, koretko));
 	else if (arg == T_DIR)
-		return (is_dir(cw, koretko, op_tab[koretko->op_code - 1].tdir_size));
+		return (is_dir(cw, koretko, op_tab[koretko->op_code - 1].tdir_size, pha));
 	else if (arg == T_IND)
 		return (is_indir(cw, koretko));
 	else

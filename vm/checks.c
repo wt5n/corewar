@@ -10,8 +10,8 @@ int		is_correct_args(int i, int *ar, t_cw *cw, t_koretko *koretko)
 	while (++j != i)
 	{
 		if (!(ar[j] & op_tab[koretko->op_code - 1].args[j]) ||
-			(ar[j] == T_REG && (cw->map[get_adrs(koretko, step)] < 1 ||
-								(cw->map[get_adrs(koretko, step)] > 16))))
+			(ar[j] == T_REG && (cw->map[get_adrs(koretko, step, 0)] < 1 ||
+								(cw->map[get_adrs(koretko, step, 0)] > 16))))
 			return (0);
 		if (koretko->args[j] == T_REG)
 			step++;
@@ -37,7 +37,7 @@ void wrong_args(t_koretko *kor)
 		else
 			kor->step += 2;
 	}
-	kor->position = get_adrs(kor, 0);
+	kor->position = get_adrs(kor, 0, 0);
 	kor->step = 0;
 	kor->op_code = 0;
 }

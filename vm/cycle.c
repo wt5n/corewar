@@ -18,7 +18,7 @@ void	exec_op(t_cw *cw, t_koretko *koretko)
 	koretko->op_code == 14 ? op_lldi(cw, koretko) : 0;
 	koretko->op_code == 15 ? op_lfork(cw, koretko) : 0;
 	koretko->op_code == 16 ? op_aff(cw, koretko) : 0;
-	koretko->position = get_adrs(koretko, 0);
+	koretko->position = get_adrs(koretko, 0, 0);
 	koretko->step = 0;
 	koretko->op_code = 0;
 	koretko->args[0] = 0;
@@ -49,7 +49,7 @@ void	read_byte(t_koretko *koretko, t_cw *cw)
 	else
 	{
 		koretko->op_code = 0;
-		koretko->position = get_adrs(koretko, 1);
+		koretko->position = get_adrs(koretko, 1, 0);
 	}
 }
 

@@ -47,6 +47,7 @@ typedef struct			s_cw
 	int 				cycles_to_die;
 	int					cycles_to_check; // циклов после проверки
 	int					num_of_checks; // количество проверок за cycle_to_die
+	int 				ind_adrs;
 	t_koretko 			*kors; // список кореток
 }						t_cw;
 
@@ -56,9 +57,9 @@ void					ft_print_memory(const void *addr, size_t size);
 // args.c
 int			get_adrs(t_koretko *koretko, int modif, int phantom_step);
 int			is_reg(t_cw *cw, t_koretko *koretko);
-int			is_dir(t_cw *cw, t_koretko *koretko, int n);
+int			is_dir(t_cw *cw, t_koretko *koretko, int n, int pha);
 int 		is_indir(t_cw *cw, t_koretko *koretko);
-int			get_value(t_cw *cw, t_koretko *koretko, int arg);
+int			get_value(t_cw *cw, t_koretko *koretko, int arg, int pha);
 void		write_value(t_cw *cw, int adrs, int value, int size);
 
 // operations.c
