@@ -44,7 +44,7 @@ int	main(int argc, char **argv)
 	int	i = -1;
 
 	cw = (t_cw*)ft_memalloc(sizeof(t_cw));
-	while (++i < argc)
+	while (++i < 2)
 		create_champ(cw, i);
 	i = -1;
 //	cw->kors = (t_koretko*)ft_memalloc(sizeof(t_koretko));
