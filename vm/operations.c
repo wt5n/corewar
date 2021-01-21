@@ -20,6 +20,7 @@ void	op_add(t_cw *cw, t_koretko *kor)
 	a = cw->map[get_adrs(kor, 0, 0)];
 	kor->regs[a - 1] = value;
 	kor->carry = value == 0 ? 1 : 0;
+	kor->step++;
 }
 
 void	op_sub(t_cw *cw, t_koretko *kor)
@@ -32,6 +33,7 @@ void	op_sub(t_cw *cw, t_koretko *kor)
 	a = cw->map[get_adrs(kor, 0, 0)];
 	kor->regs[a - 1] = value;
 	kor->carry = value == 0 ? 1 : 0;
+	kor->step++;
 }
 
 void 	op_aff(t_cw *cw, t_koretko *kor)
@@ -83,9 +85,9 @@ void	op_zjmp(t_cw *cw, t_koretko *kor)
 	int	adrs;
 
 	kor->step++;
+	adrs = get_value(cw, kor, kor->args[0], 0) % IDX_MOD;
 	if (kor->carry)
 	{
-		adrs = get_value(cw, kor, kor->args[0], 0) % IDX_MOD;
 		kor->ind_adrs = adrs;
 		kor->position = get_adrs(kor, 0, 1);
 		kor->ind_adrs = 0;
@@ -107,6 +109,7 @@ void 	op_and(t_cw *cw, t_koretko *kor)
 	value = a & b;
 	kor->regs[reg - 1] = value;
 	kor->carry = value == 0 ? 1 : 0;
+	kor->step++;
 }
 
 void 	op_or(t_cw *cw, t_koretko *kor)
@@ -123,6 +126,7 @@ void 	op_or(t_cw *cw, t_koretko *kor)
 	value = a | b;
 	kor->regs[reg - 1] = value;
 	kor->carry = value == 0 ? 1 : 0;
+	kor->step++;
 }
 
 void 	op_xor(t_cw *cw, t_koretko *kor)
@@ -139,6 +143,7 @@ void 	op_xor(t_cw *cw, t_koretko *kor)
 	value = a ^ b;
 	kor->regs[reg - 1] = value;
 	kor->carry = value == 0 ? 1 : 0;
+	kor->step++;
 }
 
 void 	op_st(t_cw *cw, t_koretko *kor)
@@ -156,14 +161,9 @@ void 	op_st(t_cw *cw, t_koretko *kor)
 	}
 	else
 	{
-		second_arg = get_value(cw, kor, kor->args[1], 0) % IDX_MOD;
-		printf("second arg =  %d\n", second_arg);
+		second_arg = is_dir(cw, kor, IND_SIZE, 0) % IDX_MOD;
 		kor->ind_adrs = second_arg;
-		printf("before %d %d\n", kor->position, kor->step);
-		int ttt =  get_adrs(kor, 0, 1);
 		write_value(cw, get_adrs(kor, kor->step, 1), first_arg, op_tab[kor->op_code - 1].tdir_size);
-		printf("after %d\n", ttt);
-		exit(1);
 		kor->ind_adrs = 0;
 	}
 }
@@ -191,7 +191,7 @@ void 	op_sti(t_cw *cw, t_koretko *kor)
 	else
 		third_arg = get_value(cw, kor, kor->args[2], 0);
 	kor->ind_adrs = (second_arg + third_arg) % IDX_MOD;
-	write_value(cw, get_adrs(kor, 0, 1), first_arg, op_tab[kor->op_code - 1].tdir_size);
+	write_value(cw, get_adrs(kor, kor->step, 1), first_arg, op_tab[kor->op_code - 1].tdir_size);
 	kor->ind_adrs = 0;
 }
 
@@ -246,8 +246,8 @@ void	op_live(t_cw *cw, t_koretko *kor)
 	kor->step++;
 	player = get_value(cw, kor, kor->args[0], 0);
 	cw->num_of_lives++;
-	kor->num_live_cycle = cw->cycles;
-	printf("player =  %d\n", player);
+	kor->num_live_cycle++;
+	printf("player = %d\n", player);
 	if (player <= -1 && player >= cw->num_of_champ * -1)
 	{
 		champ = cw->champs[mod_n(player) - 1];

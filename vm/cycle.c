@@ -33,8 +33,7 @@ void	read_byte(t_koretko *koretko, t_cw *cw)
 
 	i = -1;
 	j = 6;
-	koretko->op_code = cw->map[koretko->position];
-	if (koretko->op_code >= 0x01 && koretko->op_code <= 0x10)
+	if (koretko->op_code >= 1 && koretko->op_code <= 16)
 	{
 		while (++i < op_tab[koretko->op_code - 1].num_of_args)
 		{
@@ -42,15 +41,12 @@ void	read_byte(t_koretko *koretko, t_cw *cw)
 			j -= 2;
 		}
 		if (is_correct_args(i, koretko->args, cw, koretko))
-			koretko->delay = op_tab[koretko->op_code - 1].delay - 1;
+			exec_op(cw, koretko);
 		else
 			wrong_args(koretko);
 	}
 	else
-	{
-		koretko->op_code = 0;
 		koretko->position = get_adrs(koretko, 1, 0);
-	}
 }
 
 void	make_op(t_cw *cw)
@@ -62,15 +58,17 @@ void	make_op(t_cw *cw)
 	cur = cw->kors;
 	while (cur)
 	{
+		printf("pos - %d, id - %d\n", cur->position, cur->id);
+		if (cur->delay == 0)
+		{
+			cur->op_code = cw->map[cur->position];
+			if (cur->op_code >= 1 && cur->op_code <= 16)
+				cur->delay = op_tab[cur->op_code - 1].delay;
+		}
 		if (cur->delay > 0)
 			cur->delay--;
 		if (cur->delay == 0)
-		{
-			if (cur->op_code > 0)
-				exec_op(cw, cur);
 			read_byte(cur, cw);
-		}
-//		else
 		cur = cur->next;
 	}
 }
@@ -91,7 +89,7 @@ void	cycle(t_cw *cw)
 		if (cw->cycles_to_check % 100 == 0)
 			printf("ctd = %d, ctc = %d, nol = %d , cyc = %d\n", cw->cycles_to_die,
 		  cw->cycles_to_check, cw->num_of_lives, cw->cycles);
-		if (cw->cycles == 5)
+		if (cw->cycles == 820)
 		{
 			ft_print_memory(cw->map, 4096);
 			exit(1);

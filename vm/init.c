@@ -38,4 +38,3 @@ void	place_pl_and_kors(t_cw *cw)
 	}
 	introducing(cw);
 }
-

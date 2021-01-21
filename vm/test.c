@@ -51,6 +51,22 @@ void	write_value(t_cw *cw, int adrs, int value, int size)
 	}
 }
 
+
+int read_value(t_cw *cw, int adrs, int size)
+{
+	int value;
+
+	value = 0;
+	int i = 0;
+	while (size)
+	{
+		value += cw->map[adrs + size - 1] << i * 8;
+		size--;
+		i++;
+	}
+	return value;
+}
+
 int main(int ac, char **av)
 {
 //	char map[2];
@@ -63,8 +79,9 @@ int main(int ac, char **av)
 
 	t_cw *cw;
 	cw = (t_cw*)ft_memalloc(sizeof(t_cw));
-	write_value(cw, 0, 0xfffffffe, 4);
+	write_value(cw, 3, 0x13, 2);
 
+	printf("%d\n", read_value(cw, 3, 2));
 //	map[1] = n >> 0 * 8 & 255;
 //	map[0] = n >> 1 * 8 & 255;
 

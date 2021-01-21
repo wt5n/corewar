@@ -44,16 +44,16 @@ int		is_dir(t_cw *cw, t_koretko *koretko, int n, int pha)
 	i = 0;
 	value = 0;
 	sign = cw->map[get_adrs(koretko, 0, pha)] & 128;
-	if (koretko->ind_adrs == 0)
-		koretko->step += n;
 	while (n)
 	{
 		if (sign)
-			value += (cw->map[get_adrs(koretko, 0, pha)] ^ 255) << (i++ * 8);
+			value += (cw->map[get_adrs(koretko, n - 1, pha)] ^ 255) << (i++ * 8);
 		else
-			value += (cw->map[get_adrs(koretko, 0, pha)]) << (i++ * 8);
+			value += (cw->map[get_adrs(koretko, n - 1, pha)]) << (i++ * 8);
 		n--;
 	}
+	if (pha == 0)
+		koretko->step += i;
 	if (sign)
 		value = ~value;
 	return (value);
@@ -65,21 +65,22 @@ int		is_indir(t_cw *cw, t_koretko *koretko)
 	int	value;
 
 	adrs = is_dir(cw, koretko, IND_SIZE, 0);
+//	ft_print_memory(cw->map, 4096);
 	if (koretko->op_code != 13)
 		adrs %= IDX_MOD;
 	koretko->ind_adrs = adrs;
-	value = is_dir(cw, koretko, op_tab[koretko->op_code - 1].tdir_size, 1);
+	value = is_dir(cw, koretko, DIR_SIZE, 1);
 	koretko->ind_adrs = 0;
 	return (value);
 }
 
 int		get_value(t_cw *cw, t_koretko *koretko, int arg, int pha)
 {
-	if (arg == T_REG)
+	if (arg == REG_CODE)
 		return (is_reg(cw, koretko));
-	else if (arg == T_DIR)
+	else if (arg == DIR_CODE)
 		return (is_dir(cw, koretko, op_tab[koretko->op_code - 1].tdir_size, pha));
-	else if (arg == T_IND)
+	else if (arg == IND_CODE)
 		return (is_indir(cw, koretko));
 	else
 		return (0);
