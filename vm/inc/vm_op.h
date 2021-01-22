@@ -11,7 +11,7 @@ typedef struct s_op
 	int 	args[3];
 	int 	delay;
 	int 	inf_carry;
-	int		unknown;
+	int		code_args;
 	int 	tdir_size;
 
 }				t_op;
@@ -25,7 +25,7 @@ static t_op    op_tab[16] =
 			.op_code = 1,
 			.delay = 10,
 			.inf_carry = 0,
-			.unknown = 0,
+			.code_args = 0,
 			.tdir_size = 4
 		},
 		{
@@ -35,7 +35,7 @@ static t_op    op_tab[16] =
 			.op_code = 2,
 			.delay =  5,
 			.inf_carry =  1,
-			.unknown = 0,
+			.code_args = 1,
 			.tdir_size = 4
 		},
 		{
@@ -45,7 +45,7 @@ static t_op    op_tab[16] =
 			.op_code = 3,
 			.delay =  5,
 			.inf_carry =  1,
-			.unknown =  0,
+			.code_args =  1,
 			.tdir_size = 4
 		},
 		{
@@ -55,7 +55,7 @@ static t_op    op_tab[16] =
 			.op_code =  4,
 			.delay =  10,
 			.inf_carry =  1,
-			.unknown =  0,
+			.code_args =  1,
 			.tdir_size = 4
 		},
 		{
@@ -65,7 +65,7 @@ static t_op    op_tab[16] =
 			.op_code = 5,
 			.delay = 10,
 			.inf_carry =  1,
-			.unknown =  0,
+			.code_args =  1,
 			.tdir_size = 4
 		},
 		{
@@ -75,7 +75,7 @@ static t_op    op_tab[16] =
 			.op_code = 6,
 			.delay = 6,
 			.inf_carry = 1,
-			.unknown = 0,
+			.code_args = 1,
 			.tdir_size = 4
 		},
 		{
@@ -85,7 +85,7 @@ static t_op    op_tab[16] =
 			.op_code = 7,
 			.delay =  6,
 			.inf_carry = 1,
-			.unknown = 0,
+			.code_args = 1,
 			.tdir_size = 4
 		},
 		{
@@ -95,7 +95,7 @@ static t_op    op_tab[16] =
 			.op_code = 8,
 			.delay = 6,
 			.inf_carry = 1,
-			.unknown = 0,
+			.code_args = 1,
 			.tdir_size = 4
 		},
 		{
@@ -105,7 +105,7 @@ static t_op    op_tab[16] =
 			.op_code = 9,
 			.delay = 20,
 			.inf_carry = 0,
-			.unknown = 1,
+			.code_args = 0,
 			.tdir_size = 2
 		},
 		{
@@ -115,7 +115,7 @@ static t_op    op_tab[16] =
 			.op_code =  10,
 			.delay = 25,
 			.inf_carry = 1,
-			.unknown = 1,
+			.code_args = 1,
 			.tdir_size = 2
 		},
 		{
@@ -125,7 +125,7 @@ static t_op    op_tab[16] =
 			.op_code = 11,
 			.delay = 25,
 			.inf_carry = 1,
-			.unknown = 1,
+			.code_args = 1,
 			.tdir_size = 2
 		},
 		{
@@ -135,7 +135,7 @@ static t_op    op_tab[16] =
 			.op_code = 12,
 			.delay = 800,
 			.inf_carry = 0,
-			.unknown = 1,
+			.code_args = 0,
 			.tdir_size = 2
 		},
 		{
@@ -145,7 +145,7 @@ static t_op    op_tab[16] =
 			.op_code = 13,
 			.delay = 10,
 			.inf_carry = 1,
-			.unknown = 0,
+			.code_args = 1,
 			.tdir_size = 4
 		},
 		{
@@ -155,7 +155,7 @@ static t_op    op_tab[16] =
 			.op_code = 14,
 			.delay = 50,
 			.inf_carry = 1,
-			.unknown = 1,
+			.code_args = 1,
 			.tdir_size = 2
 		},
 		{
@@ -165,7 +165,7 @@ static t_op    op_tab[16] =
 			.op_code =  15,
 			.delay = 1000,
 			.inf_carry = 0,
-			.unknown = 1,
+			.code_args = 0,
 			.tdir_size = 2
 		},
 		{
@@ -175,7 +175,7 @@ static t_op    op_tab[16] =
 			.op_code = 16,
 			.delay = 2,
 			.inf_carry = 1,
-			.unknown = 0,
+			.code_args = 1,
 			.tdir_size = 4
 		},
 	};
