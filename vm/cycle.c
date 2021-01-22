@@ -90,8 +90,8 @@ void	cycle(t_cw *cw)
 	place_pl_and_kors(cw);
 	while (cw->num_of_koretko)
 	{
-//		if (cw->cycles == 40)
-//			ft_printf("here\n");
+		if (cw->cycles == 1080)
+			ft_printf("here\n");
 		make_op(cw);
 		if (cw->cycles_to_die == cw->cycles_to_check
 			|| cw->cycles_to_die <= 0)
@@ -103,7 +103,7 @@ void	cycle(t_cw *cw)
 //		if (cw->cycles_to_check % 100 == 0)
 //			printf("ctd = %d, ctc = %d, nol = %d , cyc = %d\n", cw->cycles_to_die,
 //		  cw->cycles_to_check, cw->num_of_lives, cw->cycles);
-		if (cw->cycles == 10000)
+		if (cw->cycles == 1800)
 		{
 			ft_print_memory(cw->map, 4096);
 			exit(1);

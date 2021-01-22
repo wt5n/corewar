@@ -55,7 +55,7 @@ void	op_fork(t_cw *cw, t_koretko *kor)
 	while (i++ < REG_NUMBER)
 		koretko->regs[i] = kor->regs[i];
 	koretko->carry = kor->carry;
-	koretko->last_alive = kor->last_alive;
+	koretko->last_alive = cw->cycles;
 	koretko->parent_id = kor->parent_id;
 	chain_kor(&cw->kors, koretko);
 	kor->ind_adrs = 0;
@@ -74,7 +74,7 @@ void	op_lfork(t_cw *cw, t_koretko *kor)
 	while (i++ < REG_NUMBER)
 		koretko->regs[i] = kor->regs[i];
 	koretko->carry = kor->carry;
-	koretko->last_alive = kor->last_alive;
+	koretko->last_alive = cw->cycles;
 	koretko->parent_id = kor->parent_id;
 	chain_kor(&cw->kors, koretko);
 	kor->ind_adrs = 0;
@@ -163,7 +163,7 @@ void 	op_st(t_cw *cw, t_koretko *kor)
 	{
 		second_arg = is_dir(cw, kor, IND_SIZE, 0) % IDX_MOD;
 		kor->ind_adrs = second_arg;
-		write_value(cw, get_adrs(kor, kor->step, 1), first_arg, op_tab[kor->op_code - 1].tdir_size);
+		write_value(cw, get_adrs(kor, kor->step, 1), first_arg, DIR_SIZE);
 		kor->ind_adrs = 0;
 	}
 }
@@ -247,8 +247,9 @@ void	op_live(t_cw *cw, t_koretko *kor)
 	player = get_value(cw, kor, kor->args[0], 0);
 	cw->num_of_lives++;
 	kor->num_live_cycle++;
-	// printf("player = %d\n", player);
+	 printf("player = %d, kor->id %d  was here on %d cycle\n", player, kor->id, cw->cycles);
 	if (player <= -1 && player >= cw->num_of_champ * -1)
+//	if (player >= 1 && player <= cw->num_of_champ)
 	{
 		champ = cw->champs[mod_n(player) - 1];
 		champ->live_cycle = cw->cycles;

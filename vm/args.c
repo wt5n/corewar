@@ -43,7 +43,7 @@ int		is_dir(t_cw *cw, t_koretko *koretko, int n, int pha)
 
 	i = 0;
 	value = 0;
-	sign = cw->map[get_adrs(koretko, 0, pha)] & 128;
+	sign = cw->map[get_adrs(koretko, 1, pha)] & 128;
 	while (n)
 	{
 		if (sign)
