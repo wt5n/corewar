@@ -12,7 +12,7 @@
 
 #include "asm.h"
 
-int		pars_one3(char *line, t_chempion *ch, t_new_st_label **label, \
+int		par3(char *line, t_chempion *ch, t_new_st_label **label, \
 		t_op_strukt **op)
 {
 	int k;
@@ -34,32 +34,31 @@ int		pars_one2(char *line, t_chempion *ch, t_new_st_label **label)
 	return (1);
 }
 
-int		pars_one(char *line, t_chempion *ch, t_new_st_label **label, \
+int		pars_one(char *li, t_chempion *ch, t_new_st_label **labe, \
 		t_op_strukt **op)
 {
 	int	i;
 
 	i = 0;
-	if (line && line[0] != ' ' && line[0] != '\0' && line[0] != '\t' && \
-	line[0] != '\n')
+	if (li && li[0] != ' ' && li[0] != '\0' && li[0] != '\t' && \
+	li[0] != '\n')
 	{
-		if (line[0] == '.')
+		if (li[0] == '.')
 		{
-			if (pars_one2(line, ch, label) < 0)
+			if (pars_one2(li, ch, labe) < 0)
 				return (-1);
 		}
 		else
 		{
-			if ((pars_label(line, ch, label, &i)) < 0 && \
-					(pars_one3(line, ch, label, op) < 0))
+			if ((par_l(li, ch, labe, &i)) < 0 && (par3(li, ch, labe, op) < 0))
 				return (-1);
 			else
-				pars_one(&(line[i]), ch, label, op);
+				pars_one(&(li[i]), ch, labe, op);
 		}
 	}
 	else
 	{
-		if (pars_one3(line, ch, label, op) < 0)
+		if (par3(li, ch, labe, op) < 0)
 			return (-1);
 	}
 	return (1);
