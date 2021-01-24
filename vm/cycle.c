@@ -70,7 +70,7 @@ void	make_op(t_cw *cw)
 	cur = cw->kors;
 	while (cur)
 	{
-		// printf("pos - %d, id - %d\n", cur->position, cur->id);
+		// ft_printf("pos - %d, id - %d\n", cur->position, cur->id);
 		if (cur->delay == 0)
 		{
 			cur->op_code = cw->map[cur->position];
@@ -90,25 +90,25 @@ void	cycle(t_cw *cw)
 	place_pl_and_kors(cw);
 	while (cw->num_of_koretko)
 	{
-		if (cw->cycles == 1080)
+		if (cw->cycles == 60)
 			ft_printf("here\n");
 		make_op(cw);
 		if (cw->cycles_to_die == cw->cycles_to_check
 			|| cw->cycles_to_die <= 0)
 		{
-//			printf("ctd = %d, ctc = %d, nol = %d, cyc = %d\n", cw->cycles_to_die,
-//		  	cw->cycles_to_check, cw->num_of_lives, cw->cycles);
+			ft_printf("ctd = %d, ctc = %d, nol = %d, cyc = %d\n", cw->cycles_to_die,
+		  	cw->cycles_to_check, cw->num_of_lives, cw->cycles);
 			check_cycles(cw);
 		}
 //		if (cw->cycles_to_check % 100 == 0)
-//			printf("ctd = %d, ctc = %d, nol = %d , cyc = %d\n", cw->cycles_to_die,
+//			ft_printf("ctd = %d, ctc = %d, nol = %d , cyc = %d\n", cw->cycles_to_die,
 //		  cw->cycles_to_check, cw->num_of_lives, cw->cycles);
-		if (cw->cycles == 1800)
-		{
-			ft_print_memory(cw->map, 4096);
-			exit(1);
-		}
+//		if (cw->cycles == 5000)
+//		{
+////			ft_print_memory(cw->map, 4096);
+//			exit(1);
+//		}
 	}
-	ft_printf("Graz! %d is winner! cycle = %d\n", cw->last_player, cw->cycles);
+	ft_printf("Contestant %d, \"%s\", has won !\n", cw->last_player * - 1, cw->champs[cw->last_player * -1 - 1]->name);
 	ft_print_memory(cw->map, 4096);
 }

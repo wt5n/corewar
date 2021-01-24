@@ -81,13 +81,7 @@ int main(int ac, char **av)
 	cw = (t_cw*)ft_memalloc(sizeof(t_cw));
 	write_value(cw, 3, 0x13, 2);
 
-	printf("%d\n", read_value(cw, 3, 2));
-//	map[1] = n >> 0 * 8 & 255;
-//	map[0] = n >> 1 * 8 & 255;
 
-	// map[1] = n & 255 >> 1 * 8;
-//	/**/printf("%#x", map[0]);
-//	 printf("%x\n", map[1]);
 	ft_print_memory(cw->map, 4096);
 
 

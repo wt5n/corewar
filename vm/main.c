@@ -58,10 +58,10 @@ int	main(int argc, char **argv)
 	cycle(cw);
 //	for (int k = 0; k < 22; k++)
 //	{
-//		printf("%#x ", cw->champs[1]->code[k]);
+//		ft_printf("%#x ", cw->champs[1]->code[k]);
 //	}
-//	printf("%d\n", (cw->champs[1]->code[1] & 48) >> 4);
-//	printf("%d\n", (cw->champs[1]->code[1] & 12) >> 2);
-//	printf("%c", cw->champs[1]->code[0]);
+//	ft_printf("%d\n", (cw->champs[1]->code[1] & 48) >> 4);
+//	ft_printf("%d\n", (cw->champs[1]->code[1] & 12) >> 2);
+//	ft_printf("%c", cw->champs[1]->code[0]);
 	return (0);
 }

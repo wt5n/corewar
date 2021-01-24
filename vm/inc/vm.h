@@ -41,6 +41,7 @@ typedef struct			s_cw
 	unsigned char	 	map[MEM_SIZE]; // основная карта
 	int					num_of_champ; // количество чемпионов
 	int					num_of_koretko; // количество кореток
+	int					last_id; // id последней созданной коретки
 	int					cycles; // общее количество циклов
 	int 				last_player; // последний игрок объявивший себя живым
 	int 				num_of_lives; // количество операций live за cycle_to_die
@@ -74,10 +75,10 @@ void		op_xor(t_cw *cw, t_koretko *kor);
 void		op_zjmp(t_cw *cw, t_koretko *kor);
 void		op_ldi(t_cw *cw, t_koretko *kor);
 void		op_sti(t_cw *cw, t_koretko *kor);
-void		op_fork(t_cw *cw, t_koretko *kor);
+void		op_fork(t_cw *cw, t_koretko *old_kor);
 void		op_lld(t_cw *cw, t_koretko *kor);
 void		op_lldi(t_cw *cw, t_koretko *kor);
-void		op_lfork(t_cw *cw, t_koretko *kor);
+void		op_lfork(t_cw *cw, t_koretko *old_kor);
 void		op_aff(t_cw *cw, t_koretko *kor);
 
 // parse.c

@@ -42,42 +42,46 @@ void 	op_aff(t_cw *cw, t_koretko *kor)
 	ft_printf("%c", is_reg(cw, kor));
 }
 
-void	op_fork(t_cw *cw, t_koretko *kor)
+void	op_fork(t_cw *cw, t_koretko *old_kor)
 {
-	t_koretko	*koretko;
+	t_koretko	*new_kor;
 	int			i;
 
-	kor->step++;
+	old_kor->step++;
 	i = -1;
-	kor->ind_adrs = get_value(cw, kor, kor->args[0], 0) % IDX_MOD;
+	old_kor->ind_adrs = get_value(cw, old_kor, old_kor->args[0], 0) % IDX_MOD;
 	cw->num_of_koretko++;
-	koretko = create_koretko(cw->num_of_koretko, get_adrs(kor, 0, 1));
-	while (i++ < REG_NUMBER)
-		koretko->regs[i] = kor->regs[i];
-	koretko->carry = kor->carry;
-	koretko->last_alive = cw->cycles;
-	koretko->parent_id = kor->parent_id;
-	chain_kor(&cw->kors, koretko);
-	kor->ind_adrs = 0;
+	cw->last_id++;
+	ft_printf("fork on %d cycle ", cw->cycles);
+	ft_printf("kor # %d ", old_kor->id);
+	new_kor = create_koretko(cw->last_id, get_adrs(old_kor, 0, 1));
+	while (++i < REG_NUMBER)
+		new_kor->regs[i] = old_kor->regs[i];
+	new_kor->carry = old_kor->carry;
+	new_kor->last_alive = old_kor->last_alive;
+	new_kor->parent_id = old_kor->parent_id;
+	chain_kor(&cw->kors, new_kor);
+	old_kor->ind_adrs = 0;
 }
 
-void	op_lfork(t_cw *cw, t_koretko *kor)
+void	op_lfork(t_cw *cw, t_koretko *old_kor)
 {
-	t_koretko	*koretko;
+	t_koretko	*new_kor;
 	int			i;
 
-	kor->step++;
+	old_kor->step++;
 	i = -1;
-	kor->ind_adrs = get_value(cw, kor, kor->args[0], 0);
+	old_kor->ind_adrs = get_value(cw, old_kor, old_kor->args[0], 0);
 	cw->num_of_koretko++;
-	koretko = create_koretko(cw->num_of_koretko, get_adrs(kor, 0, 1));
-	while (i++ < REG_NUMBER)
-		koretko->regs[i] = kor->regs[i];
-	koretko->carry = kor->carry;
-	koretko->last_alive = cw->cycles;
-	koretko->parent_id = kor->parent_id;
-	chain_kor(&cw->kors, koretko);
-	kor->ind_adrs = 0;
+	cw->last_id++;
+	new_kor = create_koretko(cw->last_id, get_adrs(old_kor, 0, 1));
+	while (++i < REG_NUMBER)
+		new_kor->regs[i] = old_kor->regs[i];
+	new_kor->carry = old_kor->carry;
+	new_kor->last_alive = old_kor->last_alive;
+	new_kor->parent_id = old_kor->parent_id;
+	chain_kor(&cw->kors, new_kor);
+	old_kor->ind_adrs = 0;
 }
 
 void	op_zjmp(t_cw *cw, t_koretko *kor)
@@ -105,7 +109,7 @@ void 	op_and(t_cw *cw, t_koretko *kor)
 	kor->step += 2;
 	a = get_value(cw, kor, kor->args[0], 0);
 	b = get_value(cw, kor, kor->args[1], 0);
-	reg = get_adrs(kor, 0, 0);
+	reg = cw->map[get_adrs(kor, 0, 0)];
 	value = a & b;
 	kor->regs[reg - 1] = value;
 	kor->carry = value == 0 ? 1 : 0;
@@ -122,7 +126,7 @@ void 	op_or(t_cw *cw, t_koretko *kor)
 	kor->step += 2;
 	a = get_value(cw, kor, kor->args[0], 0);
 	b = get_value(cw, kor, kor->args[1], 0);
-	reg = get_adrs(kor, 0, 0);
+	reg = cw->map[get_adrs(kor, 0, 0)];
 	value = a | b;
 	kor->regs[reg - 1] = value;
 	kor->carry = value == 0 ? 1 : 0;
@@ -139,7 +143,7 @@ void 	op_xor(t_cw *cw, t_koretko *kor)
 	kor->step += 2;
 	a = get_value(cw, kor, kor->args[0], 0);
 	b = get_value(cw, kor, kor->args[1], 0);
-	reg = get_adrs(kor, 0, 0);
+	reg = cw->map[get_adrs(kor, 0, 0)];
 	value = a ^ b;
 	kor->regs[reg - 1] = value;
 	kor->carry = value == 0 ? 1 : 0;
@@ -231,7 +235,7 @@ void	op_lldi(t_cw *cw, t_koretko *kor)
 
 	first_arg = get_value(cw, kor, kor->args[0], 0);
 	second_arg = get_value(cw, kor, kor->args[1], 0);
-	reg = get_adrs(kor, 0, 0);
+	reg = cw->map[get_adrs(kor, 0, 0)];
 	kor->ind_adrs = first_arg + second_arg;
 	kor->regs[reg - 1] = get_value(cw, kor, T_DIR, 1);
 	kor->ind_adrs = 0;
@@ -247,7 +251,7 @@ void	op_live(t_cw *cw, t_koretko *kor)
 	player = get_value(cw, kor, kor->args[0], 0);
 	cw->num_of_lives++;
 	kor->num_live_cycle++;
-	 printf("player = %d, kor->id %d  was here on %d cycle\n", player, kor->id, cw->cycles);
+//	ft_printf("player = %d, kor->id %d  was here on %d cycle\n", player, kor->id, cw->cycles);
 	if (player <= -1 && player >= cw->num_of_champ * -1)
 //	if (player >= 1 && player <= cw->num_of_champ)
 	{

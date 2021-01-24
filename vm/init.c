@@ -26,7 +26,8 @@ void	place_pl_and_kors(t_cw *cw)
 	{
 		ft_memcpy(&(cw->map[position]), cw->champs[player_id - 1]->code,
 				  (size_t)cw->champs[player_id - 1]->code_size);
-		kor = create_koretko(cw->num_of_koretko + 1, position);
+		cw->last_id++;
+		kor = create_koretko(cw->last_id, position);
 		kor->regs[0] = player_id * -1;
 		kor->parent_id = player_id;
 		if (cw->num_of_koretko > 0)

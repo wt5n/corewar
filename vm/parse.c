@@ -20,7 +20,7 @@ void	read_champ_name(int fd, t_champ *champ)
 	read(fd, &tmp, 4);
 	read(fd, buf, PROG_NAME_LENGTH);
 	champ->name = ft_strndup(buf, ft_strlen(buf));
-//	printf("%s\n", champ->name);
+//	ft_printf("%s\n", champ->name);
 }
 
 void	read_champ_code_size(int fd, t_champ *champ)
@@ -33,9 +33,9 @@ void	read_champ_code_size(int fd, t_champ *champ)
 	read(fd, &size, 4);
 	str = adv_ft_itoa(size, 16, 'a');
 	str = ft_strrev(str);
-	ft_swap_two_let(str);
+	// ft_swap_two_let(str);
 	champ->code_size = ft_atoi_base(str, 16);
-//	printf("%d\n", champ->code_size);
+	ft_printf("%d\n", champ->code_size);
 }
 
 void	read_champ_comm(int fd, t_champ *champ)
@@ -44,7 +44,7 @@ void	read_champ_comm(int fd, t_champ *champ)
 
 	read(fd, comm, 2048);
 	champ->comm = ft_strndup(comm, ft_strlen(comm));
-//	printf("%s\n", champ->comm);
+//	ft_printf("%s\n", champ->comm);
 }
 
 void	read_champ_code(int fd, t_champ *champ) {
