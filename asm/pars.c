@@ -12,6 +12,13 @@
 
 #include "asm.h"
 
+int			ft_abs(int a)
+{
+	if (a < 0)
+		return (-a);
+	return (a);
+}
+
 char		*cut_one(char *str, char c, int n)
 {
 	char	*srez;

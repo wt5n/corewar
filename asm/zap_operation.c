@@ -1,11 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   zap_operation.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: heantoni <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/01/24 15:40:14 by heantoni          #+#    #+#             */
+/*   Updated: 2021/01/24 15:40:42 by heantoni         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "asm.h"
 
-void    zap_registr(t_chempion *ch)
+void	zap_registr(t_chempion *ch)
 {
-    ch->reg[0].code = 2;
-    ch->reg[1].code = 1;
-    ch->reg[2].code = 3;
-    ch->reg[0].size = 1;
-    ch->reg[1].size = 0;
-    ch->reg[2].size = 2;
+	ch->reg[0].code = 2;
+	ch->reg[1].code = 1;
+	ch->reg[2].code = 3;
+	ch->reg[0].size = 1;
+	ch->reg[1].size = 0;
+	ch->reg[2].size = 2;
 }
