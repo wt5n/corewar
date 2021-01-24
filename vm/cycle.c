@@ -90,7 +90,7 @@ void	cycle(t_cw *cw)
 	place_pl_and_kors(cw);
 	while (cw->num_of_koretko)
 	{
-		if (cw->cycles == 60)
+		if (cw->cycles == 9)
 			ft_printf("here\n");
 		make_op(cw);
 		if (cw->cycles_to_die == cw->cycles_to_check
@@ -103,12 +103,12 @@ void	cycle(t_cw *cw)
 //		if (cw->cycles_to_check % 100 == 0)
 //			ft_printf("ctd = %d, ctc = %d, nol = %d , cyc = %d\n", cw->cycles_to_die,
 //		  cw->cycles_to_check, cw->num_of_lives, cw->cycles);
-//		if (cw->cycles == 5000)
-//		{
-////			ft_print_memory(cw->map, 4096);
-//			exit(1);
-//		}
+		if (cw->cycles == 26)
+		{
+			ft_print_memory(cw->map, 4096);
+			exit(1);
+		}
 	}
-	ft_printf("Contestant %d, \"%s\", has won !\n", cw->last_player * - 1, cw->champs[cw->last_player * -1 - 1]->name);
+	printf("Contestant %d, \"%s\", has won !\n", cw->last_player, cw->champs[cw->last_player - 1]->name);
 	ft_print_memory(cw->map, 4096);
 }
