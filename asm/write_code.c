@@ -1,12 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   write_code.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: heantoni <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/01/24 15:30:40 by heantoni          #+#    #+#             */
+/*   Updated: 2021/01/24 15:39:30 by heantoni         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "asm.h"
 
-int make_file(char *name_file)
+int			make_file(char *name_file)
 {
-	int fd1;
-	int i;
-	char *new_name;
+	int		fd1;
+	int		i;
+	char	*new_name;
 
-	if ((new_name = (char *)malloc(sizeof(char) * (ft_strlen(name_file) + 4))) < 0)
+	if ((new_name = (char *)malloc(sizeof(char) * (ft_strlen(name_file) + 4))) \
+			< 0)
 		return (-1);
 	i = 0;
 	while (i < (int)(ft_strlen(name_file) - 1))
@@ -27,15 +40,16 @@ int make_file(char *name_file)
 	return (fd1);
 }
 
-int write_code3(int fd1, t_chempion ch, char **nullu)
+int			write_code3(int fd1, t_chempion ch, char **nullu)
 {
-	int len_comment;
-	char *comment;
-	int i;
+	int		len_comment;
+	char	*comment;
+	int		i;
 
 	i = 0;
 	len_comment = ft_strlen(ch.comment);
-	if ((comment = (char *)malloc(sizeof(char) * (COMMENT_LENGTH - len_comment))) < 0)
+	if ((comment = (char *)malloc(sizeof(char) * \
+					(COMMENT_LENGTH - len_comment))) < 0)
 		return (-1);
 	while (i < COMMENT_LENGTH - len_comment)
 	{
@@ -52,11 +66,11 @@ int write_code3(int fd1, t_chempion ch, char **nullu)
 	return (1);
 }
 
-int write_code2(int fd1, t_chempion ch)
+int			write_code2(int fd1, t_chempion ch)
 {
-	char *nullu;
-	short m;
-	int i;
+	char	*nullu;
+	short	m;
+	int		i;
 
 	i = 0;
 	if ((nullu = (char *)malloc(sizeof(char) * 4)) < 0)
@@ -79,15 +93,17 @@ int write_code2(int fd1, t_chempion ch)
 	return (1);
 }
 
-int write_code1(int fd1, t_chempion ch)
+int			write_code1(int fd1, t_chempion ch)
 {
-	char *name;
-	int len_name;
+	char	*name;
+	int		len_name;
+	int		i;
 
 	len_name = ft_strlen(ch.name);
-	if ((name = (char *)malloc(sizeof(char) * (PROG_NAME_LENGTH - len_name))) < 0)
+	if ((name = (char *)malloc(sizeof(char) * (PROG_NAME_LENGTH - len_name))) \
+			< 0)
 		return (-1);
-	int i = 0;
+	i = 0;
 	while (i < PROG_NAME_LENGTH - len_name)
 	{
 		name[i] = 0;
@@ -99,11 +115,11 @@ int write_code1(int fd1, t_chempion ch)
 	return (1);
 }
 
-int write_code(char *name_file, t_chempion ch)
+int			write_code(char *name_file, t_chempion ch)
 {
-	int fd1;
-	char *magic;
-	short m;
+	int		fd1;
+	char	*magic;
+	short	m;
 
 	fd1 = make_file(name_file);
 	magic = (char *)malloc(sizeof(char) * 4);

@@ -59,3 +59,14 @@ int		kol_sim(char *str, char c)
 		return (-1);
 	return (i);
 }
+
+int		proverca(char c)
+{
+	if (c == 'r')
+		return (REG_CODE);
+	else if (c == '%')
+		return (DIR_CODE);
+	else
+		return (IND_CODE);
+	return (-1);
+}

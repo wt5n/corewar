@@ -13,7 +13,8 @@ SRC = 	asm.c \
 		trace.c \
 		write_code.c \
 		pars_one.c \
-		zap_label.c
+		zap_label.c \
+		proverca_registra.c
 LIB_FT = ./libft/libft.a 
 OBJ = $(patsubst %.c, %.o, $(SRC))
 CFLAGS = -Wall -Werror -Wextra $(INCLUDES)

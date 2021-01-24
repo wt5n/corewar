@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_latoi.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: heantoni <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/01/24 16:13:29 by heantoni          #+#    #+#             */
+/*   Updated: 2021/01/24 16:15:19 by heantoni         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 static int		pro(char *str)
 {
 	if (*str == ' ' || *str == '\n' || *str == '\v' || \
@@ -8,7 +20,7 @@ static int		pro(char *str)
 
 static int		flag(char *str)
 {
-	int		fl;
+	int			fl;
 
 	fl = 1;
 	if (*str == '-')
@@ -16,7 +28,7 @@ static int		flag(char *str)
 	return (fl);
 }
 
-long				ft_latoi(char *str)
+long			ft_latoi(char *str)
 {
 	long long	chuslo;
 	int			fl;
@@ -32,9 +44,5 @@ long				ft_latoi(char *str)
 		chuslo = chuslo * 10 + (*str - '0');
 		str++;
 	}
-	/*if ((chuslo > (chuslo * 10)) && fl == -1)
-		return (0);
-	if (chuslo > (chuslo * 10))
-		return (-1);*/
 	return (fl * chuslo);
 }
