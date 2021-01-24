@@ -104,4 +104,7 @@ int			is_correct_args(int i, int *ar, t_cw *cw, t_koretko *koretko);
 // cycle.c
 void		cycle(t_cw *cw);
 
+// errors.c
+void		output_error(int n);
+
 #endif

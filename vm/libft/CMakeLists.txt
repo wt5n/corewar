@@ -103,6 +103,7 @@ set(SRC libft/ft_atoi.c
         libft/ft_toupper.c
         libft/get_next_line.c
         libft/ft_pow.c
+        libft/ft_bin_to_dec.c
         ${PrintfSRC} libft/ft_strrev.c libft/ft_atoi_base.c libft/ft_print_memory.c)
 
 add_library(libft STATIC ${SRC})

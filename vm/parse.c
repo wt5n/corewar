@@ -2,14 +2,12 @@
 
 void	read_magic_number(char *argv, int fd)
 {
-	unsigned int buf;
+	int buf;
 
 	fd = open(argv, O_RDONLY);
 	read(fd, &buf, MAGIC_NUMBER_LENGTH);
-	char *magic_num = adv_ft_itoa(buf, 16, 'a');
-	magic_num = ft_strndup(magic_num, 6);
-	char *vv3 = ft_strrev(magic_num);
-	ft_swap_two_let(vv3);
+	if (buf != -209458688)
+		output_error(1);
 }
 
 void	read_champ_name(int fd, t_champ *champ)
@@ -25,17 +23,16 @@ void	read_champ_name(int fd, t_champ *champ)
 
 void	read_champ_code_size(int fd, t_champ *champ)
 {
-	char tmp[4];
-	int size;
-	char *str;
+	int tmp;
+	unsigned char size[4];
 
 	read(fd, &tmp, 4);
+	if (tmp != 0)
+		output_error(3);
 	read(fd, &size, 4);
-	str = adv_ft_itoa(size, 16, 'a');
-	str = ft_strrev(str);
-	// ft_swap_two_let(str);
-	champ->code_size = ft_atoi_base(str, 16);
-	ft_printf("%d\n", champ->code_size);
+	champ->code_size = ft_bin_to_dec(size, 4);
+	if (champ->code_size < 0 || champ->code_size > CHAMP_MAX_SIZE + 1)
+		output_error(4);
 }
 
 void	read_champ_comm(int fd, t_champ *champ)
