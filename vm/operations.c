@@ -189,7 +189,7 @@ void 	op_sti(t_cw *cw, t_koretko *kor)
 		second_arg = get_value(cw, kor, kor->args[1], 0);
 	if (kor->args[2] == T_REG)
 	{
-		third_arg = cw->map[get_adrs(kor, 0, 0)];
+		third_arg = kor->regs[cw->map[get_adrs(kor, 0, 0)] - 1];
 		kor->step++;
 	}
 	else
