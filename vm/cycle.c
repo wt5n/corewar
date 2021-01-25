@@ -2,8 +2,8 @@
 
 void	exec_op(t_cw *cw, t_koretko *koretko)
 {
-	// if (cw->cycles > 40)
-		// ft_printf("hello\n");
+	 if (cw->cycles == 15)
+		 ft_printf("hello\n");
 	koretko->op_code == 1 ? op_live(cw, koretko) : 0;
 	koretko->op_code == 2 ? op_ld(cw, koretko) : 0;
 	koretko->op_code == 3 ? op_st(cw, koretko) : 0;
@@ -70,7 +70,7 @@ void	make_op(t_cw *cw)
 	cur = cw->kors;
 	while (cur)
 	{
-		// ft_printf("pos - %d, id - %d\n", cur->position, cur->id);
+		 ft_printf("pos - %d, id - %d\n", cur->position, cur->id);
 		if (cur->delay == 0)
 		{
 			cur->op_code = cw->map[cur->position];
@@ -90,8 +90,8 @@ void	cycle(t_cw *cw)
 	place_pl_and_kors(cw);
 	while (cw->num_of_koretko)
 	{
-		if (cw->cycles == 9)
-			ft_printf("here\n");
+//		if (cw->cycles == 4)
+//			ft_printf("here\n");
 		make_op(cw);
 		if (cw->cycles_to_die == cw->cycles_to_check
 			|| cw->cycles_to_die <= 0)
@@ -103,9 +103,16 @@ void	cycle(t_cw *cw)
 //		if (cw->cycles_to_check % 100 == 0)
 //			ft_printf("ctd = %d, ctc = %d, nol = %d , cyc = %d\n", cw->cycles_to_die,
 //		  cw->cycles_to_check, cw->num_of_lives, cw->cycles);
-		if (cw->cycles == 26)
+		if (cw->cycles == 150)
 		{
 			ft_print_memory(cw->map, 4096);
+			t_koretko  *cur;
+			cur = cw->kors;
+			while (cur)
+			{
+				ft_printf("koretko #%d on position %d in map %#x\n", cur->id, cur->position, cw->map[cur->position]);
+				cur = cur->next;
+			}
 			exit(1);
 		}
 	}

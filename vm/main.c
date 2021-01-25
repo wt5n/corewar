@@ -42,12 +42,12 @@ void 	check_player(t_cw *cw, char **av, int i)
 		if (av[i + 1] && av[i + 2] && has_cor(av[i + 2]))
 		{
 			num = ft_atoi(av[i + 1]);
-			if (num > 0 && num <= MAX_PLAYERS)
-			{
-
-			}
-			else
-				print_usage();
+//			if (num > 0 && num <= MAX_PLAYERS)
+//			{
+//
+//			}
+//			else
+//				print_usage();
 		}
 	}
 //	else
@@ -73,8 +73,8 @@ void	parse_flags(int ac, char **av, t_cw *cw)
 			cw->vs = 1;
 		else if (ft_strcmp(av[i], "-n") == 0 || has_cor(av[i]))
 			check_player(cw, av, i);
-		else
-			print_usage();
+//		else
+//			print_usage();
 	}
 }
 

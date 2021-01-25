@@ -195,7 +195,7 @@ void 	op_sti(t_cw *cw, t_koretko *kor)
 	else
 		third_arg = get_value(cw, kor, kor->args[2], 0);
 	kor->ind_adrs = (second_arg + third_arg) % IDX_MOD;
-	write_value(cw, get_adrs(kor, kor->step, 1), first_arg, DIR_SIZE);
+	write_value(cw, get_adrs(kor, 0, 1), first_arg, DIR_SIZE);
 	kor->ind_adrs = 0;
 }
 

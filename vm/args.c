@@ -17,7 +17,7 @@ int		get_adrs(t_koretko *koretko, int modif, int phantom_step)
 	int	adrs;
 
 	if (phantom_step == 1)
-		adrs = koretko->position + koretko->ind_adrs;
+		adrs = koretko->position + koretko->ind_adrs + modif;
 	else
 		adrs = koretko->position + koretko->step + modif;
 	adrs %= MEM_SIZE;
@@ -43,7 +43,7 @@ int		is_dir(t_cw *cw, t_koretko *koretko, int n, int pha)
 
 	i = 0;
 	value = 0;
-	sign = cw->map[get_adrs(koretko, 1, pha)] & 128;
+	sign = cw->map[get_adrs(koretko, 0, pha)] & 128;
 	while (n)
 	{
 		if (sign)
