@@ -12,33 +12,74 @@ void 	read_champion(char *argv, t_champ *champ, t_cw *cw)
 	cw->num_of_champ++;
 }
 
-void	nums_of_champs(t_cw *cw, int ac, char **av)
-{
-	int num;
-	int i;
-
-	i = -1;
-	num = 1;
-	while (++i < ac - 1)
-	{
-//		if (ft_strcmp(av[i], "-n"))
-//		{
-//
-//		}
-		cw->champs[i]->number = num;
-		num++;
-	}
-}
-
 void	create_champ(t_cw *cw, int id)
 {
 	cw->champs[id] = (t_champ*)ft_memalloc(sizeof(t_champ));
-	cw->champs[id]->name = (char*)ft_memalloc(sizeof(char) * 1);
-	cw->champs[id]->comm = (char*)ft_memalloc(sizeof(char) * 1);
-	cw->champs[id]->code = (unsigned char*)ft_memalloc(sizeof(unsigned char) * 1);
+	cw->champs[id]->name = (char*)ft_memalloc(sizeof(char));
+	cw->champs[id]->comm = (char*)ft_memalloc(sizeof(char));
+	cw->champs[id]->code = (unsigned char*)ft_memalloc(sizeof(unsigned char));
 }
 
-int	main(int argc, char **argv)
+int 	has_cor(char *str)
+{
+	int a;
+
+	a = ft_strlen(str);
+	if (a > 4)
+	{
+		if (ft_strcmp(ft_strsub(str, a - 4, 4), ".cor") == 0)
+			return (1);
+	}
+	return (0);
+}
+
+void 	check_player(t_cw *cw, char **av, int i)
+{
+	int num;
+
+	if (!ft_strcmp(av[i], "-n"))
+	{
+		if (av[i + 1] && av[i + 2] && has_cor(av[i + 2]))
+		{
+			num = ft_atoi(av[i + 1]);
+			if (num > 0 && num <= MAX_PLAYERS)
+			{
+
+			}
+			else
+				print_usage();
+		}
+	}
+//	else
+//		create_champ(cw, )
+}
+
+void	parse_flags(int ac, char **av, t_cw *cw)
+{
+	int i;
+
+	i = 0;
+	while (++i < ac)
+	{
+		if (!ft_strcmp(av[i], "-d") || !ft_strcmp(av[i], "-dump"))
+		{
+			if (av[i + 1])
+			{
+				cw->dump_cycle = ft_atoi(av[i + 1]);
+				i++;
+			}
+		}
+		else if (!ft_strcmp(av[i], "-v"))
+			cw->vs = 1;
+		else if (ft_strcmp(av[i], "-n") == 0 || has_cor(av[i]))
+			check_player(cw, av, i);
+		else
+			print_usage();
+	}
+}
+
+
+int		main(int argc, char **argv)
 {
 	t_cw *cw;
 	int	i = -1;
@@ -51,7 +92,6 @@ int	main(int argc, char **argv)
 	i = 0;
 	while (++i < argc)
 		read_champion(argv[i], cw->champs[i - 1], cw);
-	nums_of_champs(cw, argc, argv);
 	cycle(cw);
 	return (0);
 }

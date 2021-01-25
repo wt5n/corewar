@@ -49,6 +49,8 @@ typedef struct			s_cw
 	int					cycles_to_check; // циклов после проверки
 	int					num_of_checks; // количество проверок за cycle_to_die
 	int 				ind_adrs;
+	int 				dump_cycle; // цикл дампа
+	int 				vs;
 	t_koretko 			*kors; // список кореток
 }						t_cw;
 
@@ -106,5 +108,6 @@ void		cycle(t_cw *cw);
 
 // errors.c
 void		output_error(int n);
+void		print_usage();
 
 #endif

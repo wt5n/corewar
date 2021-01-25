@@ -67,6 +67,26 @@ int read_value(t_cw *cw, int adrs, int size)
 	return value;
 }
 
+int has_cor(char *str)
+{
+	int a;
+
+	a = ft_strlen(str);
+	if (a > 4)
+	{
+		if (ft_strcmp(ft_strsub(str, a - 4, 4), ".cor") == 0)
+		{
+			printf("ok\n");
+			return 1;
+		}
+	}
+	else
+	{
+		printf("bad\n");
+		return 0;
+	}
+}
+
 int main(int ac, char **av)
 {
 //	char map[2];
@@ -77,12 +97,15 @@ int main(int ac, char **av)
 //	for (int i = 0; i < 2; i++)
 //		map[i] = 0;
 
-	t_cw *cw;
-	cw = (t_cw*)ft_memalloc(sizeof(t_cw));
-	write_value(cw, 3, 0x13, 2);
-
-
-	ft_print_memory(cw->map, 4096);
+	has_cor("a");
+	has_cor("a.cor");
+	has_cor(".cor");
+//	t_cw *cw;
+//	cw = (t_cw*)ft_memalloc(sizeof(t_cw));
+//	write_value(cw, 3, 0x13, 2);
+//
+//
+//	ft_print_memory(cw->map, 4096);
 
 
 }
