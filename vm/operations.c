@@ -159,9 +159,7 @@ void 	op_st(t_cw *cw, t_koretko *kor)
 	first_arg = is_reg(cw, kor);
 	if (kor->args[1] == T_REG)
 	{
-		second_arg = cw->map[get_adrs(kor, 0, 0)];
-		kor->regs[second_arg - 1] = first_arg;
-		kor->step++;
+		second_arg = is_reg(cw, kor);
 	}
 	else
 	{
@@ -180,20 +178,20 @@ void 	op_sti(t_cw *cw, t_koretko *kor)
 
 	kor->step += 2;
 	first_arg = is_reg(cw, kor);
-	if (kor->args[1] == T_REG)
-	{
-		second_arg = cw->map[get_adrs(kor, 0, 0)];
-		kor->step++;
-	}
-	else
-		second_arg = get_value(cw, kor, kor->args[1], 0);
-	if (kor->args[2] == T_REG)
-	{
-		third_arg = kor->regs[cw->map[get_adrs(kor, 0, 0)] - 1];
-		kor->step++;
-	}
-	else
-		third_arg = get_value(cw, kor, kor->args[2], 0);
+	// if (kor->args[1] == T_REG)
+	// {
+	// 	second_arg = cw->map[get_adrs(kor, 0, 0)];
+	// 	kor->step++;
+	// }
+	// else
+	second_arg = get_value(cw, kor, kor->args[1], 0);
+	// if (kor->args[2] == T_REG)
+	// {
+	// 	third_arg = kor->regs[cw->map[get_adrs(kor, 0, 0)] - 1];
+	// 	kor->step++;
+	// }
+	// else
+	third_arg = get_value(cw, kor, kor->args[2], 0);
 	kor->ind_adrs = (second_arg + third_arg) % IDX_MOD;
 	write_value(cw, get_adrs(kor, 0, 1), first_arg, DIR_SIZE);
 	kor->ind_adrs = 0;
@@ -224,6 +222,7 @@ void	op_ldi(t_cw *cw, t_koretko *kor)
 	reg = cw->map[get_adrs(kor, 0, 0)];
 	kor->ind_adrs = (first_arg + second_arg) % IDX_MOD;
 	kor->regs[reg - 1] = get_value(cw, kor, T_DIR, 1);
+	kor->ind_adrs = 0;
 	kor->step++;
 }
 
