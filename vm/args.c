@@ -65,8 +65,7 @@ int		is_indir(t_cw *cw, t_koretko *koretko)
 	int	value;
 
 	adrs = is_dir(cw, koretko, IND_SIZE, 0);
-	if (koretko->op_code != 13)
-		adrs %= IDX_MOD;
+	adrs %= IDX_MOD;
 	koretko->ind_adrs = adrs;
 	value = is_dir(cw, koretko, DIR_SIZE, 1);
 	koretko->ind_adrs = 0;
