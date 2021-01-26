@@ -15,6 +15,7 @@ void 	read_champion(char *argv, t_champ *champ, t_cw *cw)
 void	create_champ(t_cw *cw, int id)
 {
 	cw->champs[id] = (t_champ*)ft_memalloc(sizeof(t_champ));
+	cw->champs[id]->number = id + 1;
 	cw->champs[id]->name = (char*)ft_memalloc(sizeof(char));
 	cw->champs[id]->comm = (char*)ft_memalloc(sizeof(char));
 	cw->champs[id]->code = (unsigned char*)ft_memalloc(sizeof(unsigned char));

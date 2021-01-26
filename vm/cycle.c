@@ -2,7 +2,7 @@
 
 void	exec_op(t_cw *cw, t_koretko *koretko)
 {
-	 if (cw->cycles >= 50)
+	 if (cw->cycles >= 1021)
 		 ft_printf("hello\n");
 	koretko->op_code == 1 ? op_live(cw, koretko) : 0;
 	koretko->op_code == 2 ? op_ld(cw, koretko) : 0;
@@ -55,7 +55,7 @@ void	read_byte(t_koretko *koretko, t_cw *cw)
 		if (is_correct_args(i, koretko->args, cw, koretko))
 			exec_op(cw, koretko);
 		else
-			wrong_args(koretko);
+			wrong_args(cw, koretko);
 	}
 	else
 		koretko->position = get_adrs(koretko, 1, 0);
@@ -103,7 +103,7 @@ void	cycle(t_cw *cw)
 //		if (cw->cycles_to_check % 100 == 0)
 //			ft_printf("ctd = %d, ctc = %d, nol = %d , cyc = %d\n", cw->cycles_to_die,
 //		  cw->cycles_to_check, cw->num_of_lives, cw->cycles);
-		if (cw->cycles == 902)
+		if (cw->cycles == 10392)
 		{
 			ft_print_memory(cw->map, 4096);
 			t_koretko  *cur;
@@ -117,6 +117,7 @@ void	cycle(t_cw *cw)
 			exit(1);
 		}
 	}
+	cw->last_player *= -1;
 	printf("Contestant %d, \"%s\", has won !\n", cw->last_player, cw->champs[cw->last_player - 1]->name);
 	ft_print_memory(cw->map, 4096);
 }

@@ -51,7 +51,7 @@ void	op_fork(t_cw *cw, t_koretko *old_kor)
 
 	old_kor->step++;
 	i = -1;
-	old_kor->ind_adrs = get_value(cw, old_kor, old_kor->args[0], 0) % IDX_MOD;
+	old_kor->ind_adrs = is_dir(cw, old_kor, op_tab[old_kor->op_code - 1].tdir_size, 0) % IDX_MOD;
 	cw->num_of_koretko++;
 	cw->last_id++;
 	ft_printf("fork on %d cycle ", cw->cycles);

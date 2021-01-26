@@ -100,7 +100,7 @@ void		chain_kor(t_koretko **kors, t_koretko *kor);
 
 // checks.c
 void		check_cycles(t_cw *cw);
-void		wrong_args(t_koretko *kor);
+void		wrong_args(t_cw *cw, t_koretko *kor);
 int			is_correct_args(int i, int *ar, t_cw *cw, t_koretko *koretko);
 
 // cycle.c
