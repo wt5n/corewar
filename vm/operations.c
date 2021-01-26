@@ -3,10 +3,12 @@
 void	op_lld(t_cw *cw, t_koretko *kor)
 {
 	int value;
+	int reg;
 
 	kor->step += 2;
 	value = get_value(cw, kor, kor->args[0], 0);
-	kor->regs[cw->map[get_adrs(kor, 0, 0)]] = value;
+	reg = cw->map[get_adrs(kor, 0, 0)];
+	kor->regs[reg - 1] = value;
 	kor->step++;
 }
 
