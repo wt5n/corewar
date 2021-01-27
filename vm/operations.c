@@ -254,11 +254,11 @@ void	op_live(t_cw *cw, t_koretko *kor)
 
 	kor->step++;
 	player = get_value(cw, kor, kor->args[0], 0);
-	cw->num_of_lives++;
 	kor->num_live_cycle++;
 	kor->last_alive = cw->cycles;
 	if (player <= -1 && player >= cw->num_of_champ * -1)
 	{
+		cw->num_of_lives++;
 //		ft_printf("LIVE player = %d, kor->id %d cycle %d\n", player, kor->id, cw->cycles);
 		cw->last_player = player;
 	}
