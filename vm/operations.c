@@ -54,8 +54,8 @@ void	op_fork(t_cw *cw, t_koretko *old_kor)
 	old_kor->ind_adrs = is_dir(cw, old_kor, op_tab[old_kor->op_code - 1].tdir_size, 0) % IDX_MOD;
 	cw->num_of_koretko++;
 	cw->last_id++;
-	ft_printf("fork on %d cycle ", cw->cycles);
-	ft_printf("kor # %d ", old_kor->id);
+//	ft_printf("fork on %d cycle new_kor->id = %d ", cw->cycles, cw->last_id);
+//	ft_printf("kor # %d \n", old_kor->id);
 	new_kor = create_koretko(cw->last_id, get_adrs(old_kor, 0, 1));
 	while (++i < REG_NUMBER)
 		new_kor->regs[i] = old_kor->regs[i];
@@ -76,6 +76,8 @@ void	op_lfork(t_cw *cw, t_koretko *old_kor)
 	old_kor->ind_adrs = get_value(cw, old_kor, old_kor->args[0], 0);
 	cw->num_of_koretko++;
 	cw->last_id++;
+//	ft_printf("lfork on %d cycle ", cw->cycles);
+//	ft_printf("kor # %d \n", old_kor->id);
 	new_kor = create_koretko(cw->last_id, get_adrs(old_kor, 0, 1));
 	while (++i < REG_NUMBER)
 		new_kor->regs[i] = old_kor->regs[i];
@@ -249,20 +251,15 @@ void	op_lldi(t_cw *cw, t_koretko *kor)
 void	op_live(t_cw *cw, t_koretko *kor)
 {
 	int player;
-	t_champ *champ;
 
 	kor->step++;
 	player = get_value(cw, kor, kor->args[0], 0);
 	cw->num_of_lives++;
 	kor->num_live_cycle++;
-//	ft_printf("player = %d, kor->id %d  was here on %d cycle\n", player, kor->id, cw->cycles);
+	kor->last_alive = cw->cycles;
 	if (player <= -1 && player >= cw->num_of_champ * -1)
-//	if (player >= 1 && player <= cw->num_of_champ)
 	{
-		champ = cw->champs[mod_n(player) - 1];
-		champ->live_cycle = cw->cycles;
-		kor->last_alive = cw->cycles;
-		champ->lives_num++;
+//		ft_printf("LIVE player = %d, kor->id %d cycle %d\n", player, kor->id, cw->cycles);
 		cw->last_player = player;
 	}
 }

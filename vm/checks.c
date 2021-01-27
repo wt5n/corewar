@@ -26,15 +26,7 @@ int		is_correct_args(int i, int *ar, t_cw *cw, t_koretko *koretko)
 void	wrong_args(t_cw *cw, t_koretko *kor)
 {
 	int	i;
-	int j;
 
-	i = -1;
-//	j = 6;
-//	while (++i < op_tab[kor->op_code - 1].num_of_args)
-//	{
-//		kor->args[i] = (cw->map[kor->position + 1] & (3 * ft_pow(2, j))) >> j;
-//		j -= 2;
-//	}
 	i = -1;
 	kor->step += 2;
 	while (++i < op_tab[kor->op_code - 1].num_of_args)
@@ -75,6 +67,6 @@ void	check_cycles(t_cw *cw)
 		cw->cycles_to_die -= CYCLE_DELTA;
 		cw->num_of_checks = 0;
 	}
-	cw->num_of_lives = 0; // изменить у игроков ???
+	cw->num_of_lives = 0;
 	cw->cycles_to_check = 0;
 }

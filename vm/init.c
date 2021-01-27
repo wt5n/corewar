@@ -37,5 +37,7 @@ void	place_pl_and_kors(t_cw *cw)
 		position += MEM_SIZE / cw->num_of_champ;
 		cw->num_of_koretko++;
 	}
+//	ft_print_memory(cw->map, 4096);
+//	exit(1);
 	introducing(cw);
 }
