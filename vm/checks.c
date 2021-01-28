@@ -1,17 +1,43 @@
 #include "inc/vm.h"
 
+int 	correct_for_func(int ar, int func_sum)
+{
+
+	if (func_sum == 1 && ar == 1)
+		return (1);
+	else if (func_sum == 2 && ar == 2)
+		return (1);
+	else if (func_sum == 3 && (ar == 1 || ar == 2))
+		return (1);
+	else if (func_sum == 5 && (ar == 3 || ar == 1))
+		return (1);
+	else if (func_sum == 6 && (ar == 3 || ar == 2 ))
+		return (1);
+	else if (func_sum == 7 && (ar == 3 || ar == 2 || ar == 1))
+		return (1);
+	else if (func_sum == 0 && ar == 0)
+		return (1);
+	return (0);
+}
+
 int		is_correct_args(int i, int *ar, t_cw *cw, t_koretko *koretko)
 {
 	int step;
 	int j;
+	t_op *op;
 
 	step = 2;
 	j = -1;
+	op = &op_tab[koretko->op_code - 1];
+//	if (koretko->id == 18 && cw->cycles > 8017)
+//		printf("4tob tebya\n");
 	while (++j != i)
 	{
-		if (!(ar[j] & op_tab[koretko->op_code - 1].args[j]) ||
-			(ar[j] == T_REG && (cw->map[get_adrs(koretko, step, 0)] < 1 ||
-								(cw->map[get_adrs(koretko, step, 0)] > 16))))
+//		printf("ar[j] = %d op_tab = %d, and = %d\n", ar[j], op->args[j], ar[j] & op->args[j]);
+		if (!(correct_for_func(ar[j], op->args[j])))
+			return (0);
+		if (ar[j] == T_REG && (cw->map[get_adrs(koretko, step, 0)] < 1 ||
+								   (cw->map[get_adrs(koretko, step, 0)] > 16)))
 			return (0);
 		if (koretko->args[j] == T_REG)
 			step++;

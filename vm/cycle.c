@@ -10,7 +10,8 @@ void	exec_op(t_cw *cw, t_koretko *koretko)
 	koretko->op_code == 4 ? op_add(cw, koretko) : 0;
 	koretko->op_code == 5 ? op_sub(cw, koretko) : 0;
 	koretko->op_code == 6 ? op_and(cw, koretko) : 0;
-	koretko->op_code == 7 ? op_or(cw, koretko) : 0;
+//	if (cw->cycles == 8019 && koretko->id != 18)
+		koretko->op_code == 7 ? op_or(cw, koretko) : 0;
 	koretko->op_code == 8 ? op_xor(cw, koretko) : 0;
 	koretko->op_code == 9 ? op_zjmp(cw, koretko) : 0;
 	koretko->op_code == 10 ? op_ldi(cw, koretko) : 0;
@@ -68,11 +69,12 @@ void	make_op(t_cw *cw)
 	cw->cycles++;
 	cw->cycles_to_check++;
 	cur = cw->kors;
+//	printf("cycle = %d, cyc = %d, cyd = %d\n", cw->cycles, cw->cycles_to_check, cw->cycles_to_die);
 	while (cur)
 	{
-//		if (cur->id == 23 && cw->cycles > 3591)
-//			printf("4to tebya");
-//		 ft_printf("pos - %d, id - %d\n", cur->position, cur->id);
+//		if (cur->id == 18 && cw->cycles > 8017)
+//			printf("4tob tebya");
+//		ft_printf("op_code - %d, id - %d\n", cur->op_code, cur->id);
 		if (cur->delay == 0)
 		{
 			cur->op_code = cw->map[cur->position];
@@ -92,7 +94,7 @@ void	cycle(t_cw *cw)
 	place_pl_and_kors(cw);
 	while (cw->num_of_koretko)
 	{
-//		if (cw->cycles == 777777)
+//		if (cw->cycles == 8018)
 //			ft_printf("here\n");
 		make_op(cw);
 		if (cw->cycles_to_die == cw->cycles_to_check
@@ -105,18 +107,18 @@ void	cycle(t_cw *cw)
 //		if (cw->cycles_to_check % 100 == 0)
 //			ft_printf("ctd = %d, ctc = %d, nol = %d , cyc = %d\n", cw->cycles_to_die,
 //		  cw->cycles_to_check, cw->num_of_lives, cw->cycles);
-		if (cw->cycles == 24366)
+		if (cw->cycles == 6065)
 		{
 			ft_print_memory(cw->map, 4096);
 			t_koretko  *cur;
 			cur = cw->kors;
-			while (cur)
-			{
-				ft_printf("koretko #%d on position %d in map %#x "
-			  "koretko->live %d op_code %d\n", cur->id, cur->position,
-			  cw->map[cur->position], cur->last_alive, cur->op_code);
-				cur = cur->next;
-			}
+//			while (cur)
+//			{
+//				ft_printf("koretko #%d on position %d in map %#x "
+//			  "koretko->live %d op_code %d\n", cur->id, cur->position,
+//			  cw->map[cur->position], cur->last_alive, cur->op_code);
+//				cur = cur->next;
+//			}
 			ft_printf("cycle is %d\nnum of kors = %d\n"
 			 "cycle_to_die = %d\nnum_of_lives = %d\n",
 			 cw->cycles, cw->num_of_koretko, cw->cycles_to_die, cw->num_of_lives);
