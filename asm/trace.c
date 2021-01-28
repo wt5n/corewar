@@ -84,7 +84,7 @@ void				pars_stroca(t_chempion *ch, t_op_strukt *last_op, \
 		}
 		else
 		{
-			ch->tu = (ch->i);
+			ch->tu = ch->i;
 			op_reg(str, ch, label, last_op);
 		}
 	}

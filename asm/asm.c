@@ -81,8 +81,11 @@ int					main(int argc, char *argv[])
 		if (file_argv(argv[1]) < 0 || (fd = open(argv[1], O_RDONLY)) < 0)
 			return (-1);
 		init_asm(&ch, &label, &op);
-		if (read_line(fd, &ch, &label, &op) < -1)
-			return (-1);
+		if (read_line(fd, &ch, &label, &op) < 0)
+			{
+				write(2, "Error_read\n", 11);
+				return (-1);
+				}
 	}
 	else
 		return (-1);
@@ -93,6 +96,6 @@ int					main(int argc, char *argv[])
 	/*printf("%s\n", ch.name);
 	printf("%s\n", ch.comment);
 	print_struct(label);*/
-	print_op(op);
+	//print_op(op);
 	return (0);
 }

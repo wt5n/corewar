@@ -36,12 +36,12 @@ int			pars_name(char *line, t_chempion *ch, t_new_st_label **label)
 	char	*srez;
 	int		tecyhee;
 
-	srez = NULL;
 	tecyhee = kol_sim(line, ' ') + 1;
 	srez = cut_one(line, ' ', 0);
-	if (tecyhee > 0 && (ft_strcmp(srez, NAME_CMD_STRING) == 0 || \
-				ft_strcmp(srez, COMMENT_CMD_STRING) == 0))
+	if (ft_strcmp(srez, NAME_CMD_STRING) == 0 || \
+				ft_strcmp(srez, COMMENT_CMD_STRING) == 0)
 	{
+		
 		if (ft_strcmp(srez, NAME_CMD_STRING) == 0)
 			ch->flag = 1;
 		else
@@ -53,8 +53,13 @@ int			pars_name(char *line, t_chempion *ch, t_new_st_label **label)
 		srez = ft_strdup(&line[tecyhee + 1]);
 	}
 	else
-		return (-1);
+		{
+			//printf("#\n");
+			return (-1);
+		}
+		
 	zap_struct_ascii(ch, srez, label);
+	//printf("!\n");
 	return (1);
 }
 

@@ -27,10 +27,15 @@ int		par3(char *line, t_chempion *ch, t_new_st_label **label, \
 
 int		pars_one2(char *line, t_chempion *ch, t_new_st_label **label)
 {
-	if (ch->name == NULL && (pars_name(line, ch, label)) < 0)
-		return (-1);
+	//printf("line = %s\n", line);
+	if (ch->name == NULL)
+		{
+			if ((pars_name(line, ch, label)) < 0)
+				return (-1);
+		}
 	else
-		pars_name(line, ch, label);
+		if (pars_name(line, ch, label) < 0)
+			return (-1);
 	return (1);
 }
 
@@ -38,13 +43,15 @@ int		pars_one(char *li, t_chempion *ch, t_new_st_label **labe, \
 		t_op_strukt **op)
 {
 	int	i;
+	int	probel;
 
 	i = 0;
 	if (li && li[0] != ' ' && li[0] != '\0' && li[0] != '\t' && \
-	li[0] != '\n')
+	li[0] != '\n' && li[0] != '#')
 	{
 		if (li[0] == '.')
 		{
+			//printf(".\n");
 			if (pars_one2(li, ch, labe) < 0)
 				return (-1);
 		}
@@ -58,7 +65,10 @@ int		pars_one(char *li, t_chempion *ch, t_new_st_label **labe, \
 	}
 	else
 	{
-		if (par3(li, ch, labe, op) < 0)
+		printf("%s\n", li);
+		if (li && (li[0] == ' ' || li[0] == '\t') && \
+		(probel = kol_sim_not(li, ' ') != 0 || (probel = kol_sim_not(li, '\t')) != 0))
+		if (li[probel] != '#' && par3(&(li[probel]), ch, labe, op) < 0)
 			return (-1);
 	}
 	return (1);
