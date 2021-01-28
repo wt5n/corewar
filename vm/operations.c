@@ -7,6 +7,7 @@ void	op_lld(t_cw *cw, t_koretko *kor)
 
 	kor->step += 2;
 	value = get_value(cw, kor, kor->args[0], 0);
+	kor->carry = value == 0 ? 1 : 0;
 	reg = cw->map[get_adrs(kor, 0, 0)];
 	kor->regs[reg - 1] = value;
 	kor->step++;
@@ -184,19 +185,7 @@ void 	op_sti(t_cw *cw, t_koretko *kor)
 
 	kor->step += 2;
 	first_arg = is_reg(cw, kor);
-	// if (kor->args[1] == T_REG)
-	// {
-	// 	second_arg = cw->map[get_adrs(kor, 0, 0)];
-	// 	kor->step++;
-	// }
-	// else
 	second_arg = get_value(cw, kor, kor->args[1], 0);
-	// if (kor->args[2] == T_REG)
-	// {
-	// 	third_arg = kor->regs[cw->map[get_adrs(kor, 0, 0)] - 1];
-	// 	kor->step++;
-	// }
-	// else
 	third_arg = get_value(cw, kor, kor->args[2], 0);
 	kor->ind_adrs = (second_arg + third_arg) % IDX_MOD;
 	write_value(cw, get_adrs(kor, 0, 1), first_arg, DIR_SIZE);
@@ -243,6 +232,7 @@ void	op_lldi(t_cw *cw, t_koretko *kor)
 	second_arg = get_value(cw, kor, kor->args[1], 0);
 	reg = cw->map[get_adrs(kor, 0, 0)];
 	kor->ind_adrs = first_arg + second_arg;
+	kor->carry = kor->ind_adrs == 0 ? 1 : 0;
 	kor->regs[reg - 1] = is_dir(cw, kor, DIR_SIZE, 1);
 	kor->ind_adrs = 0;
 	kor->step++;
@@ -254,7 +244,6 @@ void	op_live(t_cw *cw, t_koretko *kor)
 
 	kor->step++;
 	player = get_value(cw, kor, kor->args[0], 0);
-	kor->num_live_cycle++;
 	kor->last_alive = cw->cycles;
 	if (player <= -1 && player >= cw->num_of_champ * -1)
 	{

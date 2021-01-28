@@ -42,11 +42,16 @@ int		ft_pow(int a, int pow)
 void	write_value(t_cw *cw, int adrs, int value, int size)
 {
 	int	i;
+	int sign;
 
 	i = 0;
+	sign = value & 125;
 	while (--size >= 0)
 	{
-		cw->map[(adrs + size) % 4096] = (value >> i * 8) & 255;
+		if (sign)
+			cw->map[(adrs + size) % 4096] = 1;
+		else
+			cw->map[(adrs + size) % 4096] = (value >> i * 8) & 255;
 		i++;
 	}
 }

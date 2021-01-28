@@ -55,10 +55,10 @@ void	check_cycles(t_cw *cw)
 		if (cw->cycles - kor->last_alive >= cw->cycles_to_die ||
 			cw->cycles_to_die <= 0)
 		{
-			ft_printf("DIE PUNK id = %d, cycle = %d!!! ctd = %d\n", kor->id, cw->cycles, cw->cycles_to_die);
+//			ft_printf("DIE PUNK id = %d, cycle = %d!!! ctd = %d\n", kor->id, cw->cycles, cw->cycles_to_die);
 			delete_koretko(kor->id, &cw->kors);
 			cw->num_of_koretko--;
-			ft_printf("cw->num_of_koretko = %d\n", cw->num_of_koretko);
+//			ft_printf("cw->num_of_koretko = %d\n", cw->num_of_koretko);
 		}
 		kor = kor->next;
 	}

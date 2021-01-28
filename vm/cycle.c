@@ -70,6 +70,8 @@ void	make_op(t_cw *cw)
 	cur = cw->kors;
 	while (cur)
 	{
+//		if (cur->id == 23 && cw->cycles > 3591)
+//			printf("4to tebya");
 //		 ft_printf("pos - %d, id - %d\n", cur->position, cur->id);
 		if (cur->delay == 0)
 		{
@@ -90,27 +92,29 @@ void	cycle(t_cw *cw)
 	place_pl_and_kors(cw);
 	while (cw->num_of_koretko)
 	{
-		if (cw->cycles == 777777)
-			ft_printf("here\n");
+//		if (cw->cycles == 777777)
+//			ft_printf("here\n");
 		make_op(cw);
 		if (cw->cycles_to_die == cw->cycles_to_check
 			|| cw->cycles_to_die <= 0)
 		{
-			ft_printf("ctd = %d, ctc = %d, nol = %d, cyc = %d\n", cw->cycles_to_die,
-		  	cw->cycles_to_check, cw->num_of_lives, cw->cycles);
+//			ft_printf("ctd = %d, ctc = %d, nol = %d, cyc = %d\n", cw->cycles_to_die,
+//		  	cw->cycles_to_check, cw->num_of_lives, cw->cycles);
 			check_cycles(cw);
 		}
 //		if (cw->cycles_to_check % 100 == 0)
 //			ft_printf("ctd = %d, ctc = %d, nol = %d , cyc = %d\n", cw->cycles_to_die,
 //		  cw->cycles_to_check, cw->num_of_lives, cw->cycles);
-		if (cw->cycles == 3750)
+		if (cw->cycles == 24366)
 		{
 			ft_print_memory(cw->map, 4096);
 			t_koretko  *cur;
 			cur = cw->kors;
 			while (cur)
 			{
-				ft_printf("koretko #%d on position %d in map %#x koretko->live %d\n", cur->id, cur->position, cw->map[cur->position], cur->last_alive);
+				ft_printf("koretko #%d on position %d in map %#x "
+			  "koretko->live %d op_code %d\n", cur->id, cur->position,
+			  cw->map[cur->position], cur->last_alive, cur->op_code);
 				cur = cur->next;
 			}
 			ft_printf("cycle is %d\nnum of kors = %d\n"
@@ -121,6 +125,6 @@ void	cycle(t_cw *cw)
 		}
 	}
 	cw->last_player *= -1;
-	printf("Contestant %d, \"%s\", has won !\n", cw->last_player, cw->champs[cw->last_player - 1]->name);
+	printf("Contestant %d, \"%s\", has won ! cycle = %d\n", cw->last_player, cw->champs[cw->last_player - 1]->name, cw->cycles);
 	ft_print_memory(cw->map, 4096);
 }

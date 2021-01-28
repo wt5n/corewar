@@ -23,7 +23,6 @@ typedef struct			s_koretko
 	int					id; // id коретки
 	int					carry; // флаг керри
 	int					position; // позиция коретки
-	int					num_live_cycle; // сколько раз делала операцию live
 	int					last_alive; // последний цикл операции лайв
 	int					delay; // задержка перед выполнением операции
 	int					step; // количество шагов перед передвижением коретки
