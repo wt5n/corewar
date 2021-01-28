@@ -81,7 +81,7 @@ static t_op    op_tab[16] =
 		{
 			.name = "or",
 			.num_of_args =  3,
-			.args = {T_REG | T_IND | T_DIR, T_REG | T_IND | T_DIR, T_REG},
+			.args = {T_REG | T_DIR | T_IND, T_REG | T_DIR | T_IND, T_REG},
 			.op_code = 7,
 			.delay =  6,
 			.inf_carry = 1,
