@@ -36,21 +36,22 @@ OBG = functions.o \
 
 all: $(NAME)
 $(NAME): $(OBG)
-	make $(FLAG) -C $(PATH_LIB)
-	$(CC) -I $(HEARDS) -o $(NAME) $(OBG) -L $(PATH_LIB) -lftprintf
+	@make -s $(FLAG) -C $(PATH_LIB)
+	@$(CC) -I $(HEARDS) -o $(NAME) $(OBG) -L $(PATH_LIB) -lftprintf -lncurses
+	@echo "\033[0;36m*** Corwar has compiled. Let the combat begin! *** \033[0m"
 
 %.o: %.c $(HEARDS)
-	$(CC) $(FLAGINC) $(FLAG) -c $< -o $@
+	@$(CC) $(FLAGINC) $(FLAG) -c $< -o $@
 
 clean:
-	make -C $(PATH_LIB) clean
-	rm -f $(OBG)
-	echo "\033[0;33mCleaned corewar\033[0m"
+	@make -s -C $(PATH_LIB) clean
+	@rm -rf $(OBG)
+	@echo "\033[0;35m*** Object files has cleaned *** \033[0m"
 
 fclean: clean
-	make -C $(PATH_LIB) fclean
-	rm -f $(NAME)
-	echo "\033[0;33mDeleted corewar\033[0m"
+	@make -s -C $(PATH_LIB) fclean
+	@rm -rf $(NAME)
+	@echo "\033[0;31m*** Corewar has removed *** \033[0m"
 
 re: fclean all
 
