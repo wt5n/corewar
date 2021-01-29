@@ -2,7 +2,6 @@
 
 int 	correct_for_func(int ar, int func_sum)
 {
-
 	if (func_sum == 1 && ar == 1)
 		return (1);
 	else if (func_sum == 2 && ar == 2)
@@ -39,9 +38,9 @@ int		is_correct_args(int i, int *ar, t_cw *cw, t_koretko *koretko)
 		if (ar[j] == T_REG && (cw->map[get_adrs(koretko, step, 0)] < 1 ||
 								   (cw->map[get_adrs(koretko, step, 0)] > 16)))
 			return (0);
-		if (koretko->args[j] == T_REG)
+		if (koretko->args[j] == REG_CODE)
 			step++;
-		else if (koretko->args[j] == T_DIR)
+		else if (koretko->args[j] == DIR_CODE)
 			step += op_tab[koretko->op_code - 1].tdir_size;
 		else
 			step += 2;
@@ -57,11 +56,11 @@ void	wrong_args(t_cw *cw, t_koretko *kor)
 	kor->step += 2;
 	while (++i < op_tab[kor->op_code - 1].num_of_args)
 	{
-		if (kor->args[i] == T_REG)
+		if (kor->args[i] == REG_CODE)
 			kor->step++;
-		else if (kor->args[i] == T_DIR)
+		else if (kor->args[i] == DIR_CODE)
 			kor->step += op_tab[kor->op_code - 1].tdir_size;
-		else if (kor->args[i] == T_IND)
+		else if (kor->args[i] == IND_CODE)
 			kor->step += 2;
 		kor->args[i] = 0;
 	}
