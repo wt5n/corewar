@@ -73,8 +73,10 @@ void				pars_stroca(t_chempion *ch, t_op_strukt *last_op, \
 	str = last_op->stroca;
 	ch->mestnoe_smehenee = last_op->smechenee;
 	ch->mestnoe_size = last_op->size;
-	if (ch->i <= ch->mestnoe_smehenee)
-	{
+	//printf("i = %d  tu = %d smeche = %d\n", ch->i, ch->tu, ch->mestnoe_smehenee);
+	//if (ch->i <= ch->mestnoe_smehenee)
+	//{
+		//printf("name = %d\n", last_op->name);
 		ch->code[ch->i] = last_op->name + 1;
 		(ch->i)++;
 		if (op_tab[last_op->name].code_type == 1)
@@ -87,7 +89,7 @@ void				pars_stroca(t_chempion *ch, t_op_strukt *last_op, \
 			ch->tu = ch->i;
 			op_reg(str, ch, label, last_op);
 		}
-	}
+	//}
 	ch->i = ch->tu;
 }
 
@@ -98,6 +100,7 @@ void				trace_byte_code(t_chempion *ch, t_new_st_label *label, \
 
 	op_new = op;
 	ch->i = 0;
+	//printf("ch->smehenee = %d\n", ch->smehenee);
 	ch->code = (char*)malloc(sizeof(char) * ch->smehenee);
 	while (op_new)
 	{

@@ -23,10 +23,12 @@ void				print_op(t_op_strukt *op)
 	int i = 0;
 	while (new_op != NULL)
 	{
-		printf("%d   size = %d\n", new_op->name, new_op->size);
+		printf("%d   size = %d", new_op->name, new_op->size);
 		kol += new_op->size;
+		printf("    kol = %d", kol);
 		new_op = new_op->next;
 		i++;
+		printf("    i = %d\n", i);
 		//printf("%d\n", kol);
 		//if (kol == 312)
 		//	printf("my i = %d\n",i);

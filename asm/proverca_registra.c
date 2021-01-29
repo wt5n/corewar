@@ -36,6 +36,7 @@ int					proverca_instruction(char *str, t_chempion *ch, \
 
 void				byte_code(short tmp2, t_chempion *ch)
 {
+	//printf("tmp = %d\n", tmp2);
 	ch->code[ch->tu] = tmp2 >> 8;
 	(ch->tu)++;
 	ch->code[ch->tu] = tmp2 & 255;
@@ -45,29 +46,29 @@ int					proverca_registr2(char *srez, t_chempion *ch, \
 		t_new_st_label *label, t_op_strukt *new_op)
 {
 	char			*srez2;
+	long			k2;
 	int				k;
 
 	srez2 = ft_strdup(&srez[2]);
 	ch->flag = 0;
-	if ((k = proverca_instruction(srez2, ch, label)) >= 0 && ch->flag != -1)
-	{
-		if (op_tab[new_op->name].size == 1)
-			byte_code(k, ch);
-	}
-	else if (k < 0 && ch->flag != -1)
-	{
-		k = 65536 + k;
-		if (op_tab[new_op->name].size == 0)
+	if (op_tab[new_op->name].size == 1)
 		{
-			byte_code(k >> 16, ch);
-			(ch->tu)++;
+			if ((k = proverca_instruction(srez2, ch, label)) < 0)
+				k = 65536 + k;
+			if (ch->flag == -1)
+				return (-1);
 			byte_code(k, ch);
 		}
 		else
-			byte_code(k, ch);
-	}
-	if (ch->flag == -1)
-		return (-1);
+		{
+			if ((k = proverca_instruction(srez2, ch, label)) < 0)
+				k2 = 4294967296 + k;
+			if (ch->flag == -1)
+				return (-1);
+			byte_code(k2 >> 16, ch);
+			(ch->tu)++;
+			byte_code(k2, ch);
+		}
 	return (1);
 }
 
@@ -97,11 +98,17 @@ int					proverca_registr(char *srez, t_chempion *ch, \
 		t_new_st_label *label, t_op_strukt *new_op)
 {
 	int				tmp;
+	long			tmp2;
 
 	if (srez[0] == 'r')
 	{
-		if ((tmp = ft_atoi(&srez[1])) <= 255)
+		if ((tmp = ft_atoi(&srez[1])) <= 99 && tmp > 0)
 			ch->code[ch->tu] = tmp;
+		else
+		{
+			return (-1);
+		}
+		
 	}
 	else if (srez[0] == DIRECT_CHAR)
 	{
@@ -114,6 +121,17 @@ int					proverca_registr(char *srez, t_chempion *ch, \
 		{
 			proverca_registr3(srez, ch, new_op);
 		}
+	}
+	else if ((tmp2 = ft_latoi(srez)) >= 0)
+	{
+		//printf("cheslo = %ld\n", tmp2);
+		byte_code(tmp2, ch);
+	}
+	else if ((tmp2 = ft_latoi(srez)) < 0)
+	{
+		tmp2 = 4294967296 + tmp2;
+		//printf("cheslo = %ld\n", tmp2);
+		byte_code(tmp2, ch);
 	}
 	return (1);
 }

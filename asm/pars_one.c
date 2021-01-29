@@ -18,6 +18,7 @@ int		par3(char *line, t_chempion *ch, t_new_st_label **label, \
 	int k;
 
 	k = 0;
+	//printf("%s\n", line);
 	if ((k = pars_operation(line, ch, op, label)) < 0)
 		return (-1);
 	if (k != 0 && k != 3)
@@ -57,10 +58,19 @@ int		pars_one(char *li, t_chempion *ch, t_new_st_label **labe, \
 		}
 		else
 		{
-			if ((par_l(li, ch, labe, &i)) < 0 && (par3(li, ch, labe, op) < 0))
-				return (-1);
+			if ((par_l(li, ch, labe, &i)) < 0)
+				{
+					printf("\n******\n");
+					if (par3(li, ch, labe, op) < 0)
+					return (-1);
+				}
 			else
-				pars_one(&(li[i]), ch, labe, op);
+			{
+				if (propysc_probel(&(li[i])) != 3)
+					if (par3(&(li[i]), ch, labe, op) < 0)
+						return (-1);
+			}
+				//pars_one(&(li[i]), ch, labe, op);
 		}
 	}
 	else
