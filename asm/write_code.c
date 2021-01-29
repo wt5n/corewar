@@ -81,6 +81,7 @@ int			write_code2(int fd1, t_chempion ch)
 	nullu[3] = 0;
 	write(fd1, nullu, 4);
 	free(nullu);
+	printf("smeeeeeee = %d\n", ch.smehenee);
 	m = ch.smehenee >> 16;
 	nullu[0] = m >> 8;
 	nullu[1] = m & 255;

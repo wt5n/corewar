@@ -113,5 +113,7 @@ int							proverca_registr(char *srez, t_chempion *ch, \
 		t_new_st_label *label, t_op_strukt *new_op);
 int							proverca(char c);
 int							ft_abs(int a);
+void				proverca_registr3(char *srez, t_chempion *ch, \
+		t_op_strukt *new_op);
 
 #endif

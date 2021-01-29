@@ -16,9 +16,10 @@ int					analiz_registr(char *srez, t_op_strukt **op)
 {
 	int				k;
 
+	printf("srez = %s\n", srez);
 	if (srez[0] == 'r')
 	{
-		if ((k = ft_atoi(&srez[1])) > 0 && k < REG_NUMBER)
+		if ((k = ft_atoi(&srez[1])) > 0 && k < 100) //&& k < REG_NUMBER)
 		{
 			(*op)->size += T_REG;
 		}
@@ -31,6 +32,7 @@ int					analiz_registr(char *srez, t_op_strukt **op)
 			(*op)->size += T_DIR * 2;
 		else
 			(*op)->size += T_DIR;
+		printf("per_i = %d\n", (*op)->size);
 	}
 	else
 		(*op)->size += 2;
@@ -100,9 +102,11 @@ int					pars_operation(char *line, t_chempion *ch, \
 	if (ch->flag_label == 1)
 		zap_label(label, operation_last(op));
 	new_op = operation_last(op);
-	pars_register(&line[propysc_probel(&line[0]) + prob + 1], &new_op);
+	if ((pars_register(&line[propysc_probel(&line[0]) + prob + 1], &new_op)) < 0)
+		return (-1);
 	new_op->smechenee = ch->smehenee;
 	ch->smehenee += new_op->size;
+	//printf("new_op = %d\n", ch->smehenee);
 	if (ch->flag_label == 1)
 	{
 		new_label = label_last(label);

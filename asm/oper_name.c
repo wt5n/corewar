@@ -46,7 +46,9 @@ int					operation_name(char *srez, t_op_strukt **op)
 	new_op = operation_last(op);
 	new_op->name = op_tab[i].code_op - 1;
 	new_op->size += 1;
+	//printf("per_i = %d\n", new_op->size);
 	if (op_tab[new_op->name].code_type == 1)
 		new_op->size += 1;
+	//printf("per_i = %d\n", new_op->size);
 	return (1);
 }

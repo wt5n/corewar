@@ -1,7 +1,11 @@
 .name "z"
 .comment "j"
 		
-l2:	ld	%276, r1
-	and	r1,%0,r1
-live:	live	%1
-	zjmp	%:live
+
+fork_live:	live	%42
+		fork	%:live100
+		live	%42	
+		fork	%:fork_live
+		live	%42
+		zjmp	%:fork_live
+live100:	live	%42

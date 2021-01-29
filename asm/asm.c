@@ -96,6 +96,6 @@ int					main(int argc, char *argv[])
 	/*printf("%s\n", ch.name);
 	printf("%s\n", ch.comment);
 	print_struct(label);*/
-	//print_op(op);
+	print_op(op);
 	return (0);
 }
