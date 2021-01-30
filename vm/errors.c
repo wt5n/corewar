@@ -10,3 +10,18 @@ void	output_error(int n)
 }
 
 void 	print_usage();
+
+void	free_after_finish(t_cw *cw)
+{
+	int	i;
+
+	i = -1;
+	while (++i < cw->num_of_champ)
+	{
+		free(cw->champs[i]->name);
+		free(cw->champs[i]->comm);
+		free(cw->champs[i]->code);
+		free(cw->champs[i]);
+	}
+	free(cw);
+}

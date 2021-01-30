@@ -108,5 +108,6 @@ void		cycle(t_cw *cw);
 // errors.c
 void		output_error(int n);
 void		print_usage();
+void		free_after_finish(t_cw *cw);
 
 #endif

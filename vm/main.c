@@ -10,15 +10,16 @@ void 	read_champion(char *argv, t_champ *champ, t_cw *cw)
 	read_champ_comm(fd, champ);
 	read_champ_code(fd, champ);
 	cw->num_of_champ++;
+	close(fd);
 }
 
 void	create_champ(t_cw *cw, int id)
 {
 	cw->champs[id] = (t_champ*)ft_memalloc(sizeof(t_champ));
 	cw->champs[id]->number = id + 1;
-	cw->champs[id]->name = (char*)ft_memalloc(sizeof(char));
-	cw->champs[id]->comm = (char*)ft_memalloc(sizeof(char));
-	cw->champs[id]->code = (unsigned char*)ft_memalloc(sizeof(unsigned char));
+	// cw->champs[id]->name = (char*)ft_memalloc(sizeof(char));
+	// cw->champs[id]->comm = (char*)ft_memalloc(sizeof(char));
+	// cw->champs[id]->code = (unsigned char*)ft_memalloc(sizeof(unsigned char));
 }
 
 int 	has_cor(char *str)

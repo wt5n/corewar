@@ -34,7 +34,8 @@ void	delete_koretko(int id, t_koretko **kors)
 			prev = current;
 			current = current->next;
 		}
-		prev->next = current->next;
+		prev->next = (current->next == NULL) ? NULL: current->next;
 	}
 	free(current);
+	// current = NULL;
 }
