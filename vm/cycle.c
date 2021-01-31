@@ -90,8 +90,11 @@ void	cycle(t_cw *cw)
 	place_pl_and_kors(cw);
 	while (cw->num_of_koretko)
 	{
-//		if (cw->cycles == 9792)
-//			ft_printf("here\n");
+		if (cw->dump_cycle ==  cw->cycles)
+		{
+			ft_print_memory(cw->map, 4096);
+			exit(1);
+		}
 		make_op(cw);
 		if (cw->cycles_to_die == cw->cycles_to_check
 			|| cw->cycles_to_die <= 0)

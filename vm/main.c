@@ -4,11 +4,11 @@ void 	read_champion(char *argv, t_champ *champ, t_cw *cw)
 {
 	int fd;
 	fd = open(argv, O_RDONLY);
-	read_magic_number(argv, fd);
-	read_champ_name(fd, champ);
-	read_champ_code_size(fd, champ);
-	read_champ_comm(fd, champ);
-	read_champ_code(fd, champ);
+	read_magic_number(argv, fd, cw);
+	read_champ_name(fd, champ, cw);
+	read_champ_code_size(fd, champ, cw);
+	read_champ_comm(fd, champ, cw);
+	read_champ_code(fd, champ, cw);
 	// cw->num_of_champ++;
 	close(fd);
 }
@@ -35,7 +35,7 @@ int 	has_cor(char *str)
 	return (0);
 }
 
-int			ft_atoi_only_dig(const char *str)
+int			ft_atoi_only_dig(const char *str, t_cw *cw)
 {
 	int		sign;
 	long	res;
@@ -46,7 +46,7 @@ int			ft_atoi_only_dig(const char *str)
 	|| *str == ' ' || *str == '\r' || *str == '\f')
 		str++;
 	if (*str == '-')
-		output_error(6);
+		output_error(6, cw);
 	if (*str == '-' || *str == '+')
 		str++;
 	while (*str == '0')
@@ -54,10 +54,10 @@ int			ft_atoi_only_dig(const char *str)
 	while (*str)
 	{
 		if ((*str < '1') || (*str > '9'))
-			output_error(6);
+			output_error(6, cw);
 		res = res * 10 + (*str - '0');
 		if (res > MAX_PLAYERS)
-			output_error(6);
+			output_error(6, cw);
 		str++;
 	}
 	return (int)(res);
@@ -73,9 +73,9 @@ void	check_players_n(t_cw *cw, int ac, char **av)
 	{
 		if (ft_strcmp(av[i], "-n") == 0)
 		{
-			num = ft_atoi_only_dig(av[i + 1]) - 1;
+			num = ft_atoi_only_dig(av[i + 1], cw) - 1;
 			if (num < 0 || num > (cw->num_of_champ - 1) || cw->champs[num] != NULL)
-				output_error(6);
+				output_error(6, cw);
 			create_champ(cw, num);
 			read_champion(av[i + 2], cw->champs[num], cw);
 		}
@@ -111,18 +111,16 @@ int 	parse_player(t_cw *cw, int ac, char **av, int i)
 	{
 		if (i + 2 < ac && has_cor(av[i + 2]))
 		{
-			ft_atoi_only_dig(av[i + 1]);
+			ft_atoi_only_dig(av[i + 1], cw);
 			cw->num_of_champ++;
 			return (2);
 		}
 		else
-			output_error(6);
+			output_error(6, cw);
 	}
-	else
-	{
-		cw->num_of_champ++;
-		return (0);
-	}
+	cw->num_of_champ++;
+	return (0);
+
 }
 
 void	parse_flags(int ac, char **av, t_cw *cw)
@@ -135,10 +133,12 @@ void	parse_flags(int ac, char **av, t_cw *cw)
 		if (!ft_strcmp(av[i], "-d") || !ft_strcmp(av[i], "-dump"))
 		{
 			if (i + 1 >= ac)
-				output_error(7);
+				output_error(7, cw);
 			if (av[i + 1])
 			{
 				cw->dump_cycle = ft_atoi(av[i + 1]);
+				if (cw->dump_cycle < 0)
+					output_error(8, cw);
 				i++;
 			}
 		}
@@ -152,7 +152,7 @@ void	parse_flags(int ac, char **av, t_cw *cw)
 			print_usage();
 	}
 	if (cw->num_of_champ == 0)
-		output_error(5);
+		output_error(5, cw);
 }
 
 int		main(int argc, char **argv)
@@ -163,6 +163,7 @@ int		main(int argc, char **argv)
 		print_usage();
 	t_cw *cw;
 	cw = (t_cw*)ft_memalloc(sizeof(t_cw));
+	cw->dump_cycle = -1;
 	i = -1;
 	while (++i < 4096)
 		cw->map[i] = 0;

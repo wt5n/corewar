@@ -1,6 +1,6 @@
 #include "inc/vm.h"
 
-void	output_error(int n)
+void	output_error(int n, t_cw *cw)
 {
 	n == 1 ? write(2, "Wrong MAGIC number\n", 19) : 0;
 	n == 2 ? write(2, "Wrong file name\n", 19) : 0;
@@ -9,6 +9,8 @@ void	output_error(int n)
 	n == 5 ? write(2, "Wrong quantity of players\n", 27) : 0;
 	n == 6 ? write(2, "Wrong value after flag -n\n", 27) : 0;
 	n == 7 ? write(2, "Need a value after argument\n", 29) : 0;
+	n == 8 ? write(2, "Wrong value after flag -d\n", 27) : 0;
+	free_after_finish(cw);
 	exit(1);
 
 
