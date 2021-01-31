@@ -65,7 +65,7 @@ void	make_op(t_cw *cw)
 	cw->cycles++;
 	cw->cycles_to_check++;
 	cur = cw->kors;
-	printf("cycle = %d, cyc = %d, cyd = %d\n", cw->cycles, cw->cycles_to_check, cw->cycles_to_die);
+	// printf("cycle = %d, cyc = %d, cyd = %d\n", cw->cycles, cw->cycles_to_check, cw->cycles_to_die);
 	while (cur)
 	{
 //		if (cur->id == 2 && cw->cycles > 9828)
@@ -100,32 +100,30 @@ void	cycle(t_cw *cw)
 //		  	cw->cycles_to_check, cw->num_of_lives, cw->cycles);
 			check_cycles(cw);
 		}
-//		if (cw->cycles_to_check % 100 == 0)
-//			ft_printf("ctd = %d, ctc = %d, nol = %d , cyc = %d\n", cw->cycles_to_die,
-//		  cw->cycles_to_check, cw->num_of_lives, cw->cycles);
-		if (cw->cycles == 26500)
-		{
-			ft_print_memory(cw->map, 4096);
-			t_koretko  *cur;
-			cur = cw->kors;
-			while (cur)
-			{
-				ft_printf("koretko #%d on position %d in map %#x "
-			  "koretko->live %d op_code %d\n", cur->id, cur->position,
-			  cw->map[cur->position], cur->last_alive, cur->op_code);
-				cur = cur->next;
-			}
-			ft_printf("cycle is %d\nnum of kors = %d\n"
-			 "cycle_to_die = %d\nnum_of_lives = %d\n",
-			 cw->cycles, cw->num_of_koretko, cw->cycles_to_die, cw->num_of_lives);
-			// 10 koretka stavka 50$ Anton
-			exit(1);
-		}
+		// if (cw->cycles == 26500)
+		// {
+		// 	ft_print_memory(cw->map, 4096);
+		// 	t_koretko  *cur;
+		// 	cur = cw->kors;
+		// 	while (cur)
+		// 	{
+		// 		ft_printf("koretko #%d on position %d in map %#x "
+		// 	  "koretko->live %d op_code %d\n", cur->id, cur->position,
+		// 	  cw->map[cur->position], cur->last_alive, cur->op_code);
+		// 		cur = cur->next;
+		// 	}
+		// 	ft_printf("cycle is %d\nnum of kors = %d\n"
+		// 	 "cycle_to_die = %d\nnum_of_lives = %d\n",
+		// 	 cw->cycles, cw->num_of_koretko, cw->cycles_to_die, cw->num_of_lives);
+		// 	// 10 koretka stavka 50$ Anton
+		// 	exit(1);
+		// }
 	}
 	cw->last_player *= -1;
-	printf("Contestant %d, \"%s\", has won ! cycle = %d\n", cw->last_player, cw->champs[cw->last_player - 1]->name, cw->cycles);
+	ft_printf("Contestant %d, \"%s\", has won ! cycle = %d\n", cw->last_player, cw->champs[cw->last_player - 1]->name, cw->cycles);
 	ft_print_memory(cw->map, 4096);
 	ft_printf("cycle is %d\nnum of kors = %d\n"
-			 "cycle_to_die = %d\nnum_of_lives = %d\n",
-			 cw->cycles, cw->num_of_koretko, cw->cycles_to_die, cw->num_of_lives);
+			 "cycle_to_die = %d\nnum_of_lives = %d\nnum_of_champs = %d\n",
+			 cw->cycles, cw->num_of_koretko, cw->cycles_to_die, cw->num_of_lives, cw->num_of_champ);
+	free_after_finish(cw);
 }

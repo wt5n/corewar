@@ -7,9 +7,18 @@ void	output_error(int n)
 	n == 3 ? write(2, "No NULL in .cor file\n", 22) : 0;
 	n == 4 ? write(2, "Wrong champ size\n", 18) : 0;
 	n == 5 ? write(2, "Wrong quantity of players\n", 27) : 0;
+	n == 6 ? write(2, "Wrong value after flag -n\n", 27) : 0;
+	n == 7 ? write(2, "Need a value after argument\n", 29) : 0;
+	exit(1);
+
+
 }
 
-void 	print_usage();
+void 	print_usage()
+{
+	ft_printf("print_usage\n");
+	exit(1);
+}
 
 void	free_after_finish(t_cw *cw)
 {
