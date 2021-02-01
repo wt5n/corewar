@@ -16,8 +16,8 @@ void	read_champ_name(int fd, t_champ *champ, t_cw *cw)
 	int	 tmp;
 
 	read(fd, &tmp, 4);
-	if (tmp != 0)
-		output_error(3, cw);
+//	if (tmp != 0)
+//		output_error(3, cw);
 	read(fd, buf, PROG_NAME_LENGTH);
 	champ->name = ft_strndup(buf, ft_strlen(buf));
 }

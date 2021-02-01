@@ -25,12 +25,18 @@ void	create_champ(t_cw *cw, int id)
 int 	has_cor(char *str)
 {
 	int a;
+	char *s;
 
 	a = ft_strlen(str);
 	if (a > 4)
 	{
-		if (ft_strcmp(ft_strsub(str, a - 4, 4), ".cor") == 0)
+		s = ft_strsub(str, a - 4, 4);
+		if (ft_strcmp(s, ".cor") == 0)
+		{
+			free(s);
 			return (1);
+		}
+		free(s);
 	}
 	return (0);
 }

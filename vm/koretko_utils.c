@@ -24,10 +24,6 @@ void	delete_koretko(t_koretko **kors, t_koretko *prev, t_koretko *cur)
 	if (prev == NULL)
 		*kors = cur->next;
 	else
-	{
-		prev = cur;
-		cur = cur->next;
 		prev->next = (cur->next == NULL) ? NULL: cur->next;
-	}
 	free(cur);
 }

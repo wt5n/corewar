@@ -33,8 +33,8 @@ void	read_byte(t_koretko *koretko, t_cw *cw)
 
 	i = -1;
 	j = 6;
-	// if (cw->cycles == 25)
-	// 	ft_printf("hello\n");
+//	if (cw->cycles == 10043)
+//		printf("a");
 	if (koretko->op_code >= 1 && koretko->op_code <= 16)
 	{
 		if (op_tab[koretko->op_code - 1].code_args)
@@ -65,12 +65,11 @@ void	make_op(t_cw *cw)
 	cw->cycles++;
 	cw->cycles_to_check++;
 	cur = cw->kors;
-	// printf("cycle = %d, cyc = %d, cyd = %d\n", cw->cycles, cw->cycles_to_check, cw->cycles_to_die);
+//	printf("cycle = %d, cyc = %d, cyd = %d\n", cw->cycles, cw->cycles_to_check, cw->cycles_to_die);
 	while (cur)
 	{
-//		if (cur->id == 2 && cw->cycles > 9828)
-//			printf("4tob tebya");
-//		ft_printf("op_code - %d, id - %d\n", cur->op_code, cur->id);
+//		if (cw->cycles > 10042)
+////			ft_printf("op_code - %d, id - %d\n", cur->op_code, cur->id);
 		if (cur->delay == 0)
 		{
 			cur->op_code = cw->map[cur->position];

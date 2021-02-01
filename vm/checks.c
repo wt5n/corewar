@@ -78,14 +78,21 @@ void	check_cycles(t_cw *cw)
 
 	kor = cw->kors;
 	prev = NULL;
+//	if (cw->cycles == 10043)
+//		printf("a");
 	while (kor)
 	{
 		if (cw->cycles - kor->last_alive >= cw->cycles_to_die ||
 			cw->cycles_to_die <= 0)
 		{
+
 //			ft_printf("DIE PUNK id = %d, cycle = %d!!! ctd = %d\n", kor->id, cw->cycles, cw->cycles_to_die);
 			tmp = kor->next;
-			delete_koretko(kor->id, &cw->kors, prev);
+			if (prev == NULL)
+				cw->kors = kor->next;
+			else
+				prev->next = (kor->next == NULL) ? NULL: kor->next;
+			free(kor);
 			cw->num_of_koretko--;
 //			ft_printf("cw->num_of_koretko = %d\n", cw->num_of_koretko);
 			kor = tmp;
