@@ -94,7 +94,7 @@ void		place_pl_and_kors(t_cw *cw);
 
 // koretko_utils.c
 t_koretko	*create_koretko(int id, int position);
-void		delete_koretko(int id, t_koretko **kors);
+void		delete_koretko(t_koretko **kors, t_koretko *prev, t_koretko *cur);
 void		chain_kor(t_koretko **kors, t_koretko *kor);
 
 // checks.c
