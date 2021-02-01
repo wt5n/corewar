@@ -22,12 +22,14 @@ int			ft_abs(int a)
 char		*cut_one(char *str, char c, int n)
 {
 	char	*srez;
+	char	*srez2;
 	int		n_line;
 
 	n_line = kol_sim(&(str[n]), c);
+	srez2 = ft_strdup(str);
 	if (n_line != (int)ft_strlen(str))
-		str[n_line] = '\0';
-	srez = ft_strdup(&str[0]);
+		srez2[n_line] = '\0';
+	srez = ft_strdup(srez2);
 	return (srez);
 }
 
@@ -89,6 +91,7 @@ int			par_l(char *line, t_chempion *ch, t_new_st_label **label, \
 	char	*srez;
 	int		tecyhee;
 
+	//printf("lineline2 = %s\n", line);
 	tecyhee = 0;
 	srez = NULL;
 	if ((tecyhee = kol_sim(line, ':') + 1) != 0)
@@ -98,6 +101,7 @@ int			par_l(char *line, t_chempion *ch, t_new_st_label **label, \
 		zap_struct_ascii(ch, srez, label);
 		free(srez);
 		(*i) = tecyhee;
+		//printf("lineline = %s\n", line);
 	}
 	else
 		return (-1);

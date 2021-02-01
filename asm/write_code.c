@@ -18,7 +18,7 @@ int			make_file(char *name_file)
 	int		i;
 	char	*new_name;
 
-	if ((new_name = (char *)malloc(sizeof(char) * (ft_strlen(name_file) + 4))) \
+	if ((new_name = (char *)malloc(sizeof(char) * (ft_strlen(name_file) + 3))) \
 			< 0)
 		return (-1);
 	i = 0;
@@ -30,7 +30,7 @@ int			make_file(char *name_file)
 	new_name[i++] = 'c';
 	new_name[i++] = 'o';
 	new_name[i++] = 'r';
-	new_name[i++] = 'r'; //del
+	//new_name[i++] = 'r'; //del
 	new_name[i] = '\0';
 	if ((fd1 = open(new_name, O_CREAT | O_WRONLY, 0644)) < 0)
 	{
@@ -81,7 +81,7 @@ int			write_code2(int fd1, t_chempion ch)
 	nullu[3] = 0;
 	write(fd1, nullu, 4);
 	free(nullu);
-	printf("smeeeeeee = %d\n", ch.smehenee);
+	//printf("smeeeeeee = %d\n", ch.smehenee);
 	m = ch.smehenee >> 16;
 	nullu[0] = m >> 8;
 	nullu[1] = m & 255;

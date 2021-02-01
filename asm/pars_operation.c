@@ -15,27 +15,35 @@
 int					analiz_registr(char *srez, t_op_strukt **op)
 {
 	int				k;
+	int				probel;
 
-	printf("srez = %s\n", srez);
-	if (srez[0] == 'r')
+	probel = 0;
+	while (srez[probel] == '\t' || srez[probel] == '\r' || \
+	srez[probel] == '\f' || srez[probel] == '\v' || srez[probel] == ' ')
+		probel++; 
+	//printf("%c    ----  %d\n", srez[probel], probel);
+	if (srez[probel] == 'r')
 	{
-		if ((k = ft_atoi(&srez[1])) > 0 && k < 100) //&& k < REG_NUMBER)
+		
+		if ((k = ft_atoi(&srez[probel + 1])) > 0 && k < 100) //&& k < REG_NUMBER)
 		{
+			//printf("****\n");
 			(*op)->size += T_REG;
 		}
 		else
 			return (-1);
 	}
-	else if (srez[0] == '%')
+	else if (srez[probel] == '%')
 	{
 		if (op_tab[(*op)->name].size == 0)
 			(*op)->size += T_DIR * 2;
 		else
 			(*op)->size += T_DIR;
-		printf("per_i = %d\n", (*op)->size);
+		//printf("per_i = %d\n", (*op)->size);
 	}
 	else
 		(*op)->size += 2;
+	//printf("%s per_i = %d\n",srez, (*op)->size);
 	return (1);
 }
 
@@ -49,6 +57,7 @@ int					pars_register(char *str, t_op_strukt **op)
 	if (kol_sim(str, '#') != -1)
 		str[kol_sim(str, '#')] = '\0';
 	(*op)->stroca = ft_strdup(str);
+	//printf("stroca = %s\n", (*op)->stroca);
 	while (n >= 0)
 	{
 		if ((tecyhee = kol_sim_not(str, ' ')) < 0)
@@ -62,6 +71,7 @@ int					pars_register(char *str, t_op_strukt **op)
 		}
 		else
 			srez = cut_one(&str[tecyhee], '\0', 0);
+		//printf("srez = %s\n", srez);
 		if (analiz_registr(srez, op) < 0)
 			return (-1);
 	}
@@ -92,11 +102,12 @@ int					pars_operation(char *line, t_chempion *ch, \
 	t_new_st_label	*new_label;
 	int				prob;
 
-	if (propysc_probel(line) == 3)
-		return (3);
+	if (propysc_probel(line) == -3)
+		return (-3);
 	prob = number_pr(&line[propysc_probel(&line[0])]);
 	srez = cut_one(&line[propysc_probel(&line[0])], \
 	line[propysc_probel(&line[0]) + prob], 0);
+	//printf("srez_new = %s\n", srez);
 	if (operation_name(srez, op) < 0)
 		return (-1);
 	if (ch->flag_label == 1)
