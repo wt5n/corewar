@@ -8,8 +8,8 @@
 #include <SDL2/SDL_ttf.h>
 
 #define MAGIC_NUMBER_LENGTH 4
-#define WIDTH 640
-#define HEIGHT 640
+#define WIDTH 1000
+#define HEIGHT 1000
 
 typedef struct			s_vis
 {

@@ -137,6 +137,13 @@ void	cycle(t_cw *cw)
                   cw->cycles, cw->num_of_koretko, cw->cycles_to_die, cw->num_of_lives, cw->num_of_champ);
 
     /////////////////////////////
+    while (!cw->vis->quit) {
+        while (SDL_PollEvent(&cw->vis->event) == 1) {
+            if (cw->vis->event.type == SDL_QUIT) {
+                cw->vis->quit = 1;
+            }
+        }
+    }
     int vis_deinit(t_cw *cw);
     /////////////////////////////
     free_after_finish(cw);

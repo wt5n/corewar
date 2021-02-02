@@ -2,9 +2,6 @@
 
 void	ft_print_hex(unsigned char c)
 {
-//	size_t	i;
-//	size_t	j;
-
 	char *base = "0123456789abcdef";
 	write(1, &base[c / 16], 1);
 	write(1, &base[c % 16], 1);

@@ -56,7 +56,7 @@ int vis_init(t_cw *cw)
     SDL_Init(SDL_INIT_TIMER | SDL_INIT_VIDEO);
     SDL_CreateWindowAndRenderer(WIDTH, WIDTH, 0, &cw->vis->window, &cw->vis->renderer);
     TTF_Init();
-    cw->vis->font = TTF_OpenFont(cw->vis->font_path, 24);
+    cw->vis->font = TTF_OpenFont(cw->vis->font_path, 10);
     if (cw->vis->font == NULL) {
         fprintf(stderr, "error: font not found\n");
         exit(EXIT_FAILURE);
@@ -87,7 +87,7 @@ void draw_map(t_cw *cw)
     gnl = get_next_line(cw->vis->fd, &cw->vis->line);
     ft_printf("line = %s\n", cw->vis->line);
 
-    //   get_text_and_rect(cw->vis->renderer, 0, 0, cw->vis->line, cw->vis->font, &cw->vis->texture1, &cw->vis->rect1);
+    get_text_and_rect(cw->vis->renderer, 0, 0, cw->vis->line, cw->vis->font, &cw->vis->texture1, &cw->vis->rect1);
     while (gnl ) {
 
         if (cw->vis->line)
