@@ -11,6 +11,23 @@
 #define WIDTH 640
 #define HEIGHT 640
 
+typedef struct			s_vis
+{
+    int                 fd;
+    char                *line;
+    FILE                *out;
+    SDL_Event           event;
+    SDL_Rect            rect1;
+    SDL_Rect            rect2;
+    SDL_Renderer        *renderer;
+    SDL_Texture         *texture1;
+    SDL_Texture         *texture2;
+    SDL_Window          *window;
+    char                *font_path;
+    int                 quit;
+    TTF_Font            *font;
+}                       t_vis;
+
 typedef struct			s_champ
 {
 	int					number; // id игрока
@@ -55,6 +72,7 @@ typedef struct			s_cw
 	int 				dump_cycle; // цикл дампа
 	int 				vs;
 	t_koretko 			*kors; // список кореток
+	t_vis               *vis;
 }						t_cw;
 
 void					ft_swap_two_let(char *str);
@@ -87,18 +105,19 @@ void		op_lfork(t_cw *cw, t_koretko *old_kor);
 void		op_aff(t_cw *cw, t_koretko *kor);
 
 // parse.c
-void		read_magic_number(char *argv, int fd);
-void		read_champ_name(int fd, t_champ *champ);
-void		read_champ_code_size(int fd, t_champ *champ);
-void		read_champ_comm(int fd, t_champ *champ);
-void		read_champ_code(int fd, t_champ *champ);
+void		read_magic_number(char *argv, int fd, t_cw *cw);
+void		read_champ_name(int fd, t_champ *champ, t_cw *cw);
+void		read_champ_code_size(int fd, t_champ *champ, t_cw *cw);
+void		read_champ_comm(int fd, t_champ *champ, t_cw *cw);
+void        read_champ_code(int fd, t_champ *champ, t_cw *cw);
+
 
 // init.c
 void		place_pl_and_kors(t_cw *cw);
 
 // koretko_utils.c
 t_koretko	*create_koretko(int id, int position);
-void		delete_koretko(int id, t_koretko **kors);
+void		delete_koretko(t_koretko **kors, t_koretko *prev, t_koretko *cur);
 void		chain_kor(t_koretko **kors, t_koretko *kor);
 
 // checks.c
@@ -110,16 +129,17 @@ int			is_correct_args(int i, int *ar, t_cw *cw, t_koretko *koretko);
 void		cycle(t_cw *cw);
 
 // errors.c
-void		output_error(int n);
+void		output_error(int n, t_cw *cw);
 void		print_usage();
+void		free_after_finish(t_cw *cw);
 
 // vis.c
 
 int    visualiser(t_cw *cw);
 //void get_text_and_rect(SDL_Renderer *renderer, int x, int y, char *text,
 //                       TTF_Font *font, SDL_Texture **texture, SDL_Rect *rect);
-//void vis_init(SDL_Renderer **renderer, SDL_Window **window);
-//int vis_deinit(SDL_Renderer **renderer, SDL_Window **window, SDL_Texture **texture1, SDL_Texture **texture2);
+int vis_init(t_cw *cw);
+int vis_deinit(t_cw *cw);
 
 
 

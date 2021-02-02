@@ -47,75 +47,83 @@ void get_text_and_rect(SDL_Renderer *renderer, int x, int y, char *text,
     rect->w = text_width;
     rect->h = text_height;
 }
+int vis_init(t_cw *cw)
+{
+    if (!(cw->vis->font_path = "100.ttf")) {
+        fprintf(stderr, "error: too many arguments\n");
+        exit(EXIT_FAILURE);
+    }
+    SDL_Init(SDL_INIT_TIMER | SDL_INIT_VIDEO);
+    SDL_CreateWindowAndRenderer(WIDTH, WIDTH, 0, &cw->vis->window, &cw->vis->renderer);
+    TTF_Init();
+    cw->vis->font = TTF_OpenFont(cw->vis->font_path, 24);
+    if (cw->vis->font == NULL) {
+        fprintf(stderr, "error: font not found\n");
+        exit(EXIT_FAILURE);
+    }
+}
 
-//void vis_refresh(SDL_Renderer **renderer, SDL_Texture **texture1, SDL_Texture **texture2)
+//void vis_refresh(t_cw *cw)
     /* Deinit TTF. */
-//int vis_deinit(SDL_Renderer *renderer, SDL_Window *window, SDL_Texture **texture1, SDL_Texture **texture2)
+int vis_deinit(t_cw *cw)
+{
 
+        SDL_DestroyTexture(cw->vis->texture1);
+        SDL_DestroyTexture(cw->vis->texture2);
+        TTF_Quit();
+
+        SDL_DestroyRenderer(cw->vis->renderer);
+        SDL_DestroyWindow(cw->vis->window);
+        SDL_Quit();
+        return EXIT_SUCCESS;
+}
+
+void draw_map(t_cw *cw)
+{
+    int gnl;
+
+    cw->vis->line = NULL;
+    cw->vis->fd = open("out.json", O_RDONLY);
+    gnl = get_next_line(cw->vis->fd, &cw->vis->line);
+    ft_printf("line = %s\n", cw->vis->line);
+
+    //   get_text_and_rect(cw->vis->renderer, 0, 0, cw->vis->line, cw->vis->font, &cw->vis->texture1, &cw->vis->rect1);
+    while (gnl ) {
+
+        if (cw->vis->line)
+            ft_strdel(&cw->vis->line);
+        gnl = get_next_line(cw->vis->fd, &cw->vis->line);
+        if (cw->vis->line)
+            ft_printf("line = %s\n", cw->vis->line);
+        //get_text_and_rect(cw->vis->renderer, 0, cw->vis->rect1.y + cw->vis->rect1.h, cw->vis->line, cw->vis->font, &cw->vis->texture2, &cw->vis->rect2);
+    }
+    if (cw->vis->line)
+        ft_strdel(&cw->vis->line);
+}
 
 int   visualiser(t_cw *cw)
 {
-    FILE *out;
-    SDL_Event event;
-    SDL_Rect rect1, rect2;
-    SDL_Renderer *renderer;
-    SDL_Texture *texture1, *texture2;
-    SDL_Window *window;
-    char *font_path;
-    int quit;
-
-
-        if (!(font_path = "100.ttf")) {
-            fprintf(stderr, "error: too many arguments\n");
-            exit(EXIT_FAILURE);
-        }
-        SDL_Init(SDL_INIT_TIMER | SDL_INIT_VIDEO);
-        SDL_CreateWindowAndRenderer(WIDTH, WIDTH, 0, &window, &renderer);
-        TTF_Init();
-        TTF_Font *font = TTF_OpenFont(font_path, 24);
-        if (font == NULL) {
-            fprintf(stderr, "error: font not found\n");
-            exit(EXIT_FAILURE);
-        }
-
-        if (!(out = fopen("out.json", "w+"))) {
+        if (!(cw->vis->out = fopen("out.json", "w+"))) {
             ft_printf("Не удалось создать файл");
             return(0);
         }
         // открыть файл удалось
-        ft_print_memory_to_file(cw, 4096, out);      // требуемые действия над данными
-        fclose(out);
+        ft_print_memory_to_file(cw, 4096, cw->vis->out);      // требуемые действия над данными
+        fclose(cw->vis->out);
 
-        get_text_and_rect(renderer, 0, 0, "hello", font, &texture1, &rect1);
-        get_text_and_rect(renderer, 0, rect1.y + rect1.h, "world", font, &texture2, &rect2);
+        draw_map(cw);
 
-        quit = 0;
-        while (!quit) {
-            while (SDL_PollEvent(&event) == 1) {
-                if (event.type == SDL_QUIT) {
-                    quit = 1;
-                }
-            }
-            SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
-            SDL_RenderClear(renderer);
+
+
+            SDL_SetRenderDrawColor(cw->vis->renderer, 0, 0, 0, 0);
+            SDL_RenderClear(cw->vis->renderer);
 
             /* Use TTF textures. */
-            SDL_RenderCopy(renderer, texture1, NULL, &rect1);
-            SDL_RenderCopy(renderer, texture2, NULL, &rect2);
+            SDL_RenderCopy(cw->vis->renderer, cw->vis->texture1, NULL, &cw->vis->rect1);
+            SDL_RenderCopy(cw->vis->renderer, cw->vis->texture2, NULL, &cw->vis->rect2);
 
-            SDL_RenderPresent(renderer);
+            SDL_RenderPresent(cw->vis->renderer);
         }
 
-
-        SDL_DestroyTexture(texture1);
-        SDL_DestroyTexture(texture2);
-        TTF_Quit();
-
-        SDL_DestroyRenderer(renderer);
-        SDL_DestroyWindow(window);
-        SDL_Quit();
-        return EXIT_SUCCESS;
-
-}
 
 

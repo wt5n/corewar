@@ -25,7 +25,7 @@
 
 # define MAXINT 2147483647
 # define MININT -2147483648
-# define BUFF_SIZE	8
+# define BUFF_SIZE	5000
 # define FD_SIZE	10240
 
 typedef struct		s_list

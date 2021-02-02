@@ -72,20 +72,36 @@ void	wrong_args(t_cw *cw, t_koretko *kor)
 void	check_cycles(t_cw *cw)
 {
 	cw->num_of_checks++;
-	t_koretko *kor;
+	t_koretko	*kor;
+	t_koretko	*tmp;
+	t_koretko	*prev;
 
 	kor = cw->kors;
+	prev = NULL;
+//	if (cw->cycles == 10043)
+//		printf("a");
 	while (kor)
 	{
 		if (cw->cycles - kor->last_alive >= cw->cycles_to_die ||
 			cw->cycles_to_die <= 0)
 		{
+
 //			ft_printf("DIE PUNK id = %d, cycle = %d!!! ctd = %d\n", kor->id, cw->cycles, cw->cycles_to_die);
-			delete_koretko(kor->id, &cw->kors);
+			tmp = kor->next;
+			if (prev == NULL)
+				cw->kors = kor->next;
+			else
+				prev->next = (kor->next == NULL) ? NULL: kor->next;
+			free(kor);
 			cw->num_of_koretko--;
 //			ft_printf("cw->num_of_koretko = %d\n", cw->num_of_koretko);
+			kor = tmp;
 		}
-		kor = kor->next;
+		else
+		{
+			prev = kor;
+			kor = kor->next;
+		}
 	}
 	if (cw->num_of_checks == MAX_CHECKS || cw->num_of_lives >= NBR_LIVE)
 	{
