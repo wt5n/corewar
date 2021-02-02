@@ -8,9 +8,7 @@ FLAGINC = -I
 
 PATH_LIB = ./libft/
 
-HEARDS = inc/vm.h \
-	inc/vm_op.h	\
-	inc/op.h
+HEARDS = inc/
 
 CFILE = functions.c \
 	cycle.c \
@@ -22,6 +20,7 @@ CFILE = functions.c \
     checks.c \
     koretko_utils.c \
     errors.c \
+    vis.c
 
 OBG = functions.o \
    cycle.o \
@@ -33,11 +32,12 @@ OBG = functions.o \
    checks.o \
    koretko_utils.o \
    errors.o \
+   vis.o
 
 all: $(NAME)
 $(NAME): $(OBG)
 	@make -s $(FLAG) -C $(PATH_LIB)
-	@$(CC) -I $(HEARDS) -o $(NAME) $(OBG) -L $(PATH_LIB) -lftprintf -lncurses
+	@$(CC) -I $(HEARDS) -o $(NAME) $(OBG) -L $(PATH_LIB) -lftprintf -lSDL2 -lSDL2_ttf
 	@echo "\033[0;36m*** Corwar has compiled. Let the combat begin! *** \033[0m"
 
 %.o: %.c $(HEARDS)

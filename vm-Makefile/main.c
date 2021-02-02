@@ -84,7 +84,7 @@ int		main(int argc, char **argv)
 {
 	t_cw *cw;
 	int	i = -1;
-	cw = (t_cw*)ft_memalloc(sizeof(t_cw));
+    cw = (t_cw*)ft_memalloc(sizeof(t_cw));
 	while (++i < 2)
 		create_champ(cw, i);
 	i = -1;
@@ -93,6 +93,6 @@ int		main(int argc, char **argv)
 	i = 0;
 	while (++i < argc)
 		read_champion(argv[i], cw->champs[i - 1], cw);
-	cycle(cw);
-	return (0);
+    cycle(cw);
+    return (0);
 }

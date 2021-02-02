@@ -4,8 +4,12 @@
 #include "../libft/inc/printf.h"
 #include "op.h"
 #include "vm_op.h"
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
 
 #define MAGIC_NUMBER_LENGTH 4
+#define WIDTH 640
+#define HEIGHT 640
 
 typedef struct			s_champ
 {
@@ -109,4 +113,19 @@ void		cycle(t_cw *cw);
 void		output_error(int n);
 void		print_usage();
 
+// vis.c
+
+int    visualiser(t_cw *cw);
+//void get_text_and_rect(SDL_Renderer *renderer, int x, int y, char *text,
+//                       TTF_Font *font, SDL_Texture **texture, SDL_Rect *rect);
+//void vis_init(SDL_Renderer **renderer, SDL_Window **window);
+//int vis_deinit(SDL_Renderer **renderer, SDL_Window **window, SDL_Texture **texture1, SDL_Texture **texture2);
+
+
+
 #endif
+/*
+ * sudo apt-get install libsdl2-ttf-dev
+ * sudo apt install libsdl2-dev
+ *
+ * */

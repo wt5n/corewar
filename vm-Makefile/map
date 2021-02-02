@@ -1,0 +1,102 @@
+args.c:		cw->map[(adrs + size) % 4096] = (value >> i * 8) & 255;
+args.c:	reg = cw->map[get_adrs(koretko, 0, 0)];
+args.c:	sign = cw->map[get_adrs(koretko, 0, pha)] & 128;
+args.c:			value += (cw->map[get_adrs(koretko, n - 1, pha)] ^ 255) << (i++ * 8);
+args.c:			value += (cw->map[get_adrs(koretko, n - 1, pha)]) << (i++ * 8);
+checks.c://	if (koretko->id == 18 && cw->cycles > 8017)
+checks.c:		if (ar[j] == T_REG && (cw->map[get_adrs(koretko, step, 0)] < 1 ||
+checks.c:								   (cw->map[get_adrs(koretko, step, 0)] > 16)))
+checks.c:	cw->num_of_checks++;
+checks.c:	kor = cw->kors;
+checks.c:		if (cw->cycles - kor->last_alive >= cw->cycles_to_die ||
+checks.c:			cw->cycles_to_die <= 0)
+checks.c://			ft_printf("DIE PUNK id = %d, cycle = %d!!! ctd = %d\n", kor->id, cw->cycles, cw->cycles_to_die);
+checks.c:			delete_koretko(kor->id, &cw->kors);
+checks.c:			cw->num_of_koretko--;
+checks.c://			ft_printf("cw->num_of_koretko = %d\n", cw->num_of_koretko);
+checks.c:	if (cw->num_of_checks == MAX_CHECKS || cw->num_of_lives >= NBR_LIVE)
+checks.c:		cw->cycles_to_die -= CYCLE_DELTA;
+checks.c:		cw->num_of_checks = 0;
+checks.c:	cw->num_of_lives = 0;
+checks.c:	cw->cycles_to_check = 0;
+cycle.c:	// if (cw->cycles == 25)
+cycle.c:				koretko->args[i] = (cw->map[koretko->position + 1] & (3 * ft_pow(2, j))) >> j;
+cycle.c:	cw->cycles++;
+cycle.c:	cw->cycles_to_check++;
+cycle.c:	cur = cw->kors;
+cycle.c:	printf("cycle = %d, cyc = %d, cyd = %d\n", cw->cycles, cw->cycles_to_check, cw->cycles_to_die);
+cycle.c://		if (cur->id == 2 && cw->cycles > 9828)
+cycle.c:			cur->op_code = cw->map[cur->position];
+cycle.c:	while (cw->num_of_koretko)
+cycle.c://		if (cw->cycles == 9792)
+cycle.c:		if (cw->cycles_to_die == cw->cycles_to_check
+cycle.c:			|| cw->cycles_to_die <= 0)
+cycle.c://			ft_printf("ctd = %d, ctc = %d, nol = %d, cyc = %d\n", cw->cycles_to_die,
+cycle.c://		  	cw->cycles_to_check, cw->num_of_lives, cw->cycles);
+cycle.c://		if (cw->cycles_to_check % 100 == 0)
+cycle.c://			ft_printf("ctd = %d, ctc = %d, nol = %d , cyc = %d\n", cw->cycles_to_die,
+cycle.c://		  cw->cycles_to_check, cw->num_of_lives, cw->cycles);
+cycle.c:		if (cw->cycles == 26500)
+cycle.c:			ft_print_memory(cw->map, 4096);
+cycle.c:			cur = cw->kors;
+cycle.c:			  cw->map[cur->position], cur->last_alive, cur->op_code);
+cycle.c:			 cw->cycles, cw->num_of_koretko, cw->cycles_to_die, cw->num_of_lives);
+cycle.c:	cw->last_player *= -1;
+cycle.c:	printf("Contestant %d, \"%s\", has won ! cycle = %d\n", cw->last_player, cw->champs[cw->last_player - 1]->name, cw->cycles);
+cycle.c:	ft_print_memory(cw->map, 4096);
+cycle.c:			 cw->cycles, cw->num_of_koretko, cw->cycles_to_die, cw->num_of_lives);
+init.c:	while (++i < cw->num_of_champ)
+init.c:				  cw->champs[i]->number, cw->champs[i]->code_size,
+init.c:				  cw->champs[i]->name, cw->champs[i]->comm);
+init.c:	cw->last_player = cw->champs[cw->num_of_champ - 1]->number * -1;
+init.c:	cw->cycles_to_die = CYCLE_TO_DIE;
+init.c:	while (++player_id <= cw->num_of_champ)
+init.c:		ft_memcpy(&(cw->map[position]), cw->champs[player_id - 1]->code,
+init.c:				  (size_t)cw->champs[player_id - 1]->code_size);
+init.c:		cw->last_id++;
+init.c:		kor = create_koretko(cw->last_id, position);
+init.c:		if (cw->num_of_koretko > 0)
+init.c:			chain_kor(&cw->kors, kor);
+init.c:			cw->kors = kor;
+init.c:		position += MEM_SIZE / cw->num_of_champ;
+init.c:		cw->num_of_koretko++;
+init.c://	ft_print_memory(cw->map, 4096);
+main.c:	cw->num_of_champ++;
+main.c:	cw->champs[id] = (t_champ*)ft_memalloc(sizeof(t_champ));
+main.c:	cw->champs[id]->number = id + 1;
+main.c:	cw->champs[id]->name = (char*)ft_memalloc(sizeof(char));
+main.c:	cw->champs[id]->comm = (char*)ft_memalloc(sizeof(char));
+main.c:	cw->champs[id]->code = (unsigned char*)ft_memalloc(sizeof(unsigned char));
+main.c:				cw->dump_cycle = ft_atoi(av[i + 1]);
+main.c:			cw->vs = 1;
+main.c:		cw->map[i] = 0;
+main.c:		read_champion(argv[i], cw->champs[i - 1], cw);
+operations.c:	reg = cw->map[get_adrs(kor, 0, 0)];
+operations.c:	a = cw->map[get_adrs(kor, 0, 0)];
+operations.c:	a = cw->map[get_adrs(kor, 0, 0)];
+operations.c:	cw->num_of_koretko++;
+operations.c:	cw->last_id++;
+operations.c://	ft_printf("fork on %d cycle new_kor->id = %d ", cw->cycles, cw->last_id);
+operations.c:	new_kor = create_koretko(cw->last_id, get_adrs(old_kor, 0, 1));
+operations.c:	chain_kor(&cw->kors, new_kor);
+operations.c:	cw->num_of_koretko++;
+operations.c:	cw->last_id++;
+operations.c://	ft_printf("lfork on %d cycle ", cw->cycles);
+operations.c:	new_kor = create_koretko(cw->last_id, get_adrs(old_kor, 0, 1));
+operations.c:	chain_kor(&cw->kors, new_kor);
+operations.c:	reg = cw->map[get_adrs(kor, 0, 0)];
+operations.c:	reg = cw->map[get_adrs(kor, 0, 0)];
+operations.c:	reg = cw->map[get_adrs(kor, 0, 0)];
+operations.c:		second_arg = cw->map[get_adrs(kor, 0, 0)];
+operations.c:	reg = cw->map[get_adrs(kor, 0, 0)];
+operations.c:	reg = cw->map[get_adrs(kor, 0, 0)];
+operations.c:	reg = cw->map[get_adrs(kor, 0, 0)];
+operations.c:	cw->num_of_lives++;
+operations.c:	kor->last_alive = cw->cycles;
+operations.c:	if (player <= -1 && player >= cw->num_of_champ * -1)
+operations.c://		ft_printf("LIVE player = %d, kor->id %d cycle %d\n", player, kor->id, cw->cycles);
+operations.c:		cw->last_player = player;
+test.c:			cw->map[(adrs + size) % 4096] = 1;
+test.c:			cw->map[(adrs + size) % 4096] = (value >> i * 8) & 255;
+test.c:		value += cw->map[adrs + size - 1] << i * 8;
+test.c://	ft_print_memory(cw->map, 4096);

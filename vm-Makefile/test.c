@@ -96,15 +96,21 @@ int main(int ac, char **av)
 {
 //	char map[2];
 	int	n = 300;
-	int j = 2;
-	int	x = 0;
 
+	int j[3] = {3, 3, 1};
+	int x[3] = {T_REG | T_DIR | T_IND, T_IND | T_DIR, T_IND};
+	// 0 1 2 3 12 13 123 23
+	printf("1 - %d\n", 1 | 2);
+	printf("2 - %d\n", 1 | 4);
+	printf("3 - %d\n", 1 | 2 | 4);
+	printf("3 - %d\n", 2 | 4);
+//	printf("%d\n", );
 //	for (int i = 0; i < 2; i++)
 //		map[i] = 0;
 
-	has_cor("a");
-	has_cor("a.cor");
-	has_cor(".cor");
+//	has_cor("a");
+//	has_cor("a.cor");
+//	has_cor(".cor");
 //	t_cw *cw;
 //	cw = (t_cw*)ft_memalloc(sizeof(t_cw));
 //	write_value(cw, 3, 0x13, 2);
