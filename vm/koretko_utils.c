@@ -19,22 +19,11 @@ t_koretko	*create_koretko(int id, int position)
 	return kor;
 }
 
-void	delete_koretko(int id, t_koretko **kors)
+void	delete_koretko(t_koretko **kors, t_koretko *prev, t_koretko *cur)
 {
-	t_koretko *current;
-	t_koretko *prev;
-
-	current = *kors;
-	if (current->id == id)
-		*kors = current->next;
+	if (prev == NULL)
+		*kors = cur->next;
 	else
-	{
-		while (id != current->id)
-		{
-			prev = current;
-			current = current->next;
-		}
-		prev->next = current->next;
-	}
-	free(current);
+		prev->next = (cur->next == NULL) ? NULL: cur->next;
+	free(cur);
 }

@@ -60,22 +60,26 @@ int		pars_one(char *li, t_chempion *ch, t_new_st_label **labe, \
 		{
 			if ((par_l(li, ch, labe, &i)) < 0)
 				{
-					printf("\n******\n");
+					//printf("\n******\n");
 					if (par3(li, ch, labe, op) < 0)
 					return (-1);
 				}
 			else
 			{
-				if (propysc_probel(&(li[i])) != 3)
-					if (par3(&(li[i]), ch, labe, op) < 0)
+				//printf("line = %s   i = %d\n", li,i);
+				if (propysc_probel(&(li[i])) != -3)
+					{
+						//printf("****\n");
+						if (par3(&(li[i]), ch, labe, op) < 0)
 						return (-1);
+					}
 			}
 				//pars_one(&(li[i]), ch, labe, op);
 		}
 	}
 	else
 	{
-		printf("%s\n", li);
+		//printf("%s\n", li);
 		if (li && (li[0] == ' ' || li[0] == '\t') && \
 		(probel = kol_sim_not(li, ' ') != 0 || (probel = kol_sim_not(li, '\t')) != 0))
 		if (li[probel] != '#' && par3(&(li[probel]), ch, labe, op) < 0)

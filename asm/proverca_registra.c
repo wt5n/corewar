@@ -17,14 +17,23 @@ int					proverca_instruction(char *str, t_chempion *ch, \
 {
 	t_new_st_label	*label2;
 	t_label			*lab;
+	char			*str2;
 
+	int i;
+	str2 = ft_strdup(str);
+	i = 0;
+	while (str2[i] && str2[i] != ' ' && str2[i] != '\t')
+		i++;
+	if (i < (int)ft_strlen(str))
+		str2[i] = '\0';
 	label2 = label;
 	while (label2)
 	{
 		lab = label2->lab;
 		while (lab)
 		{
-			if ((ft_strcmp(lab->name, str)) == 0)
+			//printf("lab->name = %s, str = %s!\n",lab->name, str);
+			if ((ft_strcmp(lab->name, str2)) == 0)
 				return (lab->op->smechenee - ch->mestnoe_smehenee);
 			lab = lab->next;
 		}
@@ -49,12 +58,25 @@ int					proverca_registr2(char *srez, t_chempion *ch, \
 	long			k2;
 	int				k;
 
+	/*int i;
+	i = 0;
+	while (srez[i] && srez[i] != ' ' && srez[i] != '\t')
+		i++;
+	//printf("i = %d    ", i);
+	if (i < (int)ft_strlen(srez))
+		srez[i] = '\0';*/
+	//printf("probel = %d", probel);
+	//if (probel>0)
+	//	srez[probel] = '\0';
 	srez2 = ft_strdup(&srez[2]);
+	//printf("%s\n", srez2);
 	ch->flag = 0;
 	if (op_tab[new_op->name].size == 1)
 		{
 			if ((k = proverca_instruction(srez2, ch, label)) < 0)
 				k = 65536 + k;
+				//printf("srez2 = %s k = %d\n", srez2, k);
+				//printf("%d\n",ch->flag);
 			if (ch->flag == -1)
 				return (-1);
 			byte_code(k, ch);
@@ -114,6 +136,7 @@ int					proverca_registr(char *srez, t_chempion *ch, \
 	{
 		if (srez[1] == LABEL_CHAR)
 		{
+			//printf("sr = %s\n", srez);
 			if (proverca_registr2(srez, ch, label, new_op) < 0)
 				return (-1);
 		}

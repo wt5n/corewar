@@ -20,7 +20,7 @@ int		propysc_probel(char *str)
 	while (str && (str[i] == '\t' || str[i] == ' '))
 		i++;
 	if (str[i] == '\0')
-		return (3);
+		return (-3);
 	return (i);
 }
 
