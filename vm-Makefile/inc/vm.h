@@ -135,11 +135,10 @@ void		free_after_finish(t_cw *cw);
 
 // vis.c
 
-int    visualiser(t_cw *cw);
-//void get_text_and_rect(SDL_Renderer *renderer, int x, int y, char *text,
-//                       TTF_Font *font, SDL_Texture **texture, SDL_Rect *rect);
-int vis_init(t_cw *cw);
-int vis_deinit(t_cw *cw);
+int 	create_file(t_cw *cw);
+int 	visualiser(t_cw *cw);
+int		vis_init(t_cw *cw);
+int		vis_deinit(t_cw *cw);
 
 
 

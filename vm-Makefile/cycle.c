@@ -89,7 +89,7 @@ void	cycle(t_cw *cw)
     /////////////////////////////
     cw->vis = ft_memalloc(sizeof(t_vis));
     vis_init(cw);
-   // visualiser(cw);
+   	// visualiser(cw);
     /////////////////////////////
         place_pl_and_kors(cw);
         while (cw->num_of_koretko) {
@@ -128,10 +128,11 @@ void	cycle(t_cw *cw)
         ft_printf("Contestant %d, \"%s\", has won ! cycle = %d\n", cw->last_player,
                   cw->champs[cw->last_player - 1]->name, cw->cycles);
         ft_print_memory(cw->map, 4096);
-////////////////////
+		////////////////////
+		create_file(cw);
         visualiser(cw);
         //   ft_print_memory(cw->map, 4096);
-////////////////////
+		////////////////////
         ft_printf("cycle is %d\nnum of kors = %d\n"
                   "cycle_to_die = %d\nnum_of_lives = %d\nnum_of_champs = %d\n",
                   cw->cycles, cw->num_of_koretko, cw->cycles_to_die, cw->num_of_lives, cw->num_of_champ);

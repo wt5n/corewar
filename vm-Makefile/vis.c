@@ -30,6 +30,18 @@ void	ft_print_memory_to_file(const void *addr, size_t size, FILE *out)
     }
 }
 
+int create_file(t_cw *cw)
+{
+    if (!(cw->vis->out = fopen("mem_out", "w+"))) {
+        ft_printf("Не удалось создать файл");
+        exit(0);
+    }
+    // открыть файл удалось
+    ft_print_memory_to_file(cw, 4096, cw->vis->out);      // требуемые действия над данными
+    fclose(cw->vis->out);
+    return(0);
+}
+
 void get_text_and_rect(SDL_Renderer *renderer, int x, int y, char *text,
                        TTF_Font *font, SDL_Texture **texture, SDL_Rect *rect) {
     int text_width;
@@ -83,7 +95,7 @@ void draw_map(t_cw *cw)
     int gnl;
 
     cw->vis->line = NULL;
-    cw->vis->fd = open("out.json", O_RDONLY);
+    cw->vis->fd = open("mem_out", O_RDONLY);
     gnl = get_next_line(cw->vis->fd, &cw->vis->line);
     ft_printf("line = %s\n", cw->vis->line);
 
@@ -103,14 +115,14 @@ void draw_map(t_cw *cw)
 
 int   visualiser(t_cw *cw)
 {
-        if (!(cw->vis->out = fopen("out.json", "w+"))) {
+ /*       if (!(cw->vis->out = fopen("out.json", "w+"))) {
             ft_printf("Не удалось создать файл");
             return(0);
         }
         // открыть файл удалось
         ft_print_memory_to_file(cw, 4096, cw->vis->out);      // требуемые действия над данными
         fclose(cw->vis->out);
-
+*/
         draw_map(cw);
 
 
