@@ -95,7 +95,7 @@ int					main(int argc, char *argv[])
 		return (-1);
 	/*printf("%s\n", ch.name);
 	printf("%s\n", ch.comment);
-	print_struct(label);
-	print_op(op);*/
+	print_struct(label);*/
+	//print_op(op);
 	return (0);
 }

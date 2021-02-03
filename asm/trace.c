@@ -14,6 +14,7 @@
 
 char				op_reg2(unsigned char type, int kol)
 {
+	//printf("kol = %d %d\n", kol, type);
 	type = type << 2;
 	if (kol == 1)
 		type = type << 4;
@@ -26,16 +27,27 @@ char				*op_reg3(int n, char **str, int *tecyhee, \
 		unsigned char *type)
 {
 	char			*srez;
+	int				k;
 
+	//printf("str = !%s!\n",*str);
 	if (n >= 0)
 	{
+		//k = propysc_probel(*(str));
 		srez = cut_one(&((*str)[*tecyhee]), SEPARATOR_CHAR, 0);
-		(*tecyhee) += (n + 1);
+		//printf("tecyhee = %d, srez = !%s!\n", *tecyhee, srez);
+		(*tecyhee) += n + 1;
 		(*str) = (*str) + *tecyhee;
+		//printf("stroca = %s\n", *str);
 	}
 	else
-		srez = cut_one(&((*str)[*tecyhee]), '\0', 0);
-	(*type) = (((*type) << 2) + (proverca(srez[0])));
+		{
+			//k = propysc_probel(*(str));
+			srez = cut_one(&((*str)[*tecyhee]), '\0', 0);
+			//printf("srez = %s\n", srez);
+		}
+	k = propysc_probel(srez);
+	//printf("srez = !%s!\n", &srez[k]);
+	(*type) = (((*type) << 2) + (proverca(srez[k])));
 	return (srez);
 }
 
@@ -45,8 +57,9 @@ char				op_reg(char *str, t_chempion *ch, t_new_st_label *label, \
 	int				n;
 	unsigned char	type;
 	int				tecyhee;
-	char			*srez;
+	char			*srez = NULL;
 	int				kol;
+	//int				k;
 
 	n = 0;
 	kol = 0;
@@ -55,9 +68,13 @@ char				op_reg(char *str, t_chempion *ch, t_new_st_label *label, \
 	{
 		if ((tecyhee = kol_sim_not(str, ' ')) < 0)
 			return (-1);
+		tecyhee = propysc_probel(str);
 		n = kol_sim(&str[tecyhee], SEPARATOR_CHAR);
+		//printf("srez_do = !%s!\n", str);
 		srez = op_reg3(n, &str, &tecyhee, &type);
 		kol += 1;
+		//printf("srez = !%s!    tecyhee = %d\n", srez, tecyhee);
+		//k = propysc_probel(srez);
 		if ((proverca_registr(srez, ch, label, new_op)) < 0)
 			return (-1);
 		(ch->tu)++;
@@ -69,6 +86,7 @@ void				pars_stroca(t_chempion *ch, t_op_strukt *last_op, \
 		t_new_st_label *label)
 {
 	char			*str;
+	int				k;
 
 	str = last_op->stroca;
 	ch->mestnoe_smehenee = last_op->smechenee;
@@ -79,17 +97,21 @@ void				pars_stroca(t_chempion *ch, t_op_strukt *last_op, \
 		//printf("name = %d\n", last_op->name);
 		ch->code[ch->i] = last_op->name + 1;
 		(ch->i)++;
-		if (op_tab[last_op->name].code_type == 1)
+		k = propysc_probel(str);
+		if (k != -3)
+		{
+			if (op_tab[last_op->name].code_type == 1)
 		{
 			ch->tu = (ch->i) + 1;
-			ch->code[ch->i] = op_reg(str, ch, label, last_op);
+			//printf("!%s!\n", &(str[k]));
+			ch->code[ch->i] = op_reg(&(str[k]), ch, label, last_op);
 		}
 		else
 		{
 			ch->tu = ch->i;
-			op_reg(str, ch, label, last_op);
+			op_reg(&(str[k]), ch, label, last_op);
 		}
-	//}
+	}
 	ch->i = ch->tu;
 }
 
