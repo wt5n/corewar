@@ -17,7 +17,7 @@ int		propysc_probel(char *str)
 	int	i;
 
 	i = 0;
-	while (str && (str[i] == '\t' || str[i] == ' '))
+	while (str && (str[i] == '\t' || str[i] == ' ' || str[i] == '\r' || str[i] == '\v'))
 		i++;
 	if (str[i] == '\0')
 		return (-3);
@@ -62,6 +62,7 @@ int		kol_sim(char *str, char c)
 
 int		proverca(char c)
 {
+	//printf("r = %c\n", c);
 	if (c == 'r')
 		return (REG_CODE);
 	else if (c == '%')

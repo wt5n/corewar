@@ -20,6 +20,7 @@ int					proverca_instruction(char *str, t_chempion *ch, \
 	char			*str2;
 
 	int i;
+	//printf("!%s!\n", str);
 	str2 = ft_strdup(str);
 	i = 0;
 	while (str2[i] && str2[i] != ' ' && str2[i] != '\t')
@@ -57,6 +58,7 @@ int					proverca_registr2(char *srez, t_chempion *ch, \
 	char			*srez2;
 	long			k2;
 	int				k;
+	int				flag;
 
 	/*int i;
 	i = 0;
@@ -68,25 +70,37 @@ int					proverca_registr2(char *srez, t_chempion *ch, \
 	//printf("probel = %d", probel);
 	//if (probel>0)
 	//	srez[probel] = '\0';
-	srez2 = ft_strdup(&srez[2]);
-	//printf("%s\n", srez2);
+	flag = 0;
+	if (srez[0] == ':')
+		{
+			flag = 1;
+			srez2 = ft_strdup(&srez[1]);
+		}
+	else
+		srez2 = ft_strdup(&srez[2]);
+	
+
+	//printf("!%s!\n", srez2);
 	ch->flag = 0;
-	if (op_tab[new_op->name].size == 1)
+	if (op_tab[new_op->name].size == 1 || flag == 1)
 		{
 			if ((k = proverca_instruction(srez2, ch, label)) < 0)
 				k = 65536 + k;
 				//printf("srez2 = %s k = %d\n", srez2, k);
+			//printf("srez2 = %s    k = %d\n", srez2, k);	
 				//printf("%d\n",ch->flag);
 			if (ch->flag == -1)
 				return (-1);
+			
 			byte_code(k, ch);
 		}
 		else
 		{
-			if ((k = proverca_instruction(srez2, ch, label)) < 0)
-				k2 = 4294967296 + k;
+			if ((k2 = proverca_instruction(srez2, ch, label)) < 0)
+				k2 = 4294967296 + k2;
 			if (ch->flag == -1)
 				return (-1);
+			//printf("srez2 = %s    k = %ld\n", srez2, k2);
 			byte_code(k2 >> 16, ch);
 			(ch->tu)++;
 			byte_code(k2, ch);
@@ -122,6 +136,7 @@ int					proverca_registr(char *srez, t_chempion *ch, \
 	int				tmp;
 	long			tmp2;
 
+	//printf("!%s!\n", srez);
 	if (srez[0] == 'r')
 	{
 		if ((tmp = ft_atoi(&srez[1])) <= 99 && tmp > 0)
@@ -134,6 +149,7 @@ int					proverca_registr(char *srez, t_chempion *ch, \
 	}
 	else if (srez[0] == DIRECT_CHAR)
 	{
+		//printf("registr = !%s!  \n,", srez);
 		if (srez[1] == LABEL_CHAR)
 		{
 			//printf("sr = %s\n", srez);
@@ -145,6 +161,12 @@ int					proverca_registr(char *srez, t_chempion *ch, \
 			proverca_registr3(srez, ch, new_op);
 		}
 	}
+	else if (srez[0] == LABEL_CHAR)
+		{
+			//printf("sr = %s\n", srez);
+			if (proverca_registr2(srez, ch, label, new_op) < 0)
+				return (-1);
+		}
 	else if ((tmp2 = ft_latoi(srez)) >= 0)
 	{
 		//printf("cheslo = %ld\n", tmp2);
