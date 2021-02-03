@@ -42,7 +42,7 @@ void	op_sub(t_cw *cw, t_koretko *kor)
 void 	op_aff(t_cw *cw, t_koretko *kor)
 {
 	kor->step += 2;
-	ft_printf("%c", is_reg(cw, kor));
+	ft_printf("Aff: %c\n", is_reg(cw, kor));
 }
 
 void	op_fork(t_cw *cw, t_koretko *old_kor)

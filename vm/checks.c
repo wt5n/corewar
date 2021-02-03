@@ -36,7 +36,7 @@ int		is_correct_args(int i, int *ar, t_cw *cw, t_koretko *koretko)
 		if (!(correct_for_func(ar[j], op->args[j])))
 			return (0);
 		if (ar[j] == T_REG && (cw->map[get_adrs(koretko, step, 0)] < 1 ||
-								   (cw->map[get_adrs(koretko, step, 0)] > 16)))
+								   (cw->map[get_adrs(koretko, step, 0)] > REG_NUMBER)))
 			return (0);
 		if (koretko->args[j] == REG_CODE)
 			step++;
@@ -86,7 +86,6 @@ void	check_cycles(t_cw *cw)
 			cw->cycles_to_die <= 0)
 		{
 
-//			ft_printf("DIE PUNK id = %d, cycle = %d!!! ctd = %d\n", kor->id, cw->cycles, cw->cycles_to_die);
 			tmp = kor->next;
 			if (prev == NULL)
 				cw->kors = kor->next;

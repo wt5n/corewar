@@ -152,10 +152,16 @@ void	parse_flags(int ac, char **av, t_cw *cw)
 		{
 			cw->vs = 1;
 		}
+		else if (!ft_strcmp(av[i], "-v30"))
+		{
+			continue;
+		}
 		else if (ft_strcmp(av[i], "-n") == 0 || has_cor(av[i]))
 			i += parse_player(cw, ac, av, i);
 		else
+		{
 			print_usage();
+		}
 	}
 	if (cw->num_of_champ == 0)
 		output_error(5, cw);
