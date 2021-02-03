@@ -4,8 +4,8 @@
 #include "../libft/inc/printf.h"
 #include "op.h"
 #include "vm_op.h"
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_ttf.h>
+#include "SDL2/SDL.h"
+#include "SDL2/SDL_ttf.h"
 
 #define MAGIC_NUMBER_LENGTH 4
 #define WIDTH 1000
@@ -13,8 +13,9 @@
 
 typedef struct			s_vis
 {
-    int                 fd;
-    char                *line;
+//    char	 	*v_map; // copy карта
+//    int                 fd;
+    char                line[191];
     FILE                *out;
     SDL_Event           event;
     SDL_Rect            rect1;
@@ -136,7 +137,7 @@ void		free_after_finish(t_cw *cw);
 // vis.c
 
 int 	create_file(t_cw *cw);
-int 	visualiser(t_cw *cw);
+void 	visualiser(t_cw *cw);
 int		vis_init(t_cw *cw);
 int		vis_deinit(t_cw *cw);
 

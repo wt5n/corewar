@@ -42,23 +42,7 @@ int create_file(t_cw *cw)
     return(0);
 }
 
-void get_text_and_rect(SDL_Renderer *renderer, int x, int y, char *text,
-                       TTF_Font *font, SDL_Texture **texture, SDL_Rect *rect) {
-    int text_width;
-    int text_height;
-    SDL_Surface *surface;
-    SDL_Color textColor = {255, 255, 255, 0};
 
-    surface = TTF_RenderText_Solid(font, text, textColor);
-    *texture = SDL_CreateTextureFromSurface(renderer, surface);
-    text_width = surface->w;
-    text_height = surface->h;
-    SDL_FreeSurface(surface);
-    rect->x = x;
-    rect->y = y;
-    rect->w = text_width;
-    rect->h = text_height;
-}
 int vis_init(t_cw *cw)
 {
     if (!(cw->vis->font_path = "100.ttf")) {
@@ -73,10 +57,11 @@ int vis_init(t_cw *cw)
         fprintf(stderr, "error: font not found\n");
         exit(EXIT_FAILURE);
     }
+    return(0);
 }
 
-//void vis_refresh(t_cw *cw)
-    /* Deinit TTF. */
+
+/* Deinit TTF. */
 int vis_deinit(t_cw *cw)
 {
 
@@ -90,52 +75,80 @@ int vis_deinit(t_cw *cw)
         return EXIT_SUCCESS;
 }
 
-void draw_map(t_cw *cw)
+int 	ft_print_hex_to_line(unsigned char c, t_cw *cw, size_t tmp)
 {
-    int gnl;
+	size_t id;
 
-    cw->vis->line = NULL;
-    cw->vis->fd = open("mem_out", O_RDONLY);
-    gnl = get_next_line(cw->vis->fd, &cw->vis->line);
-    ft_printf("line = %s\n", cw->vis->line);
+	id = tmp;
+	char *base = "0123456789abcdef";
+	while (id < tmp+2) {
 
-    get_text_and_rect(cw->vis->renderer, 0, 0, cw->vis->line, cw->vis->font, &cw->vis->texture1, &cw->vis->rect1);
-    while (gnl ) {
-
-        if (cw->vis->line)
-            ft_strdel(&cw->vis->line);
-        gnl = get_next_line(cw->vis->fd, &cw->vis->line);
-        if (cw->vis->line)
-            ft_printf("line = %s\n", cw->vis->line);
-        //get_text_and_rect(cw->vis->renderer, 0, cw->vis->rect1.y + cw->vis->rect1.h, cw->vis->line, cw->vis->font, &cw->vis->texture2, &cw->vis->rect2);
-    }
-    if (cw->vis->line)
-        ft_strdel(&cw->vis->line);
+		cw->vis->line[id] = base[c / 16];
+		id++;
+		cw->vis->line[id] = base[c % 16];
+		id++;
+		if (id != 191) {
+			cw->vis->line[id] = ' ';
+			id++;
+		}
+	}
+	return(id);
 }
 
-int   visualiser(t_cw *cw)
+void	ft_print_memory_to_line(t_cw *cw, size_t o)
 {
- /*       if (!(cw->vis->out = fopen("out.json", "w+"))) {
-            ft_printf("Не удалось создать файл");
-            return(0);
-        }
-        // открыть файл удалось
-        ft_print_memory_to_file(cw, 4096, cw->vis->out);      // требуемые действия над данными
-        fclose(cw->vis->out);
-*/
+	size_t i;
+	size_t tmp;
+
+	tmp = 0;
+	i = 0;
+	while (i < 191) {
+		i = ft_print_hex_to_line(cw->map[o], cw, tmp);
+		tmp = i;
+		o++;
+	}
+}
+
+void get_text_and_rect(SDL_Renderer *renderer, int x, int y, char *text,
+						TTF_Font *font, SDL_Texture **texture, SDL_Rect *rect) {
+	int text_width;
+	int text_height;
+	SDL_Surface *surface;
+	SDL_Color textColor = {255, 255, 255, 0};
+
+	surface = TTF_RenderText_Solid(font, text, textColor);
+	*texture = SDL_CreateTextureFromSurface(renderer, surface);
+	text_width = surface->w;
+	text_height = surface->h;
+	SDL_FreeSurface(surface);
+	rect->x = x;
+	rect->y = y;
+	rect->w = text_width;
+	rect->h = text_height;
+}
+
+void draw_map(t_cw *cw)
+{
+    size_t o = 0;
+	//ft_printf("%s", cw->vis->line);
+    ft_print_memory_to_line(cw, o);
+	ft_printf("\n%s\n", cw->vis->line);
+	get_text_and_rect(cw->vis->renderer, 0, 0, cw->vis->line, cw->vis->font, &cw->vis->texture1, &cw->vis->rect1);
+}
+
+void   visualiser(t_cw *cw)
+{
         draw_map(cw);
 
+        SDL_SetRenderDrawColor(cw->vis->renderer, 0, 0, 0, 0);
+        SDL_RenderClear(cw->vis->renderer);
 
+        /* Use TTF textures. */
+        SDL_RenderCopy(cw->vis->renderer, cw->vis->texture1, NULL, &cw->vis->rect1);
+        SDL_RenderCopy(cw->vis->renderer, cw->vis->texture2, NULL, &cw->vis->rect2);
 
-            SDL_SetRenderDrawColor(cw->vis->renderer, 0, 0, 0, 0);
-            SDL_RenderClear(cw->vis->renderer);
-
-            /* Use TTF textures. */
-            SDL_RenderCopy(cw->vis->renderer, cw->vis->texture1, NULL, &cw->vis->rect1);
-            SDL_RenderCopy(cw->vis->renderer, cw->vis->texture2, NULL, &cw->vis->rect2);
-
-            SDL_RenderPresent(cw->vis->renderer);
-        }
+        SDL_RenderPresent(cw->vis->renderer);
+}
 
 
 
