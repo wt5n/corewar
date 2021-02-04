@@ -15,7 +15,7 @@ set(SRC
         init.c
         checks.c
         koretko_utils.c
-        errors.c)
+        errors.c utils.c operations2.c operations3.c)
 
 add_executable(corewar ${SRC})
 

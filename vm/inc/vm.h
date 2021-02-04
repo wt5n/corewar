@@ -99,7 +99,7 @@ void		chain_kor(t_koretko **kors, t_koretko *kor);
 
 // checks.c
 void		check_cycles(t_cw *cw);
-void		wrong_args(t_cw *cw, t_koretko *kor);
+void		wrong_args(t_koretko *kor);
 int			is_correct_args(int i, int *ar, t_cw *cw, t_koretko *koretko);
 
 // cycle.c
@@ -109,5 +109,15 @@ void		cycle(t_cw *cw);
 void		output_error(int n, t_cw *cw);
 void		print_usage();
 void		free_after_finish(t_cw *cw);
+
+// utils.c
+int			get_adrs(t_koretko *koretko, int modif, int phantom_step);
+int			ft_atoi_only_dig(const char *str, t_cw *cw);
+int			has_cor(char *str);
+
+// func.c
+void	check_players_n(t_cw *cw, int ac, char **av);
+void	check_players_wo_n(t_cw *cw, int ac, char **av);
+int 	parse_player(t_cw *cw, int ac, char **av, int i);
 
 #endif

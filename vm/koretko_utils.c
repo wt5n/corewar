@@ -15,7 +15,6 @@ t_koretko	*create_koretko(int id, int position)
 	kor->next = NULL;
 	kor->id = id;
 	kor->position = position;
-//	ft_printf("create PUNK id = %d, position = %d\n", kor->id, kor->position);
 	return kor;
 }
 

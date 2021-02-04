@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   args.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hlikely <hlikely@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/02/04 19:34:29 by hlikely           #+#    #+#             */
+/*   Updated: 2021/02/04 19:35:29 by hlikely          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "inc/vm.h"
 
 void	write_value(t_cw *cw, int adrs, int value, int size)
@@ -10,20 +22,6 @@ void	write_value(t_cw *cw, int adrs, int value, int size)
 		cw->map[(adrs + size) % 4096] = (value >> i * 8) & 255;
 		i++;
 	}
-}
-
-int		get_adrs(t_koretko *koretko, int modif, int phantom_step)
-{
-	int	adrs;
-
-	if (phantom_step == 1)
-		adrs = koretko->position + koretko->ind_adrs + modif;
-	else
-		adrs = koretko->position + koretko->step + modif;
-	adrs %= MEM_SIZE;
-	if (adrs < 0)
-		adrs += MEM_SIZE;
-	return (adrs);
 }
 
 int		is_reg(t_cw *cw, t_koretko *koretko)
@@ -47,7 +45,8 @@ int		is_dir(t_cw *cw, t_koretko *koretko, int n, int pha)
 	while (n)
 	{
 		if (sign)
-			value += (cw->map[get_adrs(koretko, n - 1, pha)] ^ 255) << (i++ * 8);
+			value += (cw->map[get_adrs(koretko, n - 1, pha)]
+					^ 255) << (i++ * 8);
 		else
 			value += (cw->map[get_adrs(koretko, n - 1, pha)]) << (i++ * 8);
 		n--;
@@ -78,7 +77,8 @@ int		get_value(t_cw *cw, t_koretko *koretko, int arg, int pha)
 	if (arg == REG_CODE)
 		return (is_reg(cw, koretko));
 	else if (arg == DIR_CODE)
-		return (is_dir(cw, koretko, op_tab[koretko->op_code - 1].tdir_size, pha));
+		return (is_dir(cw, koretko,
+				op_tab[koretko->op_code - 1].tdir_size, pha));
 	else if (arg == IND_CODE)
 		return (is_indir(cw, koretko));
 	else

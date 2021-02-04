@@ -28,15 +28,12 @@ int		is_correct_args(int i, int *ar, t_cw *cw, t_koretko *koretko)
 	step = 2;
 	j = -1;
 	op = &op_tab[koretko->op_code - 1];
-//	if (koretko->id == 18 && cw->cycles > 8017)
-//		printf("4tob tebya\n");
 	while (++j != i)
 	{
-//		printf("ar[j] = %d op_tab = %d, and = %d\n", ar[j], op->args[j], ar[j] & op->args[j]);
 		if (!(correct_for_func(ar[j], op->args[j])))
 			return (0);
 		if (ar[j] == T_REG && (cw->map[get_adrs(koretko, step, 0)] < 1 ||
-								   (cw->map[get_adrs(koretko, step, 0)] > REG_NUMBER)))
+		(cw->map[get_adrs(koretko, step, 0)] > REG_NUMBER)))
 			return (0);
 		if (koretko->args[j] == REG_CODE)
 			step++;
@@ -48,7 +45,7 @@ int		is_correct_args(int i, int *ar, t_cw *cw, t_koretko *koretko)
 	return (1);
 }
 
-void	wrong_args(t_cw *cw, t_koretko *kor)
+void	wrong_args(t_koretko *kor)
 {
 	int	i;
 
@@ -78,14 +75,11 @@ void	check_cycles(t_cw *cw)
 
 	kor = cw->kors;
 	prev = NULL;
-//	if (cw->cycles == 10043)
-//		printf("a");
 	while (kor)
 	{
 		if (cw->cycles - kor->last_alive >= cw->cycles_to_die ||
 			cw->cycles_to_die <= 0)
 		{
-
 			tmp = kor->next;
 			if (prev == NULL)
 				cw->kors = kor->next;
@@ -93,7 +87,6 @@ void	check_cycles(t_cw *cw)
 				prev->next = (kor->next == NULL) ? NULL: kor->next;
 			free(kor);
 			cw->num_of_koretko--;
-//			ft_printf("cw->num_of_koretko = %d\n", cw->num_of_koretko);
 			kor = tmp;
 		}
 		else
