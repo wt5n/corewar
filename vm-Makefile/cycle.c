@@ -128,7 +128,7 @@ void	cycle(t_cw *cw)
         ft_printf("Contestant %d, \"%s\", has won ! cycle = %d\n", cw->last_player, cw->champs[cw->last_player - 1]->name, cw->cycles);
 //      ft_print_memory(cw->map, 4096);
 		////////////////////
-		create_file(cw);
+//		create_file(cw);
 //		cw->vis->v_map = (ft_strdup((char*)cw->map));
         visualiser(cw);
 //           ft_print_memory(cw->map, 4096);
@@ -138,18 +138,8 @@ void	cycle(t_cw *cw)
                   cw->cycles, cw->num_of_koretko, cw->cycles_to_die, cw->num_of_lives, cw->num_of_champ);
 
     /////////////////////////////
-    int vis_deinit(t_cw *cw);
-    while (!cw->vis->quit) {
-        while (SDL_PollEvent(&cw->vis->event) == 1) {
-            if (cw->vis->event.type == SDL_QUIT) {
-                cw->vis->quit = 1;
-            }
-            if (cw->vis->event.type == SDL_KEYDOWN)
-            {
-                cw->vis->quit = 1;
-            }
-        }
-    }
+
+
 
     /////////////////////////////
     free_after_finish(cw);

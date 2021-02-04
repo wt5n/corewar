@@ -15,15 +15,13 @@ typedef struct			s_vis
 {
 //    char	 	*v_map; // copy карта
 //    int                 fd;
-    char                line[191];
+    char                line[12288];
     FILE                *out;
     SDL_Event           event;
-    SDL_Rect            rect1;
-    SDL_Rect            rect2;
-    SDL_Renderer        *renderer;
-    SDL_Texture         *texture1;
-    SDL_Texture         *texture2;
-    SDL_Window          *window;
+    SDL_Rect            rect;
+    SDL_Renderer        *rend;
+    SDL_Texture         *tex;
+    SDL_Window          *wind;
     char                *font_path;
     int                 quit;
     TTF_Font            *font;

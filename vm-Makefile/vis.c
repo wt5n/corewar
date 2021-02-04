@@ -1,5 +1,5 @@
 #include "inc/vm.h"
-
+/*
 void	ft_fprint_hex(unsigned char c, FILE *out)
 {
     char *base = "0123456789abcdef";
@@ -41,7 +41,7 @@ int create_file(t_cw *cw)
     fclose(cw->vis->out);
     return(0);
 }
-
+*/
 
 int vis_init(t_cw *cw)
 {
@@ -50,7 +50,7 @@ int vis_init(t_cw *cw)
         exit(EXIT_FAILURE);
     }
     SDL_Init(SDL_INIT_TIMER | SDL_INIT_VIDEO);
-    SDL_CreateWindowAndRenderer(WIDTH, WIDTH, 0, &cw->vis->window, &cw->vis->renderer);
+    SDL_CreateWindowAndRenderer(WIDTH, WIDTH, 0, &cw->vis->wind, &cw->vis->rend);
     TTF_Init();
     cw->vis->font = TTF_OpenFont(cw->vis->font_path, 10);
     if (cw->vis->font == NULL) {
@@ -65,14 +65,34 @@ int vis_init(t_cw *cw)
 int vis_deinit(t_cw *cw)
 {
 
-        SDL_DestroyTexture(cw->vis->texture1);
-        SDL_DestroyTexture(cw->vis->texture2);
+        SDL_DestroyTexture(cw->vis->tex);
         TTF_Quit();
 
-        SDL_DestroyRenderer(cw->vis->renderer);
-        SDL_DestroyWindow(cw->vis->window);
+        SDL_DestroyRenderer(cw->vis->rend);
+        SDL_DestroyWindow(cw->vis->wind);
         SDL_Quit();
         return EXIT_SUCCESS;
+}
+
+
+
+
+
+void tex_and_rect(int x, int y, t_cw *cw) {
+	int text_width;
+	int text_height;
+	SDL_Surface *surface;
+	SDL_Color textColor = {111, 255, 255, 0};
+
+	surface = TTF_RenderText_Solid(cw->vis->font, cw->vis->line, textColor);
+	cw->vis->tex = SDL_CreateTextureFromSurface(cw->vis->rend, surface);
+	text_width = surface->w;
+	text_height = surface->h;
+	SDL_FreeSurface(surface);
+	cw->vis->rect.x = x;
+	cw->vis->rect.y = y;
+	cw->vis->rect.w = text_width;
+	cw->vis->rect.h = text_height;
 }
 
 int 	ft_print_hex_to_line(unsigned char c, t_cw *cw, size_t tmp)
@@ -99,55 +119,63 @@ void	ft_print_memory_to_line(t_cw *cw, size_t o)
 {
 	size_t i;
 	size_t tmp;
+	size_t y = 50;
 
 	tmp = 0;
-	i = 0;
-	while (i < 191) {
-		i = ft_print_hex_to_line(cw->map[o], cw, tmp);
-		tmp = i;
-		o++;
+	while (o < MEM_SIZE)
+	{
+		i = 0;
+		tmp = 0;
+		while (tmp < 191) {
+			i = ft_print_hex_to_line(cw->map[o], cw, tmp);
+			tmp = i;
+			o++;
+			ft_printf("\ni = %d\n", i);
+
+			ft_printf("\no = %d\n", o);
+		}
+		tex_and_rect(20, y, cw);
+
+
+
+		/* Use TTF textures. */
+		SDL_RenderCopy(cw->vis->rend, cw->vis->tex, NULL, &cw->vis->rect);
+		SDL_RenderPresent(cw->vis->rend);
+
+		SDL_SetRenderDrawColor(cw->vis->rend, 0, 0, 0, 0);
+		SDL_RenderClear(cw->vis->rend);
+
+		y+=12;
 	}
-}
-
-void get_text_and_rect(SDL_Renderer *renderer, int x, int y, char *text,
-						TTF_Font *font, SDL_Texture **texture, SDL_Rect *rect) {
-	int text_width;
-	int text_height;
-	SDL_Surface *surface;
-	SDL_Color textColor = {255, 255, 255, 0};
-
-	surface = TTF_RenderText_Solid(font, text, textColor);
-	*texture = SDL_CreateTextureFromSurface(renderer, surface);
-	text_width = surface->w;
-	text_height = surface->h;
-	SDL_FreeSurface(surface);
-	rect->x = x;
-	rect->y = y;
-	rect->w = text_width;
-	rect->h = text_height;
 }
 
 void draw_map(t_cw *cw)
 {
     size_t o = 0;
-	//ft_printf("%s", cw->vis->line);
-    ft_print_memory_to_line(cw, o);
-	ft_printf("\n%s\n", cw->vis->line);
-	get_text_and_rect(cw->vis->renderer, 0, 0, cw->vis->line, cw->vis->font, &cw->vis->texture1, &cw->vis->rect1);
+	ft_print_memory_to_line(cw, o);
+ft_printf("\n%s\n", cw->vis->line);
 }
 
 void   visualiser(t_cw *cw)
 {
         draw_map(cw);
 
-        SDL_SetRenderDrawColor(cw->vis->renderer, 0, 0, 0, 0);
-        SDL_RenderClear(cw->vis->renderer);
+        SDL_SetRenderDrawColor(cw->vis->rend, 0, 0, 0, 0);
+		SDL_RenderClear(cw->vis->rend);
+	while (!cw->vis->quit) {
+		while (SDL_PollEvent(&cw->vis->event) == 1) {
+			if (cw->vis->event.type == SDL_QUIT) {
+				cw->vis->quit = 1;
+			}
+			if (cw->vis->event.type == SDL_KEYDOWN)
+			{
+				cw->vis->quit = 1;
+			}
 
-        /* Use TTF textures. */
-        SDL_RenderCopy(cw->vis->renderer, cw->vis->texture1, NULL, &cw->vis->rect1);
-        SDL_RenderCopy(cw->vis->renderer, cw->vis->texture2, NULL, &cw->vis->rect2);
+		}
+	}
+		vis_deinit(cw);
 
-        SDL_RenderPresent(cw->vis->renderer);
 }
 
 
