@@ -6,7 +6,7 @@
 /*   By: hlikely <hlikely@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 19:47:50 by hlikely           #+#    #+#             */
-/*   Updated: 2021/02/04 19:52:10 by hlikely          ###   ########.fr       */
+/*   Updated: 2021/02/04 19:52:23 by hlikely          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ void	if_cor_op(t_koretko *koretko, t_cw *cw)
 
 	i = -1;
 	j = 6;
-	if (op_tab[koretko->op_code - 1].code_args)
+	if (t_op_tab[koretko->op_code - 1].code_args)
 	{
-		while (++i < op_tab[koretko->op_code - 1].num_of_args)
+		while (++i < t_op_tab[koretko->op_code - 1].num_of_args)
 		{
 			koretko->args[i] =
 					(cw->map[koretko->position + 1] & (3 * ft_pow(2, j))) >> j;
@@ -60,7 +60,7 @@ void	if_cor_op(t_koretko *koretko, t_cw *cw)
 		}
 	}
 	else
-		koretko->args[0] = op_tab[koretko->op_code - 1].args[0];
+		koretko->args[0] = t_op_tab[koretko->op_code - 1].args[0];
 	exec_op(cw, koretko);
 }
 
@@ -85,7 +85,7 @@ void	make_op(t_cw *cw)
 		{
 			cur->op_code = cw->map[cur->position];
 			if (cur->op_code >= 1 && cur->op_code <= 16)
-				cur->delay = op_tab[cur->op_code - 1].delay;
+				cur->delay = t_op_tab[cur->op_code - 1].delay;
 		}
 		if (cur->delay > 0)
 			cur->delay--;

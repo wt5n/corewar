@@ -6,7 +6,7 @@
 /*   By: hlikely <hlikely@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 19:34:29 by hlikely           #+#    #+#             */
-/*   Updated: 2021/02/04 19:35:29 by hlikely          ###   ########.fr       */
+/*   Updated: 2021/02/04 21:33:04 by hlikely          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int		get_value(t_cw *cw, t_koretko *koretko, int arg, int pha)
 		return (is_reg(cw, koretko));
 	else if (arg == DIR_CODE)
 		return (is_dir(cw, koretko,
-				op_tab[koretko->op_code - 1].tdir_size, pha));
+			g_op_tab[koretko->op_code - 1].tdir_size, pha));
 	else if (arg == IND_CODE)
 		return (is_indir(cw, koretko));
 	else

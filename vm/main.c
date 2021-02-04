@@ -6,7 +6,7 @@
 /*   By: hlikely <hlikely@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 20:03:34 by hlikely           #+#    #+#             */
-/*   Updated: 2021/02/04 20:05:39 by hlikely          ###   ########.fr       */
+/*   Updated: 2021/02/04 20:06:40 by hlikely          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ void	parse_flags(int ac, char **av, t_cw *cw)
 		}
 		else if (!ft_strcmp(av[i], "-v"))
 			cw->vs = 1;
+		else if (!ft_strcmp(av[i], "-v30"))
+			continue;
 		else if (ft_strcmp(av[i], "-n") == 0 || has_cor(av[i]))
 			i += parse_player(cw, ac, av, i);
 		else

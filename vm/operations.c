@@ -6,7 +6,7 @@
 /*   By: hlikely <hlikely@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 20:06:49 by hlikely           #+#    #+#             */
-/*   Updated: 2021/02/04 20:07:45 by hlikely          ###   ########.fr       */
+/*   Updated: 2021/02/04 21:35:32 by hlikely          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	op_fork(t_cw *cw, t_koretko *old_kor)
 	old_kor->step++;
 	i = -1;
 	old_kor->ind_adrs = is_dir(cw, old_kor,
-				op_tab[old_kor->op_code - 1].tdir_size, 0) % IDX_MOD;
+		g_op_tab[old_kor->op_code - 1].tdir_size, 0) % IDX_MOD;
 	cw->num_of_koretko++;
 	cw->last_id++;
 	new_kor = create_koretko(cw->last_id, get_adrs(old_kor, 0, 1));
@@ -41,7 +41,7 @@ void	op_lfork(t_cw *cw, t_koretko *old_kor)
 	old_kor->step++;
 	i = -1;
 	old_kor->ind_adrs = is_dir(cw, old_kor,
-				op_tab[old_kor->op_code - 1].tdir_size, 0);
+		g_op_tab[old_kor->op_code - 1].tdir_size, 0);
 	cw->num_of_koretko++;
 	cw->last_id++;
 	new_kor = create_koretko(cw->last_id, get_adrs(old_kor, 0, 1));

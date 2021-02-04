@@ -6,7 +6,7 @@
 /*   By: hlikely <hlikely@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 19:54:59 by hlikely           #+#    #+#             */
-/*   Updated: 2021/02/04 19:59:04 by hlikely          ###   ########.fr       */
+/*   Updated: 2021/02/04 19:59:14 by hlikely          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int		is_correct_args(int i, int *ar, t_cw *cw, t_koretko *koretko)
 
 	step = 2;
 	j = -1;
-	op = &op_tab[koretko->op_code - 1];
+	op = &t_op_tab[koretko->op_code - 1];
 	while (++j != i)
 	{
 		if (!(correct_for_func(ar[j], op->args[j])))
@@ -50,7 +50,7 @@ int		is_correct_args(int i, int *ar, t_cw *cw, t_koretko *koretko)
 		if (koretko->args[j] == REG_CODE)
 			step++;
 		else if (koretko->args[j] == DIR_CODE)
-			step += op_tab[koretko->op_code - 1].tdir_size;
+			step += t_op_tab[koretko->op_code - 1].tdir_size;
 		else
 			step += 2;
 	}
@@ -63,12 +63,12 @@ void	wrong_args(t_koretko *kor)
 
 	i = -1;
 	kor->step += 2;
-	while (++i < op_tab[kor->op_code - 1].num_of_args)
+	while (++i < t_op_tab[kor->op_code - 1].num_of_args)
 	{
 		if (kor->args[i] == REG_CODE)
 			kor->step++;
 		else if (kor->args[i] == DIR_CODE)
-			kor->step += op_tab[kor->op_code - 1].tdir_size;
+			kor->step += t_op_tab[kor->op_code - 1].tdir_size;
 		else if (kor->args[i] == IND_CODE)
 			kor->step += 2;
 		kor->args[i] = 0;
