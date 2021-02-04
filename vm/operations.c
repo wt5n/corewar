@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   operations.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hlikely <hlikely@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/02/04 20:06:49 by hlikely           #+#    #+#             */
+/*   Updated: 2021/02/04 20:07:45 by hlikely          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "inc/vm.h"
 
 void	op_fork(t_cw *cw, t_koretko *old_kor)
@@ -7,7 +19,8 @@ void	op_fork(t_cw *cw, t_koretko *old_kor)
 
 	old_kor->step++;
 	i = -1;
-	old_kor->ind_adrs = is_dir(cw, old_kor, op_tab[old_kor->op_code - 1].tdir_size, 0) % IDX_MOD;
+	old_kor->ind_adrs = is_dir(cw, old_kor,
+				op_tab[old_kor->op_code - 1].tdir_size, 0) % IDX_MOD;
 	cw->num_of_koretko++;
 	cw->last_id++;
 	new_kor = create_koretko(cw->last_id, get_adrs(old_kor, 0, 1));
@@ -27,7 +40,8 @@ void	op_lfork(t_cw *cw, t_koretko *old_kor)
 
 	old_kor->step++;
 	i = -1;
-	old_kor->ind_adrs = is_dir(cw, old_kor, op_tab[old_kor->op_code - 1].tdir_size, 0);
+	old_kor->ind_adrs = is_dir(cw, old_kor,
+				op_tab[old_kor->op_code - 1].tdir_size, 0);
 	cw->num_of_koretko++;
 	cw->last_id++;
 	new_kor = create_koretko(cw->last_id, get_adrs(old_kor, 0, 1));
@@ -55,7 +69,7 @@ void	op_zjmp(t_cw *cw, t_koretko *kor)
 	}
 }
 
-void 	op_st(t_cw *cw, t_koretko *kor)
+void	op_st(t_cw *cw, t_koretko *kor)
 {
 	int first_arg;
 	int second_arg;
@@ -77,7 +91,7 @@ void 	op_st(t_cw *cw, t_koretko *kor)
 	}
 }
 
-void 	op_sti(t_cw *cw, t_koretko *kor)
+void	op_sti(t_cw *cw, t_koretko *kor)
 {
 	int first_arg;
 	int second_arg;
@@ -90,16 +104,4 @@ void 	op_sti(t_cw *cw, t_koretko *kor)
 	kor->ind_adrs = (second_arg + third_arg) % IDX_MOD;
 	write_value(cw, get_adrs(kor, 0, 1), first_arg, DIR_SIZE);
 	kor->ind_adrs = 0;
-}
-
-void	op_live(t_cw *cw, t_koretko *kor)
-{
-	int player;
-
-	kor->step++;
-	player = get_value(cw, kor, kor->args[0], 0);
-	cw->num_of_lives++;
-	kor->last_alive = cw->cycles;
-	if (player <= -1 && player >= cw->num_of_champ * -1)
-		cw->last_player = player;
 }

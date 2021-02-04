@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hlikely <hlikely@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/02/04 20:25:40 by hlikely           #+#    #+#             */
+/*   Updated: 2021/02/04 20:26:56 by hlikely          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "inc/vm.h"
 
 int		get_adrs(t_koretko *koretko, int modif, int phantom_step)
@@ -14,13 +26,13 @@ int		get_adrs(t_koretko *koretko, int modif, int phantom_step)
 	return (adrs);
 }
 
-int			ft_atoi_only_dig(const char *str, t_cw *cw)
+int		ft_atoi_only_dig(const char *str, t_cw *cw)
 {
 	long	res;
 
 	res = 0;
 	while (*str == '\n' || *str == '\t' || *str == '\v'
-		   || *str == ' ' || *str == '\r' || *str == '\f')
+			|| *str == ' ' || *str == '\r' || *str == '\f')
 		str++;
 	if (*str == '-')
 		output_error(6, cw);
@@ -40,10 +52,10 @@ int			ft_atoi_only_dig(const char *str, t_cw *cw)
 	return (int)(res);
 }
 
-int 	has_cor(char *str)
+int		has_cor(char *str)
 {
-	int a;
-	char *s;
+	int		a;
+	char	*s;
 
 	a = ft_strlen(str);
 	if (a > 4)

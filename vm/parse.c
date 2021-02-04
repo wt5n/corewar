@@ -1,9 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hlikely <hlikely@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/02/04 20:24:25 by hlikely           #+#    #+#             */
+/*   Updated: 2021/02/04 20:25:12 by hlikely          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "inc/vm.h"
 
 void	read_magic_number(char *argv, int fd, t_cw *cw)
 {
 	int buf;
 	int check;
+
 	fd = open(argv, O_RDONLY);
 	check = read(fd, &buf, MAGIC_NUMBER_LENGTH);
 	check < MAGIC_NUMBER_LENGTH ? output_error(10, cw) : 0;
@@ -28,9 +41,9 @@ void	read_champ_name(int fd, t_champ *champ, t_cw *cw)
 
 void	read_champ_code_size(int fd, t_champ *champ, t_cw *cw)
 {
-	int tmp;
-	unsigned char size[4];
-	int		check;
+	int				tmp;
+	unsigned char	size[4];
+	int				check;
 
 	check = read(fd, &tmp, 4);
 	check < 4 ? output_error(10, cw) : 0;
@@ -46,7 +59,7 @@ void	read_champ_code_size(int fd, t_champ *champ, t_cw *cw)
 
 void	read_champ_comm(int fd, t_champ *champ, t_cw *cw)
 {
-	char comm[2048];
+	char	comm[2048];
 	int		check;
 
 	check = read(fd, comm, 2048);
@@ -56,9 +69,9 @@ void	read_champ_comm(int fd, t_champ *champ, t_cw *cw)
 
 void	read_champ_code(int fd, t_champ *champ, t_cw *cw)
 {
-	char	tmp[4];
-	unsigned char *size;
-	int check;
+	char			tmp[4];
+	unsigned char	*size;
+	int				check;
 
 	check = read(fd, &tmp, 4);
 	check < 4 ? output_error(10, cw) : 0;

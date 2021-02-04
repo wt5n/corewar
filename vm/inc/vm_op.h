@@ -1,22 +1,34 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   vm_op.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hlikely <hlikely@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/02/04 20:20:32 by hlikely           #+#    #+#             */
+/*   Updated: 2021/02/04 20:21:41 by hlikely          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef _VM_OP_H_
-#define _VM_OP_H_
+# define _VM_OP_H_
 
-#include "vm.h"
+# include "vm.h"
 
-typedef struct s_op
+typedef struct	s_op
 {
-	char   *name;
-	int 	op_code;
-	int 	num_of_args;
-	int 	args[3];
-	int 	delay;
-	int 	inf_carry;
-	int		code_args;
-	int 	tdir_size;
+	char		*name;
+	int			op_code;
+	int			num_of_args;
+	int			args[3];
+	int			delay;
+	int			inf_carry;
+	int			code_args;
+	int			tdir_size;
 
 }				t_op;
 
-static t_op    op_tab[16] =
+static t_op		op_tab[16] =
 	{
 		{
 			.name = "live",
@@ -180,4 +192,4 @@ static t_op    op_tab[16] =
 		},
 	};
 
-#endif //_VM_OP_H_
+#endif

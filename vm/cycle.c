@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cycle.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hlikely <hlikely@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/02/04 19:47:50 by hlikely           #+#    #+#             */
+/*   Updated: 2021/02/04 19:52:10 by hlikely          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "inc/vm.h"
 
 void	exec_op(t_cw *cw, t_koretko *koretko)
@@ -26,32 +38,36 @@ void	exec_op(t_cw *cw, t_koretko *koretko)
 	koretko->args[2] = 0;
 }
 
-void	read_byte(t_koretko *koretko, t_cw *cw)
+void	if_cor_op(t_koretko *koretko, t_cw *cw)
 {
 	int i;
 	int j;
 
 	i = -1;
 	j = 6;
-	if (koretko->op_code >= 1 && koretko->op_code <= 16)
+	if (op_tab[koretko->op_code - 1].code_args)
 	{
-		if (op_tab[koretko->op_code - 1].code_args)
+		while (++i < op_tab[koretko->op_code - 1].num_of_args)
 		{
-			while (++i < op_tab[koretko->op_code - 1].num_of_args)
-			{
-				koretko->args[i] = (cw->map[koretko->position + 1] & (3 * ft_pow(2, j))) >> j;
-				j -= 2;
-			}
-			if (!(is_correct_args(i, koretko->args, cw, koretko)))
-			{
-				wrong_args(koretko);
-				return ;
-			}
+			koretko->args[i] =
+					(cw->map[koretko->position + 1] & (3 * ft_pow(2, j))) >> j;
+			j -= 2;
 		}
-		else
-			koretko->args[0] = op_tab[koretko->op_code - 1].args[0];
-		exec_op(cw, koretko);
+		if (!(is_correct_args(i, koretko->args, cw, koretko)))
+		{
+			wrong_args(koretko);
+			return ;
+		}
 	}
+	else
+		koretko->args[0] = op_tab[koretko->op_code - 1].args[0];
+	exec_op(cw, koretko);
+}
+
+void	read_byte(t_koretko *koretko, t_cw *cw)
+{
+	if (koretko->op_code >= 1 && koretko->op_code <= 16)
+		if_cor_op(koretko, cw);
 	else
 		koretko->position = get_adrs(koretko, 1, 0);
 }
@@ -84,7 +100,7 @@ void	cycle(t_cw *cw)
 	place_pl_and_kors(cw);
 	while (cw->num_of_koretko)
 	{
-		if (cw->dump_cycle ==  cw->cycles)
+		if (cw->dump_cycle == cw->cycles)
 		{
 			ft_print_memory(cw->map, 4096);
 			exit(1);
@@ -96,6 +112,6 @@ void	cycle(t_cw *cw)
 	}
 	cw->last_player *= -1;
 	ft_printf("Contestant %d, \"%s\", has won !\n",
-		   cw->last_player, cw->champs[cw->last_player - 1]->name);
+			cw->last_player, cw->champs[cw->last_player - 1]->name);
 	free_after_finish(cw);
 }

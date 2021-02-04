@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   functions.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hlikely <hlikely@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/02/04 19:41:35 by hlikely           #+#    #+#             */
+/*   Updated: 2021/02/04 19:41:37 by hlikely          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "inc/vm.h"
 
-int 	parse_player(t_cw *cw, int ac, char **av, int i)
+int		parse_player(t_cw *cw, int ac, char **av, int i)
 {
 	if (!ft_strcmp(av[i], "-n"))
 	{
@@ -17,7 +29,7 @@ int 	parse_player(t_cw *cw, int ac, char **av, int i)
 	return (0);
 }
 
-void 	read_champion(char *argv, t_champ *champ, t_cw *cw)
+void	read_champion(char *argv, t_champ *champ, t_cw *cw)
 {
 	int fd;
 
@@ -49,7 +61,8 @@ void	check_players_n(t_cw *cw, int ac, char **av)
 		if (ft_strcmp(av[i], "-n") == 0)
 		{
 			num = ft_atoi_only_dig(av[i + 1], cw) - 1;
-			if (num < 0 || num > (cw->num_of_champ - 1) || cw->champs[num] != NULL)
+			if (num < 0 || num > (cw->num_of_champ - 1) ||
+									cw->champs[num] != NULL)
 				output_error(6, cw);
 			create_champ(cw, num);
 			read_champion(av[i + 2], cw->champs[num], cw);

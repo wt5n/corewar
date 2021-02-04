@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   checks.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hlikely <hlikely@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/02/04 19:54:59 by hlikely           #+#    #+#             */
+/*   Updated: 2021/02/04 19:59:04 by hlikely          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "inc/vm.h"
 
-int 	correct_for_func(int ar, int func_sum)
+int		correct_for_func(int ar, int func_sum)
 {
 	if (func_sum == 1 && ar == 1)
 		return (1);
@@ -10,7 +22,7 @@ int 	correct_for_func(int ar, int func_sum)
 		return (1);
 	else if (func_sum == 5 && (ar == 3 || ar == 1))
 		return (1);
-	else if (func_sum == 6 && (ar == 3 || ar == 2 ))
+	else if (func_sum == 6 && (ar == 3 || ar == 2))
 		return (1);
 	else if (func_sum == 7 && (ar == 3 || ar == 2 || ar == 1))
 		return (1);
@@ -21,9 +33,9 @@ int 	correct_for_func(int ar, int func_sum)
 
 int		is_correct_args(int i, int *ar, t_cw *cw, t_koretko *koretko)
 {
-	int step;
-	int j;
-	t_op *op;
+	int		step;
+	int		j;
+	t_op	*op;
 
 	step = 2;
 	j = -1;
@@ -66,15 +78,26 @@ void	wrong_args(t_koretko *kor)
 	kor->op_code = 0;
 }
 
+void	cycle_to_die_check(t_cw *cw)
+{
+	if (cw->num_of_checks == MAX_CHECKS || cw->num_of_lives >= NBR_LIVE)
+	{
+		cw->cycles_to_die -= CYCLE_DELTA;
+		cw->num_of_checks = 0;
+	}
+	cw->num_of_lives = 0;
+	cw->cycles_to_check = 0;
+}
+
 void	check_cycles(t_cw *cw)
 {
-	cw->num_of_checks++;
 	t_koretko	*kor;
 	t_koretko	*tmp;
 	t_koretko	*prev;
 
 	kor = cw->kors;
 	prev = NULL;
+	cw->num_of_checks++;
 	while (kor)
 	{
 		if (cw->cycles - kor->last_alive >= cw->cycles_to_die ||
@@ -84,7 +107,7 @@ void	check_cycles(t_cw *cw)
 			if (prev == NULL)
 				cw->kors = kor->next;
 			else
-				prev->next = (kor->next == NULL) ? NULL: kor->next;
+				prev->next = (kor->next == NULL) ? NULL : kor->next;
 			free(kor);
 			cw->num_of_koretko--;
 			kor = tmp;
@@ -95,11 +118,5 @@ void	check_cycles(t_cw *cw)
 			kor = kor->next;
 		}
 	}
-	if (cw->num_of_checks == MAX_CHECKS || cw->num_of_lives >= NBR_LIVE)
-	{
-		cw->cycles_to_die -= CYCLE_DELTA;
-		cw->num_of_checks = 0;
-	}
-	cw->num_of_lives = 0;
-	cw->cycles_to_check = 0;
+	cycle_to_die_check(cw);
 }
