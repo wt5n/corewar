@@ -137,10 +137,5 @@ void	cycle(t_cw *cw)
                   "cycle_to_die = %d\nnum_of_lives = %d\nnum_of_champs = %d\n",
                   cw->cycles, cw->num_of_koretko, cw->cycles_to_die, cw->num_of_lives, cw->num_of_champ);
 
-    /////////////////////////////
-
-
-
-    /////////////////////////////
     free_after_finish(cw);
 }

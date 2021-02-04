@@ -37,7 +37,7 @@ OBG = functions.o \
 all: $(NAME)
 $(NAME): $(OBG)
 	@make -s $(FLAG) -C $(PATH_LIB)
-	@$(CC) -I $(HEARDS) -o $(NAME) $(OBG) -L $(PATH_LIB) -lftprintf -L lib -lSDL2 -lSDL2_ttf
+	@$(CC)  -g -I $(HEARDS) -o $(NAME) $(OBG) -L $(PATH_LIB) -lftprintf -L lib -lSDL2 -lSDL2_ttf
 	@echo "\033[0;36m*** Corwar has compiled. Let the combat begin! *** \033[0m"
 
 %.o: %.c $(HEARDS)

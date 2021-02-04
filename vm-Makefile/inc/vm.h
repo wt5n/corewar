@@ -8,23 +8,24 @@
 #include "SDL2/SDL_ttf.h"
 
 #define MAGIC_NUMBER_LENGTH 4
-#define WIDTH 1000
+
+#define WIDTH 1500
 #define HEIGHT 1000
 
 typedef struct			s_vis
 {
 //    char	 	*v_map; // copy карта
 //    int                 fd;
-    char                line[12288];
+    char                line[191];
     FILE                *out;
-    SDL_Event           event;
-    SDL_Rect            rect;
-    SDL_Renderer        *rend;
-    SDL_Texture         *tex;
-    SDL_Window          *wind;
+	SDL_Window          *wind;
+	SDL_Renderer        *rend;
+	TTF_Font            *font;
+   	SDL_Event 			event;
+	SDL_Surface 		*surface;
+	SDL_Color 			txt_col;
     char                *font_path;
     int                 quit;
-    TTF_Font            *font;
 }                       t_vis;
 
 typedef struct			s_champ
