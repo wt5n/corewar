@@ -3,13 +3,15 @@
 void 	read_champion(char *argv, t_champ *champ, t_cw *cw)
 {
 	int fd;
+
 	fd = open(argv, O_RDONLY);
+	if (fd < 0)
+		output_error(9, cw);
 	read_magic_number(argv, fd, cw);
 	read_champ_name(fd, champ, cw);
 	read_champ_code_size(fd, champ, cw);
 	read_champ_comm(fd, champ, cw);
 	read_champ_code(fd, champ, cw);
-	// cw->num_of_champ++;
 	close(fd);
 }
 
@@ -17,9 +19,6 @@ void	create_champ(t_cw *cw, int id)
 {
 	cw->champs[id] = (t_champ*)ft_memalloc(sizeof(t_champ));
 	cw->champs[id]->number = id + 1;
-	// cw->champs[id]->name = (char*)ft_memalloc(sizeof(char));
-	// cw->champs[id]->comm = (char*)ft_memalloc(sizeof(char));
-	// cw->champs[id]->code = (unsigned char*)ft_memalloc(sizeof(unsigned char));
 }
 
 int 	has_cor(char *str)
@@ -43,10 +42,8 @@ int 	has_cor(char *str)
 
 int			ft_atoi_only_dig(const char *str, t_cw *cw)
 {
-	int		sign;
 	long	res;
 
-	sign = 1;
 	res = 0;
 	while (*str == '\n' || *str == '\t' || *str == '\v'
 	|| *str == ' ' || *str == '\r' || *str == '\f')
