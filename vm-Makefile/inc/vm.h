@@ -16,12 +16,13 @@ typedef struct			s_vis
 {
 //    char	 	*v_map; // copy карта
 //    int                 fd;
-    char                line[191];
-    FILE                *out;
+	char			line[191];
+	FILE                *out;
 	SDL_Window          *wind;
-	SDL_Renderer        *rend;
+	SDL_Surface 		*scrn;
+	SDL_Surface			*sur;
 	TTF_Font            *font;
-   	SDL_Event 			event;
+	SDL_Event 			eve;
 	SDL_Surface 		*surface;
 	SDL_Color 			txt_col;
     char                *font_path;
@@ -137,7 +138,7 @@ void		free_after_finish(t_cw *cw);
 
 int 	create_file(t_cw *cw);
 void 	visualiser(t_cw *cw);
-int		vis_init(t_cw *cw);
+void		vis_init(t_cw *cw);
 int		vis_deinit(t_cw *cw);
 
 

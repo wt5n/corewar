@@ -39,27 +39,34 @@ int create_file(t_cw *cw)
 }
 */
 
-int vis_init(t_cw *cw)
+void	vis_init(t_cw *cw)
 {
+	//INIT
 	if (!(cw->vis->font_path = "100.ttf")) {
 		fprintf(stderr, "error: too many arguments\n");
 		exit(EXIT_FAILURE);
 	}
-	SDL_Init(SDL_INIT_TIMER | SDL_INIT_VIDEO);
-	cw->vis->wind = SDL_CreateWindow("Corewar", 100, 100, (WIDTH), (HEIGHT), SDL_WINDOW_SHOWN);
-	cw->vis->rend = SDL_CreateRenderer(cw->vis->wind, -1, SDL_RENDERER_ACCELERATED);
+	SDL_Init(SDL_INIT_VIDEO); // init video
 	TTF_Init();
-	cw->vis->font = TTF_OpenFont(cw->vis->font_path, 12);
+
+	cw->vis->font = TTF_OpenFont(cw->vis->font_path, 10);
 	if (cw->vis->font == NULL) {
 		fprintf(stderr, "error: font not found\n");
 		exit(EXIT_FAILURE);
 	}
-	return(0);
+	// create the window like normal
+	cw->vis->wind = SDL_CreateWindow("SDL2 Example", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WIDTH, HEIGHT, 0);
+	// but instead of creating a renderer, we can draw directly to the screen
+	cw->vis->scrn = SDL_GetWindowSurface(cw->vis->wind);
+	/* Creating the surface. */
+	cw->vis->sur = SDL_CreateRGBSurface(0, WIDTH, HEIGHT, 32, 0, 0, 0, 0);	////////////////
+	SDL_FillRect(cw->vis->sur, NULL, SDL_MapRGB(cw->vis->sur->format, 0, 0, 0));
+	cw->vis->quit = 0;
 }
 
 
 /* Deinit TTF. */
-int vis_deinit(t_cw *cw)
+/*int vis_deinit(t_cw *cw)
 {
 //	SDL_DestroyTexture(cw->vis->tex);
 	SDL_DestroyRenderer(cw->vis->rend);
@@ -67,7 +74,7 @@ int vis_deinit(t_cw *cw)
 	SDL_Quit();
 	TTF_Quit();
 	return EXIT_SUCCESS;
-}
+}*/
 
 
 /*
@@ -98,42 +105,36 @@ int 	ft_print_hex_to_line(unsigned char c, t_cw *cw, size_t tmp)
 	return(id);
 }
 
-void tex_and_rect(int x, int y, t_cw *cw, SDL_Rect *rect, SDL_Texture **tex)
+int DrawText(SDL_Surface* screen, TTF_Font* font, const char* text, int pos)
 {
-	int txt_w;
-	int txt_h;
+	SDL_Color color = {255,0,0, 1};
+	SDL_Surface *text_surface;
 
-	cw->vis->txt_col.r = 111;
-	cw->vis->txt_col.g = 255;
-	cw->vis->txt_col.b = 255;
-	cw->vis->txt_col.a = 255;
-
-	cw->vis->surface = TTF_RenderText_Solid(cw->vis->font, cw->vis->line, cw->vis->txt_col);
-	*tex = SDL_CreateTextureFromSurface(cw->vis->rend, cw->vis->surface);
-	txt_w = cw->vis->surface->w;
-	txt_h = cw->vis->surface->h;
-	SDL_FreeSurface(cw->vis->surface);
-	/* Use TTF textures. */
-//	SDL_SetRenderDrawColor(cw->vis->rend, 0, 0, 0, 255);
-//	SDL_RenderDrawRect(cw->vis->rend, &rect);
-	rect->x = x;
-	rect->y = y;
-	rect->w = txt_w;
-	rect->h = txt_h;
-	ft_printf("00000");
+	text_surface = TTF_RenderText_Solid(font, text, color);
+	SDL_Rect rect;
+	rect.x = 0;
+	rect.y = pos*12;
+	if (text_surface != NULL)
+	{
+		SDL_BlitSurface(text_surface, NULL, screen, &rect);
+		SDL_FreeSurface(text_surface);
+		return 1;
+	}
+	else
+	{
+		// report error
+		return 0;
+	}
 }
 
-void draw_map(t_cw *cw, SDL_Rect	*rect, SDL_Texture **tex_arr)
+void 	read_and_draw(t_cw *cw)
 {
 	size_t i;
 	size_t o;
 	size_t tmp;
-	size_t id = 0;
-
-
 	o = 0;
-
-	while (o < MEM_SIZE && id < 64) {
+	int y = 0;
+	while (o < MEM_SIZE/* && id < 64*/) {
 
 		tmp = 0;
 		while (tmp < 191) {
@@ -141,63 +142,61 @@ void draw_map(t_cw *cw, SDL_Rect	*rect, SDL_Texture **tex_arr)
 			tmp = i;
 			o++;
 		}
-		ft_printf("\n%s\n", cw->vis->line);
-		if(id == 0) {
-			ft_printf("11111");
-			tex_and_rect(25, 0, cw, &rect[id], &*(tex_arr + id));
-		}
-		else {
-			ft_printf("33333");
-			tex_and_rect(25, rect[id].y + 14, cw, &rect[id], &*(tex_arr + id));
-		}//SDL_Delay(100);
-		ft_printf("22222");
-
-
-			id++;
-			ft_printf("   id = %d\n", id);
-		}
-
+		DrawText(cw->vis->scrn, cw->vis->font, cw->vis->line, y);
+		y++;
+		//	ft_printf("%s\n", cw->vis->line);
+	}
+	o = 0;
 }
 
-
-void   visualiser(t_cw *cw) {
-	SDL_Rect rect[64];
-	SDL_Texture *tex_arr[64];
-	int id =0;
-	int quit = 0;
-
-	cw->map[MEM_SIZE - 2] = 0xFE;
-	memset((cw->map + (MEM_SIZE - 64)), 0xaa, 64);
-	memset((cw->map + 64), 0xAA, 64);
-	memset((cw->map + 128), 0xBB, 64);
-	memset((cw->map + 192), 0xCC, 64);
-	memset((cw->map + 192 + 64), 0xDD, 64);
-	memset((cw->map + 192 + 128), 0xee, 64);
-	memset((cw->map + 192 + 128 + 64), 0xFF, 64);
-//	memset((cw->map ), 0xee, 64);
-
-	SDL_SetRenderDrawColor(cw->vis->rend, 0, 0, 0, 0);
-	SDL_RenderClear(cw->vis->rend);
-	draw_map(cw, rect, &tex_arr);
-	ft_printf("55555");
-
+void   visualiser(t_cw *cw)
+{
+	////////////////
+	SDL_Surface *image;
+	////////////////
+	//Event handler
+//	EXAMPLE
+/*	char sym[2];
+	sym[0]=40;
+	sym[1]=0;
+*/
 	while (!cw->vis->quit) {
-		while (SDL_PollEvent(&cw->vis->event) == 1) {
-			if (cw->vis->event.type == SDL_QUIT) {
+		while (SDL_PollEvent(&cw->vis->eve) != 0) {
+			//User requests quit
+			if (cw->vis->eve.type == SDL_QUIT) {
 				cw->vis->quit = 1;
 			}
-			if (cw->vis->event.type == SDL_KEYDOWN) {
-				cw->vis->quit = 1;
+				//User presses a key
+			else if (cw->vis->eve.type == SDL_KEYDOWN) {
+				//Select surfaces based on key press
+				switch (cw->vis->eve.key.keysym.sym) {
+					case SDLK_DOWN:
+						cw->vis->quit = 1;
+						break;
+				}
 			}
 		}
-		while (id < 64) {
-			SDL_RenderCopy(cw->vis->rend, tex_arr[id], NULL, &rect[id]);
-			SDL_RenderPresent(cw->vis->rend);
-			id++;
+		////////////////
+		read_and_draw(cw);
+		////////////////
+//	EXAMPLE
+/*		for (int y=0; y < 64; y++)
+		{
+			DrawText(screen, cw->vis->font, cw->vis->line, y);
 		}
-	}
-	vis_deinit(cw);
+		DrawText(screen, cw->vis->font, sym, 5);
+*/
 
+		SDL_UpdateWindowSurface(cw->vis->wind);
+//	EXAMPLE
+/*		sym[0]=sym[0]+1;
+		if (sym[0] > 120)
+			sym[0]=40;
+*/
+		SDL_BlitSurface(cw->vis->sur, NULL, cw->vis->scrn, NULL);
+		SDL_Delay(500);
+	}
+//	vis_deinit(cw);
 }
 
 
