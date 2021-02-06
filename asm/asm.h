@@ -86,7 +86,7 @@ void						print_op(t_op_strukt *op); //del
 int							pars_name(char *line, t_chempion *ch, \
 		t_new_st_label **label);
 int							par_l(char *line, t_chempion *ch, \
-		t_new_st_label **label, int *i);
+		t_new_st_label **label);
 int							proverca_label(char *str);
 void						zap_struct_ascii(t_chempion *ch, char *str, \
 		t_new_st_label **label);
@@ -115,5 +115,6 @@ int							proverca(char c);
 int							ft_abs(int a);
 void				proverca_registr3(char *srez, t_chempion *ch, \
 		t_op_strukt *new_op);
+int		lab_ch(char *str);
 
 #endif

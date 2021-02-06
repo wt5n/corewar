@@ -20,8 +20,8 @@ t_label				*ft_add_label(t_label **label, char *str)
 	if (!(n_label = new_add_label(str)))
 		return (NULL);
 	next = *label;
-	*label = n_label;
 	n_label->next = next;
+	*label = n_label;
 	return (n_label);
 }
 

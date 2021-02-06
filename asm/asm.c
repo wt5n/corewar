@@ -15,14 +15,19 @@
 void				zap_struct_ascii(t_chempion *ch, char *str, \
 		t_new_st_label **label)
 {
+	t_new_st_label *label2;
+	//printf("len = %zu\n", ft_strlen(str));
 	if (ch->flag == 1 && ft_strlen(str) <= PROG_NAME_LENGTH)
 		ch->name = ft_strdup(str);
 	else if (ch->flag == 2 && ft_strlen(str) <= COMMENT_LENGTH)
 		ch->comment = ft_strdup(str);
 	else if (ch->flag == 3 && proverca_label(str) > 0)
 	{
+		
 		if (ch->flag_label == 1)
-			add_label(str, &((*label)->lab));
+			{label2 = label_last(label);
+				add_label(str, &(label2->lab));
+			}
 		else
 		{
 			ch->flag_label = 1;
@@ -35,13 +40,21 @@ int					read_line(int fd, t_chempion *ch, t_new_st_label **label, \
 		t_op_strukt **op)
 {
 	char			*line;
+	int				k;
 
+	k = 0;
 	while (get_next_line(fd, &line) > 0)
 	{
-		if (pars_one(line, ch, label, op) < 0)
+		k++;
+		int probel = propysc_probel(line);
+		if (probel != -3)
 		{
+			if (pars_one(line, ch, label, op) < 0)
+			{
+			//printf("number = %d   line = %s\n", k, line); //zamena
 			free(line);
 			return (-1);
+			}
 		}
 		free(line);
 	}
@@ -85,17 +98,19 @@ int					main(int argc, char *argv[])
 			{
 				write(2, "Error_read\n", 11);
 				return (-1);
-				}
+			}
+				
 	}
 	else
 		return (-1);
+	//print_struct(label);
 	trace_byte_code(&ch, label, op);
 	close(fd);
 	if (write_code(argv[1], ch) < 0)
 		return (-1);
 	/*printf("%s\n", ch.name);
 	printf("%s\n", ch.comment);
-	print_struct(label);*/
-	//print_op(op);
+	
+	print_op(op);*/
 	return (0);
 }

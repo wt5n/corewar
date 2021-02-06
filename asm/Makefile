@@ -24,7 +24,7 @@ CFLAGS = -Wall -Werror -Wextra $(INCLUDES)
 all:	$(NAME)
 
 %.o: %.c asm.h
-		$(CC) -c $(CFLAGS) $< -o $@
+		$(CC) -c $(CFLAGS) -g3 $< -o $@
 
 $(NAME): $(LIB_FT) $(OBJ)
 		$(CC) -o $@ $(OBJ) -L./libft -lft

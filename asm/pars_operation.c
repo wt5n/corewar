@@ -21,11 +21,11 @@ int					analiz_registr(char *srez, t_op_strukt **op)
 	while (srez[probel] == '\t' || srez[probel] == '\r' || \
 	srez[probel] == '\f' || srez[probel] == '\v' || srez[probel] == ' ')
 		probel++; 
-	//printf("%c    ----  %d\n", srez[probel], probel);
+	//printf("!%c!    ----  %d\n", srez[probel], probel);
 	if (srez[probel] == 'r')
 	{
 		
-		if ((k = ft_atoi(&srez[probel + 1])) > 0 && k < 100) //&& k < REG_NUMBER)
+		if ((k = ft_atoi(&srez[probel + 1])) >= 0 && k < 100) //&& k < REG_NUMBER)
 		{
 			//printf("****\n");
 			(*op)->size += T_REG;
@@ -33,7 +33,7 @@ int					analiz_registr(char *srez, t_op_strukt **op)
 		else
 			return (-1);
 	}
-	else if (srez[probel] == '%')
+	else if (srez[probel] == DIRECT_CHAR)
 	{
 		if (op_tab[(*op)->name].size == 0)
 			(*op)->size += T_DIR * 2;
@@ -53,11 +53,14 @@ int					pars_register(char *str, t_op_strukt **op)
 	char			*srez;
 	int				n;
 
+//printf("str = %s\n", str);
 	n = 0;
-	if (kol_sim(str, '#') != -1)
-		str[kol_sim(str, '#')] = '\0';
+	if (kol_sim(str, COMMENT_CHAR) != -1)
+		str[kol_sim(str, COMMENT_CHAR)] = '\0';
+	if (kol_sim(str, ALT_COMMENT_CHAR) != -1)
+		str[kol_sim(str, ALT_COMMENT_CHAR)] = '\0';
 	(*op)->stroca = ft_strdup(str);
-	//printf("stroca = %s\n", (*op)->stroca);
+	//printf("stroca = !%s!\n", (*op)->stroca);
 	while (n >= 0)
 	{
 		if ((tecyhee = kol_sim_not(str, ' ')) < 0)
@@ -92,6 +95,7 @@ void				zap_label(t_new_st_label **label, t_op_strukt *op)
 		lab->op = op;
 		lab = lab->next;
 	}
+	//printf("op = %s\n", op->stroca);
 }
 
 int					pars_operation(char *line, t_chempion *ch, \
@@ -100,20 +104,20 @@ int					pars_operation(char *line, t_chempion *ch, \
 	char			*srez;
 	t_op_strukt		*new_op;
 	t_new_st_label	*new_label;
-	int				prob;
+	int				probel;
 
-	if (propysc_probel(line) == -3)
-		return (-3);
-	prob = number_pr(&line[propysc_probel(&line[0])]);
-	srez = cut_one(&line[propysc_probel(&line[0])], \
-	line[propysc_probel(&line[0]) + prob], 0);
-	//printf("srez_new = %s\n", srez);
+	//printf("op = %s\n", line);
+	probel = number_pr(line);
+	srez = cut_one(&line[propysc_probel(line)], \
+	line[propysc_probel(line) + probel], 0);
+	//printf("srez_new = !%s!\n", srez);
 	if (operation_name(srez, op) < 0)
 		return (-1);
 	if (ch->flag_label == 1)
 		zap_label(label, operation_last(op));
 	new_op = operation_last(op);
-	if ((pars_register(&line[propysc_probel(&line[0]) + prob + 1], &new_op)) < 0)
+	//printf("propysk = %d\n", propysc_probel(line) + probel + 1);
+	if ((pars_register(&line[propysc_probel(line) + probel + 1], &new_op)) < 0)
 		return (-1);
 	new_op->smechenee = ch->smehenee;
 	ch->smehenee += new_op->size;
@@ -122,6 +126,8 @@ int					pars_operation(char *line, t_chempion *ch, \
 	{
 		new_label = label_last(label);
 		new_label->smehenee = ch->smehenee;
+		//printf("%s\n", new_label->lab->name);
 	}
+	//printf("&&&");
 	return (1);
 }
