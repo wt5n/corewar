@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vm.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlikely <hlikely@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ksenaida <ksenaida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 20:10:42 by hlikely           #+#    #+#             */
-/*   Updated: 2021/02/04 20:14:49 by hlikely          ###   ########.fr       */
+/*   Updated: 2021/02/07 15:07:52 by ksenaida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,5 +112,6 @@ int						has_cor(char *str);
 void					check_players_n(t_cw *cw, int ac, char **av);
 void					check_players_wo_n(t_cw *cw, int ac, char **av);
 int						parse_player(t_cw *cw, int ac, char **av, int i);
+void					cycle_to_die_check(t_cw *cw);
 
 #endif
