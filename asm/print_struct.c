@@ -23,9 +23,9 @@ void				print_op(t_op_strukt *op)
 	int i = 0;
 	while (new_op != NULL)
 	{
-		printf("%s   size = %d", op_tab[new_op->name].name, new_op->size);
+		//printf("%s   size = %d", op_tab[new_op->name].name, new_op->size);
 		kol += new_op->size;
-		printf("    kol = %d\n", kol);
+		//printf("    kol = %d\n", kol);
 		new_op = new_op->next;
 		i++;
 		//printf("    i = %d\n", i);
@@ -33,7 +33,7 @@ void				print_op(t_op_strukt *op)
 		//if (kol == 312)
 		//	printf("my i = %d\n",i);
 	}
-	printf("kol_size = %d\n", kol);
+	//printf("kol_size = %d\n", kol);
 }
 
 void				print_struct(t_new_st_label *label)
@@ -47,10 +47,10 @@ void				print_struct(t_new_st_label *label)
 		la = new_label->lab;
 		while (la)
 		{
-			printf("%s   size = %d   smechenee = %d \n", la->name, la->op->size, la->op->smechenee);
+			//printf("%s   size = %d   smechenee = %d \n", la->name, la->op->size, la->op->smechenee);
 			la = la->next;
 		}	
-		printf("      \n");
+		//printf("      \n");
 		new_label = new_label->next;
 	}
 }

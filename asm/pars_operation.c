@@ -17,6 +17,7 @@ int					analiz_registr(char *srez, t_op_strukt **op)
 	int				k;
 	int				probel;
 
+	//printf("!%s!\n", srez);
 	probel = 0;
 	while (srez[probel] == '\t' || srez[probel] == '\r' || \
 	srez[probel] == '\f' || srez[probel] == '\v' || srez[probel] == ' ')
@@ -35,6 +36,7 @@ int					analiz_registr(char *srez, t_op_strukt **op)
 	}
 	else if (srez[probel] == DIRECT_CHAR)
 	{
+		//printf("%d\n", (*op)->name);
 		if (op_tab[(*op)->name].size == 0)
 			(*op)->size += T_DIR * 2;
 		else
@@ -53,8 +55,8 @@ int					pars_register(char *str, t_op_strukt **op)
 	char			*srez;
 	int				n;
 
-//printf("str = %s\n", str);
 	n = 0;
+	//printf("%s\n",str);
 	if (kol_sim(str, COMMENT_CHAR) != -1)
 		str[kol_sim(str, COMMENT_CHAR)] = '\0';
 	if (kol_sim(str, ALT_COMMENT_CHAR) != -1)
@@ -78,6 +80,7 @@ int					pars_register(char *str, t_op_strukt **op)
 		if (analiz_registr(srez, op) < 0)
 			return (-1);
 	}
+	//printf("&&&");
 	return (1);
 }
 
@@ -108,17 +111,31 @@ int					pars_operation(char *line, t_chempion *ch, \
 
 	//printf("op = %s\n", line);
 	probel = number_pr(line);
+	printf("kkk = %d\n", probel);
+	if (probel == -3)
+	{
+		if (kol_sim(line, '%') != -1)
+			probel = kol_sim(line, '%');
+	}
 	srez = cut_one(&line[propysc_probel(line)], \
 	line[propysc_probel(line) + probel], 0);
-	//printf("srez_new = !%s!\n", srez);
+	printf("srez_new = !%s!\n", srez);
 	if (operation_name(srez, op) < 0)
 		return (-1);
 	if (ch->flag_label == 1)
 		zap_label(label, operation_last(op));
 	new_op = operation_last(op);
 	//printf("propysk = %d\n", propysc_probel(line) + probel + 1);
-	if ((pars_register(&line[propysc_probel(line) + probel + 1], &new_op)) < 0)
+	//printf("op = %s\n", line);
+	if (line[propysc_probel(line) + probel] == '%')
+			probel = propysc_probel(line) + probel - 1;
+	char *srez2 = ft_strdup(&line[probel + 1]);
+	printf("sr2 = !%s!\n", srez2);
+	probel = propysc_probel(srez2);
+	printf("probel = %d\n", probel);
+	if ((pars_register(&srez2[probel], &new_op)) < 0)
 		return (-1);
+	//printf("&&&");
 	new_op->smechenee = ch->smehenee;
 	ch->smehenee += new_op->size;
 	//printf("new_op = %d\n", ch->smehenee);

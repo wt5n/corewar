@@ -40,14 +40,37 @@ int			make_file(char *name_file)
 	return (fd1);
 }
 
+int			write_co(int fd1, t_chempion ch)
+{
+	//int			len;
+	t_chempion	ch2;
+
+	//len = 0;
+	ch2 = ch;
+	while (ch2.co)
+	{
+		//len += ft_strlen(ch2.co->com);
+		//printf("%s\n", ch2.co->com);
+		write(fd1, ch2.co->com, (ft_strlen(ch2.co->com)));
+		ch2.co = ch2.co->next;
+	}
+	return (ch.len_com);
+}
+
 int			write_code3(int fd1, t_chempion ch, char **nullu)
 {
-	int		len_comment;
-	char	*comment;
-	int		i;
+	//int		len_comment;
+	//char	*comment;
+	//int		i;
 
-	i = 0;
-	len_comment = ft_strlen(ch.comment);
+	/*i = 0;
+	len_comment = 0;
+	if (ch.co != NULL)
+	{
+		len_comment += write_co(fd1, ch);
+	}
+	len_comment += (int)ft_strlen(ch.comment);
+	//printf("len = %d\n", len_comment);
 	if ((comment = (char *)malloc(sizeof(char) * \
 					(COMMENT_LENGTH - len_comment))) < 0)
 		return (-1);
@@ -56,7 +79,7 @@ int			write_code3(int fd1, t_chempion ch, char **nullu)
 		comment[i] = 0;
 		i++;
 	}
-	write(fd1, comment, COMMENT_LENGTH - len_comment);
+	write(fd1, comment, COMMENT_LENGTH - len_comment);*/
 	(*nullu)[0] = 0;
 	(*nullu)[1] = 0;
 	(*nullu)[2] = 0;
@@ -89,7 +112,7 @@ int			write_code2(int fd1, t_chempion ch)
 	nullu[2] = m >> 8;
 	nullu[3] = m & 255;
 	write(fd1, nullu, 4);
-	write(fd1, ch.comment, ft_strlen(ch.comment));
+	write(fd1, ch.comment, COMMENT_LENGTH);
 	write_code3(fd1, ch, &nullu);
 	return (1);
 }
@@ -133,8 +156,8 @@ int			write_code(char *name_file, t_chempion ch)
 	free(magic);
 	ch.size += 4;
 	ch.size += PROG_NAME_LENGTH;
-	write(fd1, ch.name, ft_strlen(ch.name));
-	write_code1(fd1, ch);
+	write(fd1, ch.name, PROG_NAME_LENGTH);
+	write_code2(fd1, ch);
 	close(fd1);
 	return (1);
 }

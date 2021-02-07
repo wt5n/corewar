@@ -38,6 +38,12 @@ typedef struct				s_registr
 	int						size;
 }							t_registr;
 
+typedef struct				s_comment
+{
+	char					*com;
+	struct s_comment		*next;
+}							t_comment;
+
 typedef struct				s_op_strukt
 {
 	int						size;
@@ -59,8 +65,12 @@ typedef struct				s_chempion
 	int						mestnoe_smehenee;
 	int						mestnoe_size;
 	int						i;
+	int						n;
 	int						tu;
+	int						fd;
+	int						len_com;
 	t_registr				reg[3];
+	t_comment				*co;
 }							t_chempion;
 
 typedef struct				s_label

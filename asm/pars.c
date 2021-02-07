@@ -41,23 +41,12 @@ int			pars_name(char *line, t_chempion *ch, t_new_st_label **label)
 	int probel = 0;
 	int		len;
 
-	/*tecyhee = kol_sim(line, '"');
-	//printf("kol_sim %d\n", tecyhee);
-	k = kol_sim(line[tecyhee], '"');
-	if (tecyhee != -1 && tecyhee < k)
-		k = tecyhee;
-	srez = cut_one(line, line[k], 0);
-	//printf("%s!\n", srez);*/
-	//printf("%s!\n", line);
 	if (ft_strncmp(line, NAME_CMD_STRING, ft_strlen(NAME_CMD_STRING)) == 0 || \
 				ft_strncmp(line, COMMENT_CMD_STRING, ft_strlen(COMMENT_CMD_STRING)) == 0)
 	{
-		
-		
 		if (ft_strncmp(line, NAME_CMD_STRING, ft_strlen(NAME_CMD_STRING)) == 0)
 			{
 				ch->flag = 1;
-				//printf("line = %s\n", line);
 				len = ft_strlen(NAME_CMD_STRING);
 			}
 		else
@@ -65,15 +54,72 @@ int			pars_name(char *line, t_chempion *ch, t_new_st_label **label)
 			ch->flag = 2;
 			len = ft_strlen(COMMENT_CMD_STRING);
 		}
+		//printf("%s %d\n", line, ch->flag);
 			probel = propysc_probel(&(line[len]));
-				//printf("%d\n", probel);
-				if (probel == -3 || line[probel + len] != '"')
+			if (probel == -3 || line[probel + len] != '"')
 					return -1;
-		//	printf("name = !%s!\n", &(line[probel + len]));
 			k = kol_sim(&(line[probel + len + 1]), '"');
-		//	printf("%d\n", k);
-			if (k == -1)
-			return (-1);
+			if (ch->flag == 2 && k == -1)
+			{
+				int i=probel + len + 1;
+				while (line[i] != '\0' && line[i] != '"')
+					{
+						ch->comment[ch->i] = line[i];
+						ch->i += 1;
+						i++;
+					}
+					ch->comment[ch->i] = '\n';
+					ch->i++;
+					return (1);
+			}
+			else if (ch->flag == 2)
+			{
+				int i=probel + len + 1;
+				while (line[i] != '\0' && line[i] != '"')
+					{
+						ch->comment[ch->i] = line[i];
+						ch->i++;
+						i++;
+					}
+				while (ch->i < COMMENT_LENGTH)
+					{
+						ch->comment[ch->i] = 0;
+						ch->i++;
+					}
+					ch->i = 0;
+				return 1;
+			}
+			if (ch->flag == 1 && k == -1)
+			{
+				int n=probel + len + 1;
+				while (line[n] != '\0' && line[n] != '"')
+					{
+						ch->name[ch->n] = line[n];
+						ch->n += 1;
+						n++;
+					}
+					ch->name[ch->n] = '\n';
+					ch->n++;
+					return (1);
+			}
+			else if (ch->flag == 1)
+			{
+				int n=probel + len + 1;
+				while (line[n] != '\0' && line[n] != '"')
+					{
+						ch->name[ch->n] = line[n];
+						ch->n++;
+						n++;
+					}
+				while (ch->n < PROG_NAME_LENGTH)
+					{
+						ch->comment[ch->n] = 0;
+						ch->n++;
+					}
+					ch->n = 0;
+				return 1;
+			}
+			
 			line[probel + len + 1 + k] = '\0';
 			srez = ft_strdup(&line[probel + len + 1]);
 			//srez3 = ft_strjoin(srez2, srez);

@@ -36,8 +36,12 @@ int					proverca_instruction(char *str, t_chempion *ch, \
 			//printf("smeche = !%d!   !%d!\n", lab->op->smechenee, ch->mestnoe_smehenee);
 			if ((ft_strcmp(lab->name, str2)) == 0)
 					{
-						
 						//printf("!!!!!!   %d\n", lab->op->smechenee - ch->mestnoe_smehenee);
+						if (lab->op == NULL)
+							{
+								//printf("sme = %d   mes_sme = %d    mes_size = %d\n", ch->smehenee, ch->mestnoe_smehenee, ch->smehenee - ch->mestnoe_smehenee);
+								return (ch->smehenee - ch->mestnoe_smehenee);
+							}
 						return (lab->op->smechenee - ch->mestnoe_smehenee);
 					}
 			lab = lab->next;
@@ -73,10 +77,10 @@ int					proverca_registr2(char *srez, t_chempion *ch, \
 	else
 		srez2 = ft_strdup(&srez[2]);
 	ch->flag = 0;
-	
+	//printf("%d\n", new_op->name);
 	if (op_tab[new_op->name].size == 1 || flag == 1)
 	{
-		
+		//printf("%d   %s\n", new_op->name, srez2);
 		if ((k = proverca_instruction(srez2, ch, label)) < 0)
 			k = 65536 + k;
 		//printf("k = %d\n", k);
@@ -139,6 +143,8 @@ int					proverca_registr(char *srez, t_chempion *ch, \
 	{
 		if (srez[1] == LABEL_CHAR)
 		{
+			if (label_last(&label)->lab->op == NULL)
+				label->lab->op->smechenee = 0;
 			if (proverca_registr2(srez, ch, label, new_op) < 0)
 				return (-1);
 		}
