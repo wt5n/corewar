@@ -6,7 +6,7 @@
 /*   By: ksenaida <ksenaida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 19:47:50 by hlikely           #+#    #+#             */
-/*   Updated: 2021/02/07 15:53:32 by ksenaida         ###   ########.fr       */
+/*   Updated: 2021/02/07 16:10:49 by ksenaida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,6 @@ void	cycle(t_cw *cw)
 			check_cycles(cw);
 			cycle_to_die_check(cw);
 		}
-
 	}
 	cw->last_player *= -1;
 	ft_printf("Contestant %d, \"%s\", has won !\n",

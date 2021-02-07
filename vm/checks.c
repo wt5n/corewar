@@ -6,7 +6,7 @@
 /*   By: ksenaida <ksenaida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 19:54:59 by hlikely           #+#    #+#             */
-/*   Updated: 2021/02/07 15:56:37 by ksenaida         ###   ########.fr       */
+/*   Updated: 2021/02/07 17:52:00 by ksenaida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,9 +113,6 @@ void	check_cycles(t_cw *cw)
 			kor = tmp;
 		}
 		else
-		{
-			prev = kor;
-			kor = kor->next;
-		}
+			swap_kor(&prev, &kor);
 	}
 }

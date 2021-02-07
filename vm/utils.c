@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlikely <hlikely@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ksenaida <ksenaida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 20:25:40 by hlikely           #+#    #+#             */
-/*   Updated: 2021/02/04 20:26:56 by hlikely          ###   ########.fr       */
+/*   Updated: 2021/02/07 17:52:04 by ksenaida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,4 +69,10 @@ int		has_cor(char *str)
 		free(s);
 	}
 	return (0);
+}
+
+void	swap_kor(t_koretko **prev, t_koretko **kor)
+{
+	*prev = *kor;
+	*kor = (*kor)->next;
 }
