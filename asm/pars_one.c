@@ -24,9 +24,9 @@ int		par3(char *line, t_chempion *ch, t_new_st_label **label, \
 	return (1);
 }
 
-int		pars_one2(char *line, t_chempion *ch, t_new_st_label **label)
+int		pars_one2(char *line, t_chempion *ch)
 {
-	if (pars_name(line, ch, label) < 0)
+	if (pars_name(line, ch) < 0)
 		return (-1);
 	return (1);
 }
@@ -41,13 +41,13 @@ int		pars_one(char *li, t_chempion *ch, t_new_st_label **labe, \
 	probel = propysc_probel(li);
 		if (probel == -3)
 			return 1;
-	printf("%s\n", &(li[probel]));
+	//printf("%s\n", &(li[probel]));
 	if (li[probel] && li[probel] != ' ' && li[probel] != '\0' && li[probel] != '\t' && \
 	li[probel] != '\n' && li[probel] != COMMENT_CHAR && li[probel] != ALT_COMMENT_CHAR)
 	{
 		if (li[probel] == '.')
 		{
-			if (pars_one2(&(li[probel]), ch, labe) < 0)
+			if (pars_one2(&(li[probel]), ch) < 0)
 				return (-1);
 		}
 		else
@@ -57,7 +57,7 @@ int		pars_one(char *li, t_chempion *ch, t_new_st_label **labe, \
 			//printf("probel = %d\n", probel);
 			//printf("%s#\n", li);
 			int	lab = lab_ch(&(li[probel]));
-			printf("%d    lab = %d\n",probel, lab);
+			//printf("%d    lab = %d\n",probel, lab);
 			if (lab == -2 || lab == -1)
 				{
 					//printf("lab = %d\n", lab);	
@@ -76,7 +76,7 @@ int		pars_one(char *li, t_chempion *ch, t_new_st_label **labe, \
 					if (probel == -3)
 							return 1;
 					//printf("*** %d   %d", i, probel);
-					printf("stroca = !%s!\n", &(li[i+probel]));
+					//printf("stroca = !%s!\n", &(li[i+probel]));
 					if (par3(&(li[i+probel]), ch, labe, op) < 0)
 							return (-1);
 					

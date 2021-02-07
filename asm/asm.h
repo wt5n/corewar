@@ -93,8 +93,7 @@ t_label						*add_label(char *str, t_label **label);
 t_new_st_label				*add_st_label(char *str, t_new_st_label **label);
 void						print_struct(t_new_st_label *label); //del
 void						print_op(t_op_strukt *op); //del
-int							pars_name(char *line, t_chempion *ch, \
-		t_new_st_label **label);
+int							pars_name(char *line, t_chempion *ch);
 int							par_l(char *line, t_chempion *ch, \
 		t_new_st_label **label);
 int							proverca_label(char *str);

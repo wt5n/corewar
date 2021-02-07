@@ -40,7 +40,7 @@ int			make_file(char *name_file)
 	return (fd1);
 }
 
-int			write_co(int fd1, t_chempion ch)
+/*int			write_co(int fd1, t_chempion ch)
 {
 	//int			len;
 	t_chempion	ch2;
@@ -55,7 +55,7 @@ int			write_co(int fd1, t_chempion ch)
 		ch2.co = ch2.co->next;
 	}
 	return (ch.len_com);
-}
+}*/
 
 int			write_code3(int fd1, t_chempion ch, char **nullu)
 {
@@ -117,7 +117,7 @@ int			write_code2(int fd1, t_chempion ch)
 	return (1);
 }
 
-int			write_code1(int fd1, t_chempion ch)
+/*int			write_code1(int fd1, t_chempion ch)
 {
 	char	*name;
 	int		len_name;
@@ -137,7 +137,7 @@ int			write_code1(int fd1, t_chempion ch)
 	free(name);
 	write_code2(fd1, ch);
 	return (1);
-}
+}*/
 
 int			write_code(char *name_file, t_chempion ch)
 {
@@ -154,8 +154,8 @@ int			write_code(char *name_file, t_chempion ch)
 	magic[3] = m & 255;
 	write(fd1, magic, 4);
 	free(magic);
-	ch.size += 4;
-	ch.size += PROG_NAME_LENGTH;
+	//ch.size += 4;
+	//ch.size += PROG_NAME_LENGTH;
 	write(fd1, ch.name, PROG_NAME_LENGTH);
 	write_code2(fd1, ch);
 	close(fd1);

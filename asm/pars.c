@@ -33,14 +33,15 @@ char		*cut_one(char *str, char c, int n)
 	return (srez);
 }
 
-int			pars_name(char *line, t_chempion *ch, t_new_st_label **label)
+int			pars_name(char *line, t_chempion *ch)
 {
-	char	*srez;
+//	char	*srez;
 //	int		tecyhee=0;
 	int		k=0;
 	int probel = 0;
 	int		len;
 
+	printf("name = %s\n", line);
 	if (ft_strncmp(line, NAME_CMD_STRING, ft_strlen(NAME_CMD_STRING)) == 0 || \
 				ft_strncmp(line, COMMENT_CMD_STRING, ft_strlen(COMMENT_CMD_STRING)) == 0)
 	{
@@ -59,6 +60,7 @@ int			pars_name(char *line, t_chempion *ch, t_new_st_label **label)
 			if (probel == -3 || line[probel + len] != '"')
 					return -1;
 			k = kol_sim(&(line[probel + len + 1]), '"');
+			printf("%d\n", k);
 			if (ch->flag == 2 && k == -1)
 			{
 				int i=probel + len + 1;
@@ -105,6 +107,7 @@ int			pars_name(char *line, t_chempion *ch, t_new_st_label **label)
 			else if (ch->flag == 1)
 			{
 				int n=probel + len + 1;
+				printf("n = %d\n", n);
 				while (line[n] != '\0' && line[n] != '"')
 					{
 						ch->name[ch->n] = line[n];
@@ -113,15 +116,15 @@ int			pars_name(char *line, t_chempion *ch, t_new_st_label **label)
 					}
 				while (ch->n < PROG_NAME_LENGTH)
 					{
-						ch->comment[ch->n] = 0;
+						ch->name[ch->n] = 0;
 						ch->n++;
 					}
 					ch->n = 0;
 				return 1;
 			}
 			
-			line[probel + len + 1 + k] = '\0';
-			srez = ft_strdup(&line[probel + len + 1]);
+			//line[probel + len + 1 + k] = '\0';
+			//srez = ft_strdup(&line[probel + len + 1]);
 			//srez3 = ft_strjoin(srez2, srez);
 			//srez2 = ft_strdup(srez3);
 			//while (get_next_line(fd, &line) > 0)
@@ -134,10 +137,10 @@ int			pars_name(char *line, t_chempion *ch, t_new_st_label **label)
 		
 		//printf("srez = %s\n", srez);
 	}
-	else
+	//else
 		return (-1);
-	zap_struct_ascii(ch, srez, label);
-	return (1);
+	//zap_struct_ascii(ch, srez, label);
+	//return (1);
 }
 
 int			proverca_label(char *str)

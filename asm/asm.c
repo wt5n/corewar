@@ -41,19 +41,14 @@ int					read_line(int fd, t_chempion *ch, t_new_st_label **label, \
 {
 	char			*line;
 	int				k;
-	//int				k2;
-	//t_comment		*co;
 
 	k = 0;
-	/*ch->co = (t_comment*)malloc(sizeof(t_comment));
-	co = ch->co;
-	co->com = NULL;
-	co->next = NULL;*/
 	while (get_next_line(fd, &line) > 0)
 	{	
 		if (ch->i != 0)
 		{
 			int i = 0;
+			printf("comment = %s\n", line);
 			while (line[i] != '\0' && line[i] != '"')
 			{
 				ch->comment[ch->i] = line[i];
@@ -100,6 +95,7 @@ int					read_line(int fd, t_chempion *ch, t_new_st_label **label, \
 		else
 		if (ch->n != 0)
 		{
+			printf("name = %s\n", line);
 			int n = 0;
 			while (line[n] != '\0' && line[n] != '"')
 			{
@@ -124,6 +120,7 @@ int					read_line(int fd, t_chempion *ch, t_new_st_label **label, \
 		}
 			else
 		{
+			//printf("%s\n", line);
 			k++;
 		int probel = propysc_probel(line);
 		if (probel != -3)
@@ -138,7 +135,7 @@ int					read_line(int fd, t_chempion *ch, t_new_st_label **label, \
 		free(line);
 		}
 	}
-	if (ch->i == 1)
+	if (ch->i == 1 || ch->n == 1)
 		return (-1);
 	return (1);
 }
@@ -154,15 +151,15 @@ void				init_asm(t_chempion *ch, t_new_st_label **label, \
 		t_op_strukt **op)
 {
 	ch->name = (char*)malloc(sizeof(char) * PROG_NAME_LENGTH + 1);
+	ch->name[PROG_NAME_LENGTH] = '\0';
+	ch->n = 0;
 	ch->comment = (char*)malloc(sizeof(char) * COMMENT_LENGTH + 1);
 	ch->comment[COMMENT_LENGTH] = '\0';
-	ch->name[PROG_NAME_LENGTH] = '\0';
+	ch->i = 0;
 	ch->code = NULL;
 	ch->flag_label = 0;
 	ch->smehenee = 0;
 	ch->size = 0;
-	ch->i = 0;	
-	ch->n = 0;
 	ch->len_com = 0;
 	ch->co = NULL;
 	//ch->co->com = NULL;
@@ -195,6 +192,7 @@ int					main(int argc, char *argv[])
 	else
 		return (-1);
 	//print_struct(label);
+//printf("%zu\n", ft_strlen(ch.name));
 	trace_byte_code(&ch, label, op);
 	close(fd);
 	if (write_code(argv[1], ch) < 0)

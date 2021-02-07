@@ -111,7 +111,7 @@ int					pars_operation(char *line, t_chempion *ch, \
 
 	//printf("op = %s\n", line);
 	probel = number_pr(line);
-	printf("kkk = %d\n", probel);
+	//printf("kkk = %d\n", probel);
 	if (probel == -3)
 	{
 		if (kol_sim(line, '%') != -1)
@@ -119,7 +119,7 @@ int					pars_operation(char *line, t_chempion *ch, \
 	}
 	srez = cut_one(&line[propysc_probel(line)], \
 	line[propysc_probel(line) + probel], 0);
-	printf("srez_new = !%s!\n", srez);
+	//printf("srez_new = !%s!\n", srez);
 	if (operation_name(srez, op) < 0)
 		return (-1);
 	if (ch->flag_label == 1)
@@ -130,9 +130,9 @@ int					pars_operation(char *line, t_chempion *ch, \
 	if (line[propysc_probel(line) + probel] == '%')
 			probel = propysc_probel(line) + probel - 1;
 	char *srez2 = ft_strdup(&line[probel + 1]);
-	printf("sr2 = !%s!\n", srez2);
+	//printf("sr2 = !%s!\n", srez2);
 	probel = propysc_probel(srez2);
-	printf("probel = %d\n", probel);
+	//printf("probel = %d\n", probel);
 	if ((pars_register(&srez2[probel], &new_op)) < 0)
 		return (-1);
 	//printf("&&&");
