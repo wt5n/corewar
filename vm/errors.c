@@ -41,7 +41,7 @@ void	free_after_finish(t_cw *cw)
 	i = -1;
 	if (cw->num_of_champ != 0)
 	{
-		while (++i < cw->num_of_champ)
+		while (++i < cw->num_of_champ && cw->champs[i] != NULL)
 		{
 			free(cw->champs[i]->name);
 			free(cw->champs[i]->comm);
