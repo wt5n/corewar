@@ -100,14 +100,14 @@ int					read_line(int fd, t_chempion *ch, t_new_st_label **label, \
 		probel = propysc_probel(line);
 		if (probel != -3)
 		{
-			if (pars_one(line, ch, label, op) < 0)
+		if (pars_one(line, ch, label, op) < 0)
 			{
 			printf("number = %d   line = %s\n", k, line); //zamena
 			free(line);
-			if (ch->comment)
+			/*if (ch->comment)
 				free(ch->comment);
 			if (ch->name)
-				free(ch->name);
+				free(ch->name);*/
 			return (-1);
 			}
 		}
@@ -176,14 +176,6 @@ int					main(int argc, char *argv[])
 	}
 	if (ch.comment[0] == '\0')
 	{
-		if (ch.comment[0] == '\0' && ch.name[0] != '\0')
-			write(2, "Can't read comment\n", 18);
-		else if (ch.comment[0] != '\0' && ch.name[0] == '\0')
-			write(2, "Can't read name\n", 15);
-		else
-			write(2, "Can't read\n", 11);
-		free(ch.comment);
-		free(ch.name);
 		return (-1);
 	}
 	trace_byte_code(&ch, label, op);
@@ -191,7 +183,7 @@ int					main(int argc, char *argv[])
 	if (write_code(argv[1], &ch) < 0)
 		return (-1);
 	free_op_struct(op);
-	free_lab(&label);
+	//free_lab(&label);
 	/*printf("%s\n", ch.name);
 	printf("%s\n", ch.comment);*/
 	//print_struct(label);	

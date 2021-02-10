@@ -101,7 +101,6 @@ void				trace_byte_code(t_chempion *ch, t_new_st_label *label, \
 
 	op_new = op;
 	ch->i = 0;
-	printf("%d\n", ch->smehenee);
 	ch->code = (char*)malloc(sizeof(char) * ch->smehenee + 1);
 	ch->code[ch->smehenee] = '\0';
 	while (op_new)

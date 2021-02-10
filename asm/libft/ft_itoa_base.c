@@ -39,6 +39,6 @@ char		*ft_itoa_base(unsigned long long int input, int base, int height)
 	}
 	temp[i] = symbols[input];
 	reverse_clean(&res, temp, i);
-	free(symbols);
+	//free(symbols);
 	return (res);
 }
