@@ -47,10 +47,10 @@ void				print_struct(t_new_st_label *label)
 		la = new_label->lab;
 		while (la)
 		{
-			//printf("%s   size = %d   smechenee = %d \n", la->name, la->op->size, la->op->smechenee);
+			printf("%s   size = %d   smechenee = %d \n", la->name, la->op->size, la->op->smechenee);
 			la = la->next;
 		}	
-		//printf("      \n");
+		printf("      \n");
 		new_label = new_label->next;
 	}
 }

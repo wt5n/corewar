@@ -37,7 +37,6 @@ char				*op_reg3(int n, char **str, int *tecyhee, \
 	}
 	else
 		srez = cut_one(&((*str)[*tecyhee]), '\0', 0);
-	//printf("sr = !%s!\n", srez);
 	k = propysc_probel(srez);
 	(*type) = (((*type) << 2) + (proverca(srez[k])));
 	return (srez);
@@ -52,21 +51,22 @@ char				op_reg(char *str, t_chempion *ch, t_new_st_label *label, \
 	char			*srez = NULL;
 	int				kol;
 
-	//printf("reg = %s\n",str);
 	n = 0;
 	kol = 0;
 	type = 0;
 	while (n >= 0)
 	{
-		//if ((tecyhee = kol_sim_not(str, ' ')) < 0)
-		//	return (-1);
 		tecyhee = propysc_probel(str);
 		n = kol_sim(&str[tecyhee], SEPARATOR_CHAR);
 		srez = op_reg3(n, &str, &tecyhee, &type);
 		kol += 1;
 		if ((proverca_registr(srez, ch, label, new_op)) < 0)
-			return (-1);
+			{
+				free(srez);
+				return (-1);
+			}
 		(ch->tu)++;
+		free(srez);
 	}
 	return (op_reg2(type, kol));
 }
@@ -75,17 +75,12 @@ void				pars_stroca(t_chempion *ch, t_op_strukt *last_op, \
 		t_new_st_label *label)
 {
 	char			*str;
-	//int				k;
 
 	str = last_op->stroca;
-	//printf("pare_stroca = %s\n", str);
 	ch->mestnoe_smehenee = last_op->smechenee;
 	ch->mestnoe_size = last_op->size;
 		ch->code[ch->i] = last_op->name + 1;
 		(ch->i)++;
-		//k = propysc_probel(str);
-	//	if (k != -3)
-	//	{
 			if (op_tab[last_op->name].code_type == 1)
 		{
 			ch->tu = (ch->i) + 1;
@@ -96,7 +91,6 @@ void				pars_stroca(t_chempion *ch, t_op_strukt *last_op, \
 			ch->tu = ch->i;
 			op_reg(str, ch, label, last_op);
 		}
-//	}
 	ch->i = ch->tu;
 }
 
@@ -107,7 +101,9 @@ void				trace_byte_code(t_chempion *ch, t_new_st_label *label, \
 
 	op_new = op;
 	ch->i = 0;
-	ch->code = (char*)malloc(sizeof(char) * ch->smehenee);
+	printf("%d\n", ch->smehenee);
+	ch->code = (char*)malloc(sizeof(char) * ch->smehenee + 1);
+	ch->code[ch->smehenee] = '\0';
 	while (op_new)
 	{
 		pars_stroca(ch, op_new, label);

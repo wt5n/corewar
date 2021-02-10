@@ -1,6 +1,7 @@
 .name           "42Just a "
 .comment        "Just a basic Winner Program"
 
+kos:
 entree:   live %42
 	ld	%0,r5
 	ld	%0,r5

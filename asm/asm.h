@@ -38,12 +38,6 @@ typedef struct				s_registr
 	int						size;
 }							t_registr;
 
-typedef struct				s_comment
-{
-	char					*com;
-	struct s_comment		*next;
-}							t_comment;
-
 typedef struct				s_op_strukt
 {
 	int						size;
@@ -70,7 +64,6 @@ typedef struct				s_chempion
 	int						fd;
 	int						len_com;
 	t_registr				reg[3];
-	t_comment				*co;
 }							t_chempion;
 
 typedef struct				s_label
@@ -112,7 +105,7 @@ void						trace_byte_code(t_chempion *ch, \
 		t_new_st_label *label, t_op_strukt *op);
 int							propysc_probel(char *str);
 int							number_pr(char *str);
-int							write_code(char *name_file, t_chempion ch);
+int							write_code(char *name_file, t_chempion *ch);
 int							pars_one(char *line, t_chempion *ch, \
 		t_new_st_label **label, t_op_strukt **op);
 t_op_strukt					*operation_last(t_op_strukt **op);
@@ -125,5 +118,7 @@ int							ft_abs(int a);
 void				proverca_registr3(char *srez, t_chempion *ch, \
 		t_op_strukt *new_op);
 int		lab_ch(char *str);
+void    free_lab(t_new_st_label **label);
+void    free_op_struct(t_op_strukt *op);
 
 #endif

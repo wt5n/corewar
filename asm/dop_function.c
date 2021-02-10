@@ -62,7 +62,6 @@ int		kol_sim(char *str, char c)
 
 int		proverca(char c)
 {
-	//printf("r = %c\n", c);
 	if (c == 'r')
 		return (REG_CODE);
 	else if (c == '%')
@@ -74,7 +73,7 @@ int		proverca(char c)
 
 int		probels(char c)
 {
-	if (c == '\t' || c == '\r' || c == ' ' || c == '\v')
+	if (c == '\t' || c == '\r' || c == ' ' || c == '\v' || c == '%')
 		return (1);
 	return (0); 
 }

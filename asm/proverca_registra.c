@@ -21,9 +21,7 @@ int					proverca_instruction(char *str, t_chempion *ch, \
 
 	int i;
 	str2 = ft_strdup(str);
-	//printf("%s\n", str2);
 	i = number_pr(str2);
-	//printf("%d\n", i);
 	if (i != -3 && i < (int)ft_strlen(str))
 		str2[i] = '\0';
 	label2 = label;
@@ -32,16 +30,14 @@ int					proverca_instruction(char *str, t_chempion *ch, \
 		lab = label2->lab;
 		while (lab)
 		{
-			//printf("lab = !%s!   !%s!\n", lab->name, str2);
-			//printf("smeche = !%d!   !%d!\n", lab->op->smechenee, ch->mestnoe_smehenee);
 			if ((ft_strcmp(lab->name, str2)) == 0)
 					{
-						//printf("!!!!!!   %d\n", lab->op->smechenee - ch->mestnoe_smehenee);
 						if (lab->op == NULL)
 							{
-								//printf("sme = %d   mes_sme = %d    mes_size = %d\n", ch->smehenee, ch->mestnoe_smehenee, ch->smehenee - ch->mestnoe_smehenee);
+								free(str2);
 								return (ch->smehenee - ch->mestnoe_smehenee);
 							}
+						free(str2);
 						return (lab->op->smechenee - ch->mestnoe_smehenee);
 					}
 			lab = lab->next;
@@ -49,6 +45,7 @@ int					proverca_instruction(char *str, t_chempion *ch, \
 		label2 = label2->next;
 	}
 	ch->flag = -1;
+	free(str2);
 	return (-1);
 }
 
@@ -67,7 +64,6 @@ int					proverca_registr2(char *srez, t_chempion *ch, \
 	int				k;
 	int				flag;
 
-	//printf("reg2 = %s\n", srez);
 	flag = 0;
 	if (srez[0] == ':')
 	{
@@ -77,17 +73,15 @@ int					proverca_registr2(char *srez, t_chempion *ch, \
 	else
 		srez2 = ft_strdup(&srez[2]);
 	ch->flag = 0;
-	//printf("%d\n", new_op->name);
 	if (op_tab[new_op->name].size == 1 || flag == 1)
 	{
-		//printf("%d   %s\n", new_op->name, srez2);
 		if ((k = proverca_instruction(srez2, ch, label)) < 0)
 			k = 65536 + k;
-		//printf("k = %d\n", k);
-		//printf(" srez2 = %s\n", srez2);
-		
 		if (ch->flag == -1)
-			return (-1);
+			{
+				free(srez2);
+				return (-1);
+			}
 		byte_code(k, ch);
 	}
 	else
@@ -100,6 +94,7 @@ int					proverca_registr2(char *srez, t_chempion *ch, \
 		(ch->tu)++;
 		byte_code(k2, ch);
 	}
+	free(srez2);
 	return (1);
 }
 
@@ -131,7 +126,6 @@ int					proverca_registr(char *srez, t_chempion *ch, \
 	int				tmp;
 	long			tmp2;
 
-	//printf("proverka = %s\n", srez);
 	if (srez[0] == 'r')
 	{
 		if ((tmp = ft_atoi(&srez[1])) <= 99 && tmp >= 0)
