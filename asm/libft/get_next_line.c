@@ -3,109 +3,73 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cport <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: hlikely <hlikely@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/24 16:42:07 by cport             #+#    #+#             */
-/*   Updated: 2019/11/26 22:00:46 by cport            ###   ########.fr       */
+/*   Created: 2019/11/19 08:08:29 by hlikely           #+#    #+#             */
+/*   Updated: 2020/11/18 01:04:52 by wtsn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-t_line	*new_fd_list(int fd)
+static int		finish(char **str, char **line)
 {
-	t_line	*new;
+	int			len;
+	char		*tmp;
 
-	new = (t_line *)malloc(sizeof(t_line));
-	new->fd = fd;
-	new->memorized = NULL;
-	new->next = NULL;
-	return (new);
-}
-
-int		get_status(int count, char *line, char *memorized, char *sep)
-{
-	if (!line || count < 0)
+	len = 0;
+	while ((*str)[len] != '\n' && (*str)[len] != '\0')
+		len++;
+	if ((*str)[len] == '\n')
 	{
-		if (memorized)
-			ft_strdel(&memorized);
-		return (-1);
+		*line = ft_strsub(*str, 0, len);
+		tmp = ft_strdup(&((*str)[len + 1]));
+		free(*str);
+		*str = NULL;
+		*str = tmp;
+		if ((*str)[0] == '\0')
+			ft_strdel(str);
 	}
-	if (sep || (memorized && (ft_strlen(line) || ft_strlen(memorized))))
-		return (1);
-	if (!ft_strlen(line) && !count)
+	else
 	{
-		ft_strdel(&line);
-		return (0);
+		*line = ft_strdup(*str);
+		ft_strdel(str);
 	}
 	return (1);
 }
 
-char	*process_memorized(char *memorized, char **line)
+static int		returns(char **str, char **line, int val, int fd)
 {
-	char	*sep;
+	if (val < 0)
+		return (-1);
+	else if (val == 0 && str[fd] == NULL)
+		return (0);
+	else
+		return (finish(&str[fd], line));
+}
 
-	sep = NULL;
-	if (memorized)
-		if ((sep = ft_strchr(memorized, '\n')))
-		{
-			*sep = '\0';
-			*line = ft_strdup(memorized);
-			ft_strcpy(memorized, ++sep);
-		}
+int				get_next_line(const int fd, char **line)
+{
+	int			val;
+	static char	*str[FD_SIZE];
+	char		buff[BUFF_SIZE + 1];
+	char		*tmp;
+
+	if (fd < 0 || line == NULL)
+		return (-1);
+	while ((val = read(fd, buff, BUFF_SIZE)) > 0)
+	{
+		buff[val] = '\0';
+		if (str[fd] == NULL)
+			str[fd] = ft_strdup(buff);
 		else
 		{
-			*line = ft_strdup(memorized);
-			ft_strclr(memorized);
+			tmp = ft_strjoin(str[fd], buff);
+			free(str[fd]);
+			str[fd] = tmp;
 		}
-	else
-		*line = ft_strnew(0);
-	return (sep);
-}
-
-int		process_line(const int fd, char **line, char **memorized, int count)
-{
-	char			buf[BUFF_SIZE + 1];
-	char			*sep;
-	char			*tmp_free;
-
-	if (fd < 0 || read(fd, buf, 0) || !line || !BUFF_SIZE || !(BUFF_SIZE + 1))
-		return (-1);
-	sep = process_memorized(*memorized, line);
-	while (!sep && (count = read(fd, buf, BUFF_SIZE)) > 0)
-	{
-		buf[count] = '\0';
-		if ((sep = ft_strchr(buf, '\n')))
-		{
-			*sep = '\0';
-			tmp_free = *memorized;
-			*memorized = ft_strdup(++sep);
-			ft_strdel(&tmp_free);
-		}
-		tmp_free = *line;
-		*line = ft_strjoin(*line, buf);
-		ft_strdel(&tmp_free);
-		if (!*line || count < 0)
+		if (ft_strchr(str[fd], '\n'))
 			break ;
 	}
-	return (get_status(count, *line, *memorized, sep));
-}
-
-int		get_next_line(int fd, char **line)
-{
-	static t_line	*head;
-	t_line			*tmp;
-	int				count;
-
-	count = 0;
-	if (!head)
-		head = new_fd_list(fd);
-	tmp = head;
-	while (tmp->fd != fd)
-	{
-		if (tmp->next == NULL)
-			tmp->next = new_fd_list(fd);
-		tmp = tmp->next;
-	}
-	return (process_line(tmp->fd, line, &tmp->memorized, count));
+	return (returns(str, line, val, fd));
 }

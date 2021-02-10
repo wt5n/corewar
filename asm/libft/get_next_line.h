@@ -16,6 +16,8 @@
 # include "libft.h"
 # include <unistd.h>
 
+# define FD_SIZE	10240
+
 typedef struct		s_line
 {
 	int				fd;

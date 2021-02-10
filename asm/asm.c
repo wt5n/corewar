@@ -35,87 +35,93 @@ void				zap_struct_ascii(t_chempion *ch, char *str, \
 	}
 }
 
+void				read_name(t_chempion *ch, char *line)
+{
+	int i = 0;
+
+	while (line[i] != '\0' && line[i] != '"')
+	{
+		ch->comment[ch->i] = line[i];
+		i++;
+		ch->i++;
+	}
+	if (line[i] == '"')
+	{
+		while (ch->i < COMMENT_LENGTH)
+		{
+			ch->comment[ch->i] = 0;
+			ch->i++;
+		}
+		ch->i = 0;
+	}
+	else
+	{
+		ch->comment[ch->i] = '\n';
+		ch->i++;
+	}
+}
+
+void				read_comment(t_chempion *ch, char *line)
+{
+	int n = 0;
+	
+	while (line[n] != '\0' && line[n] != '"')
+	{
+		ch->name[ch->n] = line[n];
+		n++;
+		ch->n++;
+	}
+	if (line[n] == '"')
+	{
+		while (ch->n < PROG_NAME_LENGTH)
+		{
+			ch->name[ch->n] = 0;
+			ch->n++;
+		}
+		ch->n = 0;
+	}
+	else
+	{
+		ch->name[ch->n] = '\n';
+		ch->n++;
+	}
+}
+
 int					read_line(int fd, t_chempion *ch, t_new_st_label **label, \
 		t_op_strukt **op)
 {
 	char			*line;
 	int				k;
+	int				probel;
 
 	k = 0;
 	while (get_next_line(fd, &line) > 0)
 	{	
+		if (ch->i > COMMENT_LENGTH || ch->n > PROG_NAME_LENGTH)
+			return (-1);
 		if (ch->i != 0)
-		{
-			int i = 0;
-			while (line[i] != '\0' && line[i] != '"')
-			{
-				ch->comment[ch->i] = line[i];
-				i++;
-				ch->i++;
-			}
-			if (line[i] == '"')
-			{
-				while (ch->i < COMMENT_LENGTH)
-				{
-					ch->comment[ch->i] = 0;
-					ch->i++;
-				}
-				ch->i = 0;
-			}
-			else
-			{
-				ch->comment[ch->i] = '\n';
-				ch->i++;
-			}
-		}
+			read_name(ch, line);
 		else
-		if (ch->n != 0)
-		{
-			int n = 0;
-			while (line[n] != '\0' && line[n] != '"')
-			{
-				ch->name[ch->n] = line[n];
-				n++;
-				ch->n++;
-			}
-			if (line[n] == '"')
-			{
-				while (ch->n < PROG_NAME_LENGTH)
-				{
-					ch->name[ch->n] = 0;
-					ch->n++;
-				}
-				ch->n = 0;
-			}
-			else
-			{
-				ch->name[ch->n] = '\n';
-				ch->n++;
-			}
-		}
+			if (ch->n != 0)
+				read_comment(ch, line);
 			else
 		{
-			k++;
-		int probel;
+		k++;
 		probel = propysc_probel(line);
 		if (probel != -3)
 		{
-		if (pars_one(line, ch, label, op) < 0)
+			if (pars_one(line, ch, label, op) < 0)
 			{
-			printf("number = %d   line = %s\n", k, line); //zamena
-			free(line);
-			/*if (ch->comment)
+				printf("number = %d   line = %s\n", k, line); //zamena
+				free(line);
+				free(ch->name);
 				free(ch->comment);
-			if (ch->name)
-				free(ch->name);*/
-			return (-1);
+				return (-1);
 			}
 		}
-		free(line);
+			free(line);
 		}
 	}
-	if (ch->i == 1 || ch->n == 1)
-		return (-1);
 	return (1);
 }
 
@@ -165,6 +171,8 @@ int					main(int argc, char *argv[])
 		ch.fd = fd;
 		if (read_line(fd, &ch, &label, &op) < 0)
 			{
+				free(ch.name);
+				free(ch.comment);
 				write(2, "Error_read\n", 11);
 				return (-1);
 			}		
@@ -174,16 +182,12 @@ int					main(int argc, char *argv[])
 		write(2, "Can't read file\n", 16);
 		return (-1);
 	}
-	if (ch.comment[0] == '\0')
-	{
-		return (-1);
-	}
 	trace_byte_code(&ch, label, op);
 	close(fd);
 	if (write_code(argv[1], &ch) < 0)
 		return (-1);
 	free_op_struct(op);
-	//free_lab(&label);
+	free_lab(label);
 	/*printf("%s\n", ch.name);
 	printf("%s\n", ch.comment);*/
 	//print_struct(label);	

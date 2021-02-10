@@ -118,7 +118,7 @@ int							ft_abs(int a);
 void				proverca_registr3(char *srez, t_chempion *ch, \
 		t_op_strukt *new_op);
 int		lab_ch(char *str);
-void    free_lab(t_new_st_label **label);
+void    free_lab(t_new_st_label *label);
 void    free_op_struct(t_op_strukt *op);
 
 #endif
