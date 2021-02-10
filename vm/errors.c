@@ -6,7 +6,7 @@
 /*   By: hlikely <hlikely@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 20:01:35 by hlikely           #+#    #+#             */
-/*   Updated: 2021/02/04 20:01:43 by hlikely          ###   ########.fr       */
+/*   Updated: 2021/02/10 22:25:59 by hlikely          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,17 @@ void	output_error(int n, t_cw *cw)
 	n == 8 ? write(2, "Wrong value after flag -d\n", 27) : 0;
 	n == 9 ? write(2, "Can't open file\n", 17) : 0;
 	n == 10 ? write(2, "Size of champion is too small\n", 31) : 0;
+	n == 11 ? write(2, "Too many players\n", 18) : 0;
 	free_after_finish(cw);
 	exit(1);
 }
 
 void	print_usage(void)
 {
-	ft_printf("print_usage\n");
+	ft_printf("Usage: ./corewar [-d N -n N -v] <champion.cor> <...>\n\n"
+			" -d / -dump N      : Dumps memory after N cycles then exits\n"
+			" -n N              : Set order number for player\n"
+			" -v                : SDL visualization\n");
 	exit(1);
 }
 

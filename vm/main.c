@@ -6,7 +6,7 @@
 /*   By: hlikely <hlikely@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 20:03:34 by hlikely           #+#    #+#             */
-/*   Updated: 2021/02/04 20:06:40 by hlikely          ###   ########.fr       */
+/*   Updated: 2021/02/10 22:25:59 by hlikely          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	parse_flags(int ac, char **av, t_cw *cw)
 		}
 		else if (!ft_strcmp(av[i], "-v"))
 			cw->vs = 1;
-		else if (!ft_strcmp(av[i], "-v30"))
+		else if (!ft_strcmp(av[i], "-v30")) // udalit' !!!!!!!!!!!!!!!!!!!!!!
 			continue;
 		else if (ft_strcmp(av[i], "-n") == 0 || has_cor(av[i]))
 			i += parse_player(cw, ac, av, i);
@@ -67,6 +67,8 @@ int		main(int argc, char **argv)
 	while (++i < 4096)
 		cw->map[i] = 0;
 	parse_flags(argc, argv, cw);
+	if (cw->num_of_champ > MAX_PLAYERS)
+		output_error(11, cw);
 	if (cw->num_of_champ == 0)
 		output_error(5, cw);
 	check_players_n(cw, argc, argv);
